@@ -1,0 +1,27 @@
+{
+ "name": "aplicar-tema-rojo",
+ "on": {
+  "workflow_dispatch": {}
+ },
+ "permissions": {
+  "contents": "write"
+ },
+ "jobs": {
+  "go": {
+   "runs-on": "ubuntu-latest",
+   "steps": [
+    {
+     "uses": "actions/checkout@v4"
+    },
+    {
+     "name": "Aplicar",
+     "run": "python3 - <<'PYEOF'\nimport base64,shutil,os\np='grow/index.html'\nh=open(p,encoding='utf-8').read()\nif 'id=\"tema-rojo\"' in h:\n    print('ya aplicado')\nelse:\n    os.makedirs('grow/versiones',exist_ok=True)\n    shutil.copy(p,'grow/versiones/index_antes_tema_rojo.html')\n    c=base64.b64decode('Cjpyb290ey0tYmc6IzA4MDgwYTstLWJnMjojMTIxMjE0Oy0tY2FyZDojMTgxODFjOy0tbGluZTojMmIyMjI2Oy0tYWNjZW50OiNlNTA5MTQ7LS1hY2NlbnQyOiNmZjZiNzM7LS1yZWQ6I2U1MDkxNH0KYm9keXtiYWNrZ3JvdW5kOnJhZGlhbC1ncmFkaWVudCgxMTAwcHggNjIwcHggYXQgODglIC02JSxyZ2JhKDIyOSw5LDIwLC4yMCksdHJhbnNwYXJlbnQgNjIlKSxyYWRpYWwtZ3JhZGllbnQoODAwcHggNTIwcHggYXQgLTglIDQ4JSxyZ2JhKDIyOSw5LDIwLC4wOSksdHJhbnNwYXJlbnQgNjIlKSxyYWRpYWwtZ3JhZGllbnQoOTAwcHggNTIwcHggYXQgMTAwJSA5MiUscmdiYSgyMjksOSwyMCwuMTIpLHRyYW5zcGFyZW50IDYyJSksdmFyKC0tYmcpO2JhY2tncm91bmQtYXR0YWNobWVudDpmaXhlZH0KLmxvZ28gLnNreXtjb2xvcjp2YXIoLS1yZWQpO3RleHQtc2hhZG93OjAgMCAyMnB4IHJnYmEoMjI5LDksMjAsLjU1KX0KLm5hdi5zb2xpZHtiYWNrZ3JvdW5kOnJnYmEoOCw4LDEwLC45Nyk7Ym94LXNoYWRvdzowIDFweCAwIHJnYmEoMjI5LDksMjAsLjM1KSwwIDhweCAzMHB4IHJnYmEoMjI5LDksMjAsLjA4KX0KLmhlcm97YmFja2dyb3VuZDojMDYwNjA3fQouaGVybyAuYmd7b3BhY2l0eTouNTV9Ci5oZXJvOjpiZWZvcmV7Y29udGVudDoiIjtwb3NpdGlvbjphYnNvbHV0ZTtpbnNldDowO3otaW5kZXg6MTtwb2ludGVyLWV2ZW50czpub25lO2JhY2tncm91bmQ6cmFkaWFsLWdyYWRpZW50KDkwMHB4IDU2MHB4IGF0IDc4JSA0MiUscmdiYSgyMjksOSwyMCwuNDUpLHRyYW5zcGFyZW50IDY2JSkscmFkaWFsLWdyYWRpZW50KDY0MHB4IDM4MHB4IGF0IDEwMCUgMTAwJSxyZ2JhKDIyOSw5LDIwLC4zMiksdHJhbnNwYXJlbnQgNjIlKSxyYWRpYWwtZ3JhZGllbnQoNTIwcHggMzIwcHggYXQgMCUgMTAwJSxyZ2JhKDIyOSw5LDIwLC4xOCksdHJhbnNwYXJlbnQgNjUlKX0KLmhlcm8gaDF7dGV4dC1zaGFkb3c6MCA4cHggNDBweCByZ2JhKDAsMCwwLC42KX0KLmJ0bi5wbGF5e2JveC1zaGFkb3c6MCA4cHggMzBweCByZ2JhKDIyOSw5LDIwLC4zOCl9Ci5zdGF0e2JhY2tncm91bmQ6cmdiYSgyMjksOSwyMCwuMDkpO2JvcmRlci1jb2xvcjpyZ2JhKDIyOSw5LDIwLC4zMCl9Ci5jYXJke2JveC1zaGFkb3c6MCAxMHB4IDMwcHggcmdiYSgwLDAsMCwuNSl9Ci5jYXJkOmhvdmVye2JveC1zaGFkb3c6MCAxOHB4IDQ2cHggcmdiYSgyMjksOSwyMCwuNDApLDAgMCAwIDFweCByZ2JhKDIyOSw5LDIwLC41NSl9Ci5yb3dIIGgye3Bvc2l0aW9uOnJlbGF0aXZlO3BhZGRpbmctbGVmdDoxNHB4fQoucm93SCBoMjo6YmVmb3Jle2NvbnRlbnQ6IiI7cG9zaXRpb246YWJzb2x1dGU7bGVmdDowO3RvcDouMTZlbTtib3R0b206LjE2ZW07d2lkdGg6NHB4O2JvcmRlci1yYWRpdXM6M3B4O2JhY2tncm91bmQ6dmFyKC0tcmVkKTtib3gtc2hhZG93OjAgMCAxNHB4IHJnYmEoMjI5LDksMjAsLjc1KX0KLnJhbmsgLm51bXstd2Via2l0LXRleHQtc3Ryb2tlOjNweCAjOGMxODIyO3RleHQtc2hhZG93OjAgMCAyOHB4IHJnYmEoMjI5LDksMjAsLjM1KX0KLnJhbms6aG92ZXIgLm51bXstd2Via2l0LXRleHQtc3Ryb2tlLWNvbG9yOiNlNTA5MTR9Ci5iYXIgaXtiYWNrZ3JvdW5kOmxpbmVhci1ncmFkaWVudCg5MGRlZywjZTUwOTE0LCNmZjdhM2QpfQoucHJvZyBpe2JhY2tncm91bmQ6dmFyKC0tcmVkKTtib3gtc2hhZG93OjAgMCAxMHB4IHJnYmEoMjI5LDksMjAsLjgpfQoucGFuZWx7YmFja2dyb3VuZDpsaW5lYXItZ3JhZGllbnQoMTIwZGVnLCMyZDBiMTAsIzE0MTIxNSA2MiUpO2JvcmRlci1jb2xvcjojNGExNjFjO2JveC1zaGFkb3c6MCAxNHB4IDUwcHggcmdiYSgyMjksOSwyMCwuMTQpfQoubW9kYWx7YmFja2dyb3VuZDpyYWRpYWwtZ3JhZGllbnQoOTAwcHggNTIwcHggYXQgNTAlIDAscmdiYSgyMjksOSwyMCwuMjApLHRyYW5zcGFyZW50IDYyJSkscmdiYSgwLDAsMCwuODQpfQoucmVnQm94e2JveC1zaGFkb3c6MCAzMHB4IDEwMHB4IHJnYmEoMjI5LDksMjAsLjMwKTtib3JkZXItY29sb3I6IzNhMWExZn0KLnJlZ0JveCBoMiBzcGFue2NvbG9yOnZhcigtLXJlZCl9CmZvb3Rlcntib3JkZXItdG9wOjFweCBzb2xpZCByZ2JhKDIyOSw5LDIwLC4zNSl9Ci5jZXJ0Qm94Om5vdCgubG9jayl7Ym94LXNoYWRvdzowIDE0cHggNTBweCByZ2JhKDIyOSw5LDIwLC4xOCl9Cg==').decode()\n    h=h.replace('</head>','<style id=\"tema-rojo\">'+c+'</style></head>',1)\n    open(p,'w',encoding='utf-8').write(h)\n    print('aplicado')\nPYEOF"
+    },
+    {
+     "name": "Commit",
+     "run": "git config user.name grow-bot\ngit config user.email grow-bot@users.noreply.github.com\ngit add -A grow\ngit commit -m 'GROW: tema rojo estilo Netflix' || echo nada\ngit push"
+    }
+   ]
+  }
+ }
+}
