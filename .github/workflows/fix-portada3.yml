@@ -1,0 +1,27 @@
+{
+ "name": "fix-portada3",
+ "on": {
+  "workflow_dispatch": {}
+ },
+ "permissions": {
+  "contents": "write"
+ },
+ "jobs": {
+  "go": {
+   "runs-on": "ubuntu-latest",
+   "steps": [
+    {
+     "uses": "actions/checkout@v4"
+    },
+    {
+     "name": "Aplicar",
+     "run": "python3 - <<'PYEOF'\nimport base64\np='grow/index.html'\nh=open(p,encoding='utf-8').read()\nif 'id=\"fix-portada3\"' in h:\n    print('ya')\nelse:\n    c=base64.b64decode('Ci5oZXJvIC5iZyAuZ3JpZDo6YWZ0ZXJ7Y29udGVudDoiIjtwb3NpdGlvbjphYnNvbHV0ZTtyaWdodDowO2JvdHRvbTowO3dpZHRoOm1pbig2MnZ3LDg2MHB4KTtoZWlnaHQ6MTAwJTtwb2ludGVyLWV2ZW50czpub25lOwogYmFja2dyb3VuZDpyYWRpYWwtZ3JhZGllbnQoZWxsaXBzZSA1MiUgNTglIGF0IDU4JSA1MCUscmdiYSgwLDAsMCwuOTIpIDAscmdiYSgwLDAsMCwuNjIpIDQyJSxyZ2JhKDAsMCwwLDApIDc0JSl9Ci5oZXJvIC5iZzo6YWZ0ZXJ7ZmlsdGVyOmRyb3Atc2hhZG93KDAgMCA3MHB4IHJnYmEoMCwwLDAsLjkpKSBkcm9wLXNoYWRvdygwIDAgMjhweCByZ2JhKDExMCw2LDE0LC41NSkpIGRyb3Atc2hhZG93KDAgMzBweCA0NHB4IHJnYmEoMCwwLDAsLjg1KSl9CkBtZWRpYSAobWF4LXdpZHRoOjYwMHB4KXsuaGVybyAuYmcgLmdyaWQ6OmFmdGVye3dpZHRoOjEwMHZ3O29wYWNpdHk6Ljd9fQo=').decode()\n    h=h.replace('</head>','<style id=\"fix-portada3\">'+c+'</style></head>',1)\n    open(p,'w',encoding='utf-8').write(h); print('ok')\nPYEOF"
+    },
+    {
+     "name": "Commit",
+     "run": "git config user.name grow-bot\ngit config user.email grow-bot@users.noreply.github.com\ngit add -A grow\ngit commit -m 'GROW: sombra detras de la foto de portada' || echo nada\ngit push"
+    }
+   ]
+  }
+ }
+}
