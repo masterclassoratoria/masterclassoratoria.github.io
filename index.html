@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Masterclass de Oratoria de 1 hora con Jesús Ibarra, Campeón Nacional de Oratoria de Paraguay. Hablá en público con seguridad, sin bloquearte y sin muletillas.">
+<meta property="og:title" content="Masterclass de Oratoria · Jesús Ibarra">
+<meta property="og:description" content="Hablá en público con seguridad, sin bloquearte y sin muletillas. Masterclass virtual de 1 hora.">
+<meta property="og:image" content="media/foto_hero.jpg">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Masterclass de Oratoria · Jesús Ibarra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&display=swap">
+<style>
+/* Layout: dark stage. One centered column (max 1080), glass cards on near-black navy, blue stage lights behind sections, gold reserved for key words, price and the main button. */
+:root{
+  --bg:#05080d;
+  --bg-2:#0a1220;
+  --glass:rgba(255,255,255,.035);
+  --glass-2:rgba(255,255,255,.06);
+  --line:rgba(255,255,255,.10);
+  --line-2:rgba(255,255,255,.18);
+  --ink:#f2f5fa;
+  --muted:#9aa6b8;
+  --blue:#2f7bff;
+  --blue-soft:rgba(47,123,255,.35);
+  --gold-1:#f6e3a1;
+  --gold-2:#d4ad55;
+  --gold-3:#a67c2e;
+  --gold-ink:#1a1306;
+  --ok:#25d366;
+  --sans:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --serif:"Playfair Display", Georgia, "Times New Roman", serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:clip}
+.stage{position:relative;overflow-x:clip}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;padding-inline:16px;padding-block:0 104px;overflow-x:hidden}
+a{color:inherit}
+h1,h2,h3{margin:0;font-weight:400;letter-spacing:-.02em;line-height:1.1;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:1080px;margin-inline:auto;display:flex;flex-direction:column;gap:clamp(72px,10vw,120px);position:relative}
+
+/* stage lights */
+.light{position:absolute;pointer-events:none;border-radius:50%;filter:blur(70px);z-index:0}
+.l1{width:520px;height:520px;max-width:120vw;background:radial-gradient(circle,rgba(47,123,255,.55),transparent 65%);top:-160px;right:-160px}
+.l2{width:420px;height:420px;max-width:110vw;background:radial-gradient(circle,rgba(47,123,255,.30),transparent 65%);top:1500px;left:-200px}
+.l3{width:600px;height:400px;max-width:120vw;background:radial-gradient(ellipse,rgba(47,123,255,.40),transparent 65%);left:50%;transform:translateX(-50%)}
+section,header,footer{position:relative;z-index:1}
+
+/* type */
+.grad{background:linear-gradient(180deg,#ffffff 30%,#9aa6b8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gold{background:linear-gradient(180deg,var(--gold-1),var(--gold-2) 55%,var(--gold-3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.serif{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:0}
+.h2{font-size:clamp(2rem,5.4vw,3rem);text-align:center}
+.lead{color:var(--muted);text-align:center;max-width:40em;margin-inline:auto;font-size:1rem}
+.eyebrow{display:block;text-align:center;font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-2)}
+.head{display:flex;flex-direction:column;gap:14px}
+
+/* nav */
+.nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);z-index:10;margin:12px auto 0;width:fit-content;max-width:100%;display:flex;align-items:center;gap:6px;padding:6px 6px 6px 8px;border-radius:999px;background:rgba(10,16,28,.72);border:1px solid var(--line-2);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.logo{display:flex;flex-direction:column;align-items:center;line-height:1;padding:7px 16px;border-radius:999px;background:var(--glass-2);border:1px solid var(--line);text-decoration:none}
+.logo b{font-size:.62rem;font-weight:600;letter-spacing:.32em}
+.logo i{font-family:var(--serif);font-style:italic;font-size:1rem;margin-top:2px}
+.nav a.lnk{font-size:.86rem;color:var(--ink);text-decoration:none;padding:8px 12px;border-radius:999px}
+.nav a.lnk:hover{background:var(--glass-2)}
+@media (max-width:560px){.nav a.lnk.hide-s{display:none}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;font-weight:600;font-size:.98rem;border-radius:10px;padding:14px 22px;transition:transform .15s ease, box-shadow .2s ease, filter .2s ease;cursor:pointer;border:0}
+.btn svg{width:20px;height:20px;flex:none}
+.btn-gold{color:var(--gold-ink);background:linear-gradient(180deg,var(--gold-1),var(--gold-2) 60%,var(--gold-3));box-shadow:0 0 0 1px rgba(246,227,161,.4) inset,0 10px 30px -10px rgba(212,173,85,.6)}
+.btn-gold:hover{filter:brightness(1.05);box-shadow:0 0 0 1px rgba(246,227,161,.5) inset,0 14px 40px -8px rgba(212,173,85,.75)}
+.btn-ghost{color:var(--ink);background:rgba(255,255,255,.02);border:1px solid var(--line-2)}
+.btn-ghost:hover{background:var(--glass-2)}
+.btn:active{transform:scale(.98)}
+.btn:focus-visible,.lnk:focus-visible,.logo:focus-visible,summary:focus-visible{outline:2px solid var(--gold-1);outline-offset:3px}
+.small{font-size:.78rem;color:var(--muted)}
+
+/* glass */
+.glass{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:18px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+
+/* hero */
+.hero{padding-top:clamp(48px,9vw,96px);display:flex;flex-direction:column;gap:22px;max-width:760px}
+.chip{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;border-radius:999px;border:1px solid rgba(212,173,85,.35);background:rgba(212,173,85,.08);font-size:.8rem;color:var(--gold-1)}
+.chip .dot{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,var(--gold-1),var(--gold-3));color:var(--gold-ink)}
+.chip .dot svg{width:12px;height:12px}
+.hero h1{font-size:clamp(2.4rem,7.4vw,4.2rem);font-weight:400}
+.hero .sub{color:#c3ccd9;font-size:clamp(1rem,2.4vw,1.12rem);max-width:36em}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:10px;max-width:560px}
+.stat.hl{border-color:rgba(212,173,85,.45);background:linear-gradient(180deg,rgba(212,173,85,.12),rgba(255,255,255,.02))}
+.stat{padding:16px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;min-width:0}
+.stat small{display:block;font-size:.72rem;color:var(--muted)}
+.stat strong{display:block;white-space:nowrap;font-size:clamp(1.15rem,2.6vw,1.5rem);font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.ico{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(212,173,85,.45);background:radial-gradient(circle,rgba(212,173,85,.25),rgba(212,173,85,.05));color:var(--gold-1);flex:none}
+.ico svg{width:18px;height:18px}
+@media (max-width:560px){.stats{grid-template-columns:1fr 1fr;gap:10px}.stat{grid-template-columns:1fr;padding:14px}.stat .ico{order:-1;width:32px;height:32px}}
+
+/* problem */
+.pains{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:880px;margin-inline:auto;width:100%}
+.pain{padding:18px 18px 18px 52px;position:relative;color:#d7dde7}
+.pain::before{content:"";position:absolute;left:18px;top:21px;width:18px;height:18px;border-radius:50%;border:1px solid rgba(255,107,107,.5);background:radial-gradient(circle,rgba(255,107,107,.35),transparent 70%)}
+.turn{text-align:center;font-size:clamp(1.15rem,3vw,1.45rem);font-weight:300;max-width:30em;margin-inline:auto}
+@media (max-width:640px){.pains{grid-template-columns:1fr}}
+
+/* pillars */
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.pillar{padding:20px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;min-width:0}
+.pillar::after{content:"";position:absolute;inset:0 auto auto 0;width:70px;height:70px;background:linear-gradient(135deg,rgba(255,255,255,.14),transparent 60%);pointer-events:none}
+.pillar .bi{color:var(--blue);width:30px;height:30px}
+.pillar h3{font-size:1.05rem;font-weight:600;letter-spacing:-.01em}
+.pillar p{font-size:.88rem;color:var(--muted)}
+.tag{font-size:.76rem;color:var(--gold-2);display:flex;align-items:center;gap:6px;margin-top:auto}
+@media (max-width:900px){.pillars{grid-template-columns:1fr 1fr}}
+@media (max-width:440px){.pillars{grid-template-columns:1fr}}
+
+/* route (value) */
+.route{display:flex;justify-content:center;align-items:center;gap:0;flex-wrap:nowrap;overflow-x:auto;padding:8px 4px 12px;scrollbar-width:none}
+.route::-webkit-scrollbar{display:none}
+.node{flex:none;width:96px;height:96px;border-radius:50%;display:grid;place-items:center;text-align:center;font-size:.8rem;padding:8px;background:radial-gradient(circle at 50% 35%,#152036,#070b13);border:1px solid var(--line-2);color:#d7dde7;cursor:pointer;transition:box-shadow .2s, border-color .2s}
+.node[aria-selected="true"]{border-color:var(--gold-2);box-shadow:0 0 0 1px rgba(212,173,85,.5),0 0 28px rgba(212,173,85,.35);color:#fff}
+.bar{flex:none;width:28px;height:1px;background:var(--line-2)}
+.routecard{max-width:640px;margin-inline:auto;padding:24px;text-align:center;display:flex;flex-direction:column;gap:8px}
+.routecard h3{font-size:1.35rem;font-weight:500}
+.routecard p{color:var(--muted)}
+@media (max-width:520px){.node{width:78px;height:78px;font-size:.72rem}.bar{width:12px}.route{justify-content:flex-start}}
+
+/* about */
+.about{display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:center}
+.pics{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:relative}
+.pics::before{content:"";position:absolute;inset:10% 5%;background:radial-gradient(circle,rgba(47,123,255,.45),transparent 70%);filter:blur(40px);z-index:-1}
+.pics figure{margin:0;position:relative;border-radius:16px;overflow:hidden;aspect-ratio:3/4;border:1px solid var(--line-2)}
+.pics figure:last-child{transform:translateY(28px)}
+.pics img{width:100%;height:100%;object-fit:cover;display:block}
+.pics figcaption{position:absolute;left:10px;bottom:10px;font-size:.74rem;padding:5px 10px;border-radius:999px;background:rgba(5,8,13,.75);border:1px solid var(--line-2);backdrop-filter:blur(6px)}
+.about .txt{display:flex;flex-direction:column;gap:16px;min-width:0}
+.about h2{font-size:clamp(2rem,5vw,2.9rem)}
+.about p{color:#c3ccd9}
+.checks{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.checks li{display:grid;grid-template-columns:20px 1fr;gap:10px;font-size:.94rem;color:#d7dde7}
+.checks svg{width:18px;height:18px;color:var(--gold-2);margin-top:3px}
+.checks b{color:#fff;font-weight:600}
+.sig{font-size:.9rem;color:#d7dde7;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:820px){.about{grid-template-columns:1fr}.pics{max-width:440px;margin-inline:auto;width:100%}}
+
+/* testimonials */
+.testi{display:grid;grid-template-columns:minmax(0,340px) 1fr;gap:28px;align-items:start}
+.videobox{border-radius:20px;overflow:hidden;background:#000;aspect-ratio:9/16;border:1px solid var(--line-2);box-shadow:0 0 60px -10px var(--blue-soft)}
+.videobox video{width:100%;height:100%;display:block;object-fit:cover}
+.vside{display:flex;flex-direction:column;gap:10px}
+.vtabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:12px;background:var(--glass-2);border:1px solid var(--line)}
+.vtab{font:500 .8rem var(--sans);color:var(--muted);background:transparent;border:0;border-radius:9px;padding:9px 6px;cursor:pointer;line-height:1.2}
+.vtab[aria-selected="true"]{color:var(--gold-ink);background:linear-gradient(180deg,var(--gold-1),var(--gold-2))}
+.vtab:focus-visible{outline:2px solid var(--gold-1);outline-offset:2px}
+.quotes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.q{margin:0;padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.q blockquote{margin:0;font-size:.95rem;line-height:1.55;color:#e6ebf2}
+.q .who{display:flex;align-items:center;gap:10px}
+.q img{width:52px;height:52px;border-radius:50%;object-fit:cover;display:block;box-shadow:0 0 0 2px var(--bg),0 0 0 3px rgba(212,173,85,.7)}
+.q .who span{font-size:.76rem;color:var(--muted);line-height:1.3}
+.stars{color:var(--gold-2);letter-spacing:2px;font-size:.8rem}
+@media (max-width:860px){.testi{grid-template-columns:1fr}.vside{max-width:340px;margin-inline:auto;width:100%}}
+@media (max-width:520px){.quotes{grid-template-columns:1fr}}
+
+/* offer */
+.offerwrap{position:relative;padding-block:20px}
+.offer{max-width:520px;margin-inline:auto;padding:28px 24px;display:flex;flex-direction:column;gap:18px;border:1px solid rgba(47,123,255,.7);box-shadow:0 0 0 1px rgba(47,123,255,.35),0 0 70px -10px rgba(47,123,255,.6);background:linear-gradient(180deg,rgba(18,30,54,.9),rgba(8,13,24,.92))}
+.pill{align-self:flex-start;font-size:.72rem;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--blue);color:#fff}
+.offer h3{font-size:1.7rem;font-weight:500}
+.price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.price .big{font-size:2.6rem;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.price .cur{color:var(--muted);font-size:.95rem}
+.inc{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.inc li{display:grid;grid-template-columns:10px 1fr auto;gap:10px;align-items:center;font-size:.93rem;color:#d7dde7}
+.inc li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gold-2)}
+.inc li span:last-child{color:#fff;font-weight:600;white-space:nowrap}
+.offer .btn{width:100%}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;counter-reset:s}
+.steps li{padding:20px;counter-increment:s;display:flex;flex-direction:column;gap:6px}
+.steps li::before{content:counter(s);width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:600;color:var(--gold-1);border:1px solid rgba(212,173,85,.5);background:radial-gradient(circle,rgba(212,173,85,.22),transparent 70%);margin-bottom:6px}
+.steps b{font-weight:600}
+.steps span{color:var(--muted);font-size:.9rem}
+@media (max-width:700px){.steps{grid-template-columns:1fr}}
+
+/* fit */
+.fit{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:880px;margin-inline:auto;width:100%}
+.fit .glass{padding:22px}
+.fit h3{font-size:1.1rem;font-weight:600;margin-bottom:10px}
+.fit ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;color:#d7dde7;font-size:.93rem}
+.fit .no h3{color:var(--muted)}
+@media (max-width:640px){.fit{grid-template-columns:1fr}}
+
+/* faq */
+.faq{max-width:760px;margin-inline:auto;width:100%;display:flex;flex-direction:column;gap:10px}
+details{padding:16px 18px}
+summary{cursor:pointer;font-weight:500;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--gold-2);font-weight:600}
+details[open] summary::after{content:"–"}
+details p{margin-top:10px;color:var(--muted);font-size:.94rem}
+
+/* final */
+.final{max-width:640px;margin-inline:auto;padding:36px 24px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:18px;position:relative}
+.final .medal{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(212,173,85,.6);background:radial-gradient(circle,rgba(212,173,85,.3),rgba(5,8,13,.6));box-shadow:0 0 40px rgba(212,173,85,.25);color:var(--gold-1)}
+.final .medal svg{width:28px;height:28px}
+.final h2{font-size:clamp(1.7rem,4.6vw,2.4rem)}
+.num{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;font-size:.88rem;color:var(--muted)}
+.num code{font-family:var(--sans);font-weight:600;color:var(--ink);user-select:all}
+.copy{background:transparent;border:1px solid var(--line-2);color:var(--ink);border-radius:8px;padding:4px 10px;font:500 .8rem var(--sans);cursor:pointer}
+.copy:focus-visible{outline:2px solid var(--gold-1)}
+
+footer{border-top:1px solid var(--line);padding-block:28px 8px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center}
+footer .logo{background:none;border:0}
+footer p{font-size:.78rem;color:var(--muted)}
+
+/* sticky bar */
+.bar-cta{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(5,8,13,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line)}
+.bar-cta .inner{max-width:720px;margin-inline:auto;display:flex;align-items:center;gap:12px}
+.bar-cta .meta{display:flex;flex-direction:column;line-height:1.2;min-width:0}
+.bar-cta .meta b{font-weight:600}
+.bar-cta .meta span{font-size:.72rem;color:var(--muted)}
+.bar-cta .btn{flex:1;padding:12px 14px;font-size:.95rem}
+
+
+/* photos */
+.herogrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);align-items:center;gap:8px;position:relative}
+.herogrid .hero{grid-column:1;grid-row:1;position:relative;z-index:2}
+.hphoto{grid-column:2;grid-row:1;margin:0;position:relative;align-self:stretch;min-height:560px;margin-right:-40px}
+.hphoto::before{content:"";position:absolute;inset:10% 0 25% 25%;background:radial-gradient(ellipse at 70% 35%,rgba(47,123,255,.75),transparent 62%);filter:blur(30px);z-index:-1}
+.hphoto img{width:100%;height:100%;object-fit:cover;object-position:50% 12%;display:block;-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 28%,#000 78%,transparent 100%),linear-gradient(to bottom,transparent 0%,#000 14%,#000 62%,transparent 96%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0%,#000 28%,#000 78%,transparent 100%),linear-gradient(to bottom,transparent 0%,#000 14%,#000 62%,transparent 96%);mask-composite:intersect}
+@media (max-width:820px){
+  .herogrid{grid-template-columns:1fr}
+  .hphoto{grid-column:1;grid-row:1;min-height:0;height:min(460px,110vw);margin:0 -16px}
+  .herogrid .hero{grid-row:2;margin-top:-120px;padding-top:0}
+  .hphoto img{-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 18%,#000 82%,transparent 100%),linear-gradient(to bottom,#000 55%,transparent 98%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0%,#000 18%,#000 82%,transparent 100%),linear-gradient(to bottom,#000 55%,transparent 98%);mask-composite:intersect}
+  .hphoto::before{inset:0 -10% 30% 10%}
+}
+.dolorgrid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:32px;align-items:center;max-width:920px;margin-inline:auto;width:100%}
+.dolorgrid .pains{grid-template-columns:1fr;max-width:none}
+.bn{margin:0;position:relative;transform:rotate(-2.5deg);border-radius:6px;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.9),0 0 60px -10px rgba(47,123,255,.35);max-width:380px;justify-self:center;width:100%}
+.bn img{width:100%;height:auto;display:block;filter:contrast(1.05)}
+.bn figcaption{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);white-space:nowrap;font-size:.74rem;color:#111;background:rgba(255,255,255,.85);padding:5px 12px;border-radius:999px;font-weight:500}
+@media (max-width:760px){.dolorgrid{grid-template-columns:1fr}.bn{max-width:300px}}
+.pics2{position:relative;max-width:440px;margin-inline:auto;width:100%;padding-bottom:30px}
+.pics2::before{content:"";position:absolute;inset:8% 0 20% 0;background:radial-gradient(circle,rgba(47,123,255,.55),transparent 70%);filter:blur(45px);z-index:-1}
+.pics2 figure{margin:0}
+.pics2 .main{border-radius:20px;overflow:hidden;border:1px solid var(--line-2);aspect-ratio:820/1017;box-shadow:0 30px 70px -25px rgba(0,0,0,.9)}
+.pics2 .main img{width:100%;height:100%;object-fit:cover;display:block}
+.pics2 .inset{position:absolute;width:36%;aspect-ratio:3/4;border-radius:14px;overflow:hidden;border:2px solid rgba(255,255,255,.22);box-shadow:0 20px 40px rgba(0,0,0,.65)}
+.pics2 .inset img{width:100%;height:100%;object-fit:cover;display:block}
+.pics2 .inset.a{left:-5%;bottom:0;transform:rotate(-4deg)}
+.pics2 .inset.b{right:-5%;top:10%;transform:rotate(3deg)}
+.pics2 figcaption{position:absolute;left:8px;bottom:8px;font-size:.7rem;padding:4px 9px;border-radius:999px;background:rgba(5,8,13,.78);border:1px solid var(--line-2)}
+@media (max-width:480px){.pics2 .inset.a{left:-2%}.pics2 .inset.b{right:-2%}}
+.crowd figure{margin:0;position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line-2);aspect-ratio:16/11;box-shadow:0 0 80px -20px rgba(47,123,255,.55)}
+.crowd img{width:100%;height:100%;object-fit:cover;object-position:50% 15%;display:block}
+.crowd figcaption{position:absolute;inset:auto 0 0 0;padding:60px 28px 24px;background:linear-gradient(to top,rgba(5,8,13,.95),rgba(5,8,13,.6) 55%,transparent);display:flex;flex-direction:column;gap:8px}
+.crowd figcaption p{font-size:clamp(1.4rem,3.6vw,2.2rem);line-height:1.15;letter-spacing:-.02em;max-width:22em}
+@media (max-width:640px){.crowd figure{aspect-ratio:1/1}.crowd img{object-position:22% 40%}.crowd figcaption{padding:70px 18px 16px}}
+.tblock{display:flex;flex-direction:column;gap:16px;margin-top:28px}
+.tblock+.tblock{margin-top:56px;padding-top:40px;border-top:1px solid var(--line)}
+.tbhead{display:flex;align-items:center;gap:14px}
+.tbhead h3{font-size:1.35rem;font-weight:500}
+.tnum{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:600;color:var(--gold-1);border:1px solid rgba(212,173,85,.5);background:radial-gradient(circle,rgba(212,173,85,.22),transparent 70%);flex:none}
+.tblock .quotes{display:block;columns:2;column-gap:12px}
+.tblock .q{break-inside:avoid;margin-bottom:12px}
+@media (min-width:861px){.tblock .vside{position:sticky;top:90px;align-self:start}}
+@media (max-width:620px){.tblock .quotes{columns:1}}
+.offergrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,520px);gap:20px;align-items:center;max-width:980px;margin-inline:auto;width:100%}
+.offergrid .offer{margin:0;max-width:none}
+.why{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.why li{padding:16px 18px;display:flex;flex-direction:column;gap:4px}
+.why strong{font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-2)}
+.why span{color:#d7dde7;font-size:.94rem}
+@media (max-width:860px){.offergrid{grid-template-columns:1fr}.why{order:2}}
+.stepsh{text-align:center;font-size:1.25rem;font-weight:500;margin-top:44px}
+.offerwrap .steps{margin-top:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.4-.2Z"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18h2"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V4h8l10 10-8 8L3 12Z"/><circle cx="7.5" cy="8.5" r="1.3"/></symbol>
+    <symbol id="i-crown" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5L3 8Z"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/></symbol>
+    <symbol id="i-unlock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 7.6-1.7"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></symbol>
+  </defs>
+</svg>
+
+<nav class="nav" aria-label="Secciones">
+  <a class="logo" href="#top" aria-label="Jesús Ibarra, inicio"><b>JESÚS</b><i>Ibarra</i></a>
+  <a class="lnk hide-s" href="#aprendes">La masterclass</a>
+  <a class="lnk hide-s" href="#quien-s">Quién soy</a>
+  <a class="lnk" href="#testimonios">Testimonios</a>
+  <a class="lnk" href="#oferta">Precio</a>
+</nav>
+
+<div class="stage"><div class="wrap" id="top">
+  <div class="light l1" aria-hidden="true"></div>
+  <div class="light l2" aria-hidden="true"></div>
+
+  <header class="herogrid">
+  <figure class="hphoto"><img src="media/foto_hero.jpg" alt="Jesús Ibarra, Campeón Nacional de Oratoria" width="848" height="1258" fetchpriority="high"></figure>
+  <div class="hero">
+    <span class="chip"><span class="dot"><svg><use href="#i-trophy"/></svg></span>Campeón Nacional de Oratoria de Paraguay</span>
+    <h1><span class="grad">Hablá en público con </span><span class="gold">seguridad</span><span class="grad">, sin bloquearte y sin muletillas.</span></h1>
+    <p class="sub">Una masterclass virtual de 1 hora para que en tu próxima entrevista, reunión, exposición o defensa de tesis te escuchen como alguien que sabe lo que dice.</p>
+    <div class="ctas">
+      <a class="btn btn-gold wa" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Quiero la masterclass →</a>
+      <a class="btn btn-ghost" href="#testimonios">Ver testimonios</a>
+    </div>
+    <p class="small">Tocás el botón, me escribís y te paso el acceso.</p>
+    <div class="stats" aria-label="Datos de la masterclass">
+      <div class="stat glass hl"><div><small>Personas</small><strong class="gold">+1.500</strong><small>entrenadas</small></div><span class="ico"><svg><use href="#i-user"/></svg></span></div>
+      <div class="stat glass"><div><small>Duración</small><strong>1 hora</strong><small>de masterclass</small></div><span class="ico"><svg><use href="#i-clock"/></svg></span></div>
+      <div class="stat glass"><div><small>Modalidad</small><strong>100%</strong><small>virtual</small></div><span class="ico"><svg><use href="#i-phone"/></svg></span></div>
+      <div class="stat glass"><div><small>Inversión</small><strong>70.000 Gs</strong><small>pago único</small></div><span class="ico"><svg><use href="#i-tag"/></svg></span></div>
+    </div>
+  </div>
+  </header>
+
+  <section class="head" aria-labelledby="dolor">
+    <span class="eyebrow">¿Te pasa esto?</span>
+    <h2 id="dolor" class="h2"><span class="grad">Sabés lo que querés decir. El problema aparece cuando te toca </span><span class="gold">decirlo.</span></h2>
+    <div class="dolorgrid" style="margin-top:22px">
+    <figure class="bn"><img src="media/foto_bn.jpg" alt="Retrato de Jesús en blanco y negro con doble exposición" loading="lazy" width="760" height="1127"><figcaption>Lo que pensás vs. lo que decís</figcaption></figure>
+    <div class="pains">
+      <div class="pain glass">Te quedás en blanco justo cuando todos te miran.</div>
+      <div class="pain glass">Se te escapan los "eh", "este", "o sea" y lo sabés.</div>
+      <div class="pain glass">En la entrevista o la defensa, sentís que no transmitís lo que vales.</div>
+      <div class="pain glass">Otros con menos preparación se llevan la atención porque hablan mejor.</div>
+    </div>
+    </div>
+    <p class="turn" style="margin-top:22px">La verdad es que nadie nace sabiendo hablar bien. Es una habilidad, y se entrena. <span class="serif gold">Y eso cambia todo.</span></p>
+  </section>
+
+  <section class="head" aria-labelledby="aprendes-h" id="aprendes">
+    <span class="eyebrow">Lo que te llevás</span>
+    <h2 id="aprendes-h" class="h2"><span class="grad">En 1 hora trabajamos </span><span class="gold">4 cosas</span><span class="grad"> concretas</span></h2>
+    <div class="pillars" style="margin-top:18px">
+      <div class="pillar glass"><svg class="bi"><use href="#i-crown"/></svg><h3>Comunicar con autoridad</h3><p>Que tu forma de hablar transmita que sabés de lo que hablás.</p><span class="tag"><svg width="13" height="13"><use href="#i-user"/></svg>Entrevistas y reuniones</span></div>
+      <div class="pillar glass"><svg class="bi"><use href="#i-spark"/></svg><h3>Verte carismático</h3><p>Conectar con la gente que te escucha, no solo pasar información.</p><span class="tag"><svg width="13" height="13"><use href="#i-user"/></svg>Presencia y conexión</span></div>
+      <div class="pillar glass"><svg class="bi"><use href="#i-unlock"/></svg><h3>Dejar de bloquearte</h3><p>Qué hacer cuando sentís el nudo en el estómago antes de hablar.</p><span class="tag"><svg width="13" height="13"><use href="#i-user"/></svg>Nervios y mente en blanco</span></div>
+      <div class="pillar glass"><svg class="bi"><use href="#i-mic"/></svg><h3>Dejar las muletillas</h3><p>Cambiar el "eh" por pausas que se ven como seguridad.</p><span class="tag"><svg width="13" height="13"><use href="#i-user"/></svg>Claridad al hablar</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="quien" id="quien-s">
+    <div class="about">
+      <div class="pics2">
+        <figure class="main"><img src="media/foto_traje.jpg" alt="Jesús Ibarra de traje azul" loading="lazy" width="820" height="1017"></figure>
+        <figure class="inset a"><img src="media/nino.jpg" alt="Jesús de niño en una escalera" loading="lazy" width="500" height="750"><figcaption>Este era yo</figcaption></figure>
+        <figure class="inset b"><img src="media/taller.jpg" alt="Jesús dando el taller de oratoria en SkyOne Home" loading="lazy" width="600" height="833"><figcaption>Hoy, dando el taller</figcaption></figure>
+      </div>
+      <div class="txt">
+        <span class="eyebrow" style="text-align:left">Quién te enseña</span>
+        <h2 id="quien"><span class="grad">Jesús </span><span class="gold">Ibarra</span></h2>
+        <p>Hace unos años me quedaba callado porque pensaba que mi voz no importaba. Llegué del interior a Asunción sin contactos y sin saber cómo conectar con nadie. No nací con carisma ni con seguridad: lo aprendí.</p>
+        <p>Hoy soy Campeón Nacional de Oratoria de Paraguay y doy talleres en empresas e instituciones. Lo que me sirvió a mí le puede servir a vos.</p>
+        <ul class="checks">
+          <li><svg><use href="#i-check"/></svg><span><b>Campeón Nacional de Oratoria</b> de Paraguay.</span></li>
+          <li><svg><use href="#i-check"/></svg><span><b>Más de 1.500 personas entrenadas</b> en oratoria y comunicación.</span></li>
+          <li><svg><use href="#i-check"/></svg><span><b>Cámara Internacional de Conferencistas</b>, Capítulo Paraguay.</span></li>
+          <li><svg><use href="#i-check"/></svg><span><b>Talleres en empresas e instituciones</b> educativas, empresariales y religiosas.</span></li>
+        </ul>
+        <div class="ctas"><a class="btn btn-gold wa" href="#" target="_blank" rel="noopener">Quiero la masterclass →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="crowd" aria-label="Foto con el público al final de una charla">
+    <figure>
+      <img src="media/foto_publico.jpg" alt="Jesús saludando con todo el público detrás al final de una charla" loading="lazy" width="1400" height="1050">
+      <figcaption>
+        <span class="eyebrow" style="text-align:left">Más de 1.500 personas entrenadas</span>
+        <p><span class="grad">Así termina una charla </span><span class="gold serif">cuando la gente conecta.</span></p>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="head" aria-labelledby="testimonios-h" id="testimonios">
+    <div class="light l3" aria-hidden="true" style="top:-80px"></div>
+    <span class="eyebrow">Testimonios</span>
+    <h2 id="testimonios-h" class="h2"><span class="grad">Lo que dicen quienes ya </span><span class="gold">se formaron conmigo</span></h2>
+    <p class="lead">15 testimonios reales, en video y por escrito, de dos de mis talleres.</p>
+    <div class="tblock">
+      <div class="tbhead"><span class="tnum">01</span><div><h3>Taller con estudiantes</h3><span class="small">9 testimonios · video de 1 min 22 s</span></div></div>
+      <div class="testi">
+        <div class="vside">
+          <div class="videobox"><video class="tv" data-src="media/testimonios2.mp4" controls playsinline webkit-playsinline preload="none" poster="media/poster2.jpg" width="480" height="854"></video></div>
+          <p class="small vstate" style="text-align:center">Cargando video…</p>
+          <a class="btn btn-ghost vfb" href="https://www.instagram.com/reel/DfGH9A8IWU3/" target="_blank" rel="noopener" hidden>Ver este video en Instagram</a>
+        </div>
+        <div class="quotes">
+        <figure class="q glass"><blockquote>"Lo que más me gustó del taller fue que pude pasar a hablar en público y no me puse roja, porque siempre me pasó cuando paso adelante a hablar."</blockquote><div class="who"><img src="media/av_s1.jpg" alt="" width="192" height="192" loading="lazy"><span>Participante<br>Taller con estudiantes</span></div></figure>
+        <figure class="q glass"><blockquote>"Nos ayudaste a buscar la manera correcta de saber comunicarnos y poder transmitir lo que pensamos."</blockquote><div class="who"><img src="media/av_s5.jpg" alt="" width="192" height="192" loading="lazy"><span>Participante<br>Taller con estudiantes</span></div></figure>
+        <figure class="q glass"><blockquote>"Nos hiciste hablar, quitarnos el miedo y que podamos expresar nuestra historia."</blockquote><div class="who"><img src="media/av_s6.jpg" alt="" width="192" height="192" loading="lazy"><span>Participante<br>Taller con estudiantes</span></div></figure>
+        <figure class="q glass"><blockquote>"Me gustó mucho que hayas tenido disposición para venir acá y que hiciste participar a toda la gente que se inscribió al curso."</blockquote><div class="who"><img src="media/av_s7.jpg" alt="" width="192" height="192" loading="lazy"><span>Participante<br>Taller con estudiantes</span></div></figure>
+        <figure class="q glass"><blockquote>"Nos ayuda realmente en nuestro día a día, no solamente en lo académico, sino en general."</blockquote><div class="who"><img src="media/av_s2.jpg" alt="" width="192" height="192" loading="lazy"><span>Participante<br>Taller con estudiantes</span></div></figure>
+        <figure class="q glass"><blockquote>"Lo que más me llamó la atención es la forma en que debemos pararnos para demostrar más seguridad."</blockquote><div class="who"><img src="media/av_s3.jpg" alt="" width="192" height="192" loading="lazy"><span>Participante<br>Taller con estudiantes</span></div></figure>
+        <figure class="q glass"><blockquote>"El espacio que tuvimos para poder compartir nuestras experiencias, y también la motivación que nos dio este taller para poder comunicar lo que queremos."</blockquote><div class="who"><img src="media/av_s8.jpg" alt="" width="192" height="192" loading="lazy"><span>Participante<br>Taller con estudiantes</span></div></figure>
+        <figure class="q glass"><blockquote>"La motivación que tuviste en no tenerle miedo a hablar en público o delante de un entrevistador para un trabajo."</blockquote><div class="who"><img src="media/av_s9.jpg" alt="" width="192" height="192" loading="lazy"><span>Participante<br>Taller con estudiantes</span></div></figure>
+        <figure class="q glass"><blockquote>"Los tips para mejorar la confianza al hablar en público, especialmente para quitarnos las muletillas. Yo soy muy amante de las muletillas."</blockquote><div class="who"><img src="media/av_s4.jpg" alt="" width="192" height="192" loading="lazy"><span>Participante<br>Taller con estudiantes</span></div></figure>
+        </div>
+      </div>
+    </div>
+    <div class="tblock">
+      <div class="tbhead"><span class="tnum">02</span><div><h3>Taller en SkyOne Home</h3><span class="small">6 testimonios · video de 54 s</span></div></div>
+      <div class="testi">
+        <div class="vside">
+          <div class="videobox"><video class="tv" data-src="media/testimonios.mp4" controls playsinline webkit-playsinline preload="none" poster="media/poster.jpg" width="480" height="854"></video></div>
+          <p class="small vstate" style="text-align:center">Cargando video…</p>
+          <a class="btn btn-ghost vfb" href="https://www.instagram.com/jesus_ibarraok/reel/Dd89jRZxPql/" target="_blank" rel="noopener" hidden>Ver este video en Instagram</a>
+        </div>
+        <div class="quotes">
+        <figure class="q glass"><blockquote>"Realmente la capacitación de hoy estuvo espectacular, dictada por Jesús. Aprendimos muchísimo."</blockquote><div class="who"><img src="media/av_t3.jpg" alt="" width="192" height="192" loading="lazy"><span>Participante<br>Taller en SkyOne Home</span></div></figure>
+        <figure class="q glass"><blockquote>"Rompés esas barreras que tenés. Te sirve para el día a día y para hablar con los clientes."</blockquote><div class="who"><img src="media/av_t6.jpg" alt="" width="192" height="192" loading="lazy"><span>Participante<br>Taller en SkyOne Home</span></div></figure>
+        <figure class="q glass"><blockquote>"Ver ese proceso de superación te deja una enseñanza: si ellos pueden, yo también puedo."</blockquote><div class="who"><img src="media/av_t4.jpg" alt="" width="192" height="192" loading="lazy"><span>Participante<br>Taller en SkyOne Home</span></div></figure>
+        <figure class="q glass"><blockquote>"Desde el primer momento tuvimos ejercicios para romper el hielo."</blockquote><div class="who"><img src="media/av_t1.jpg" alt="" width="192" height="192" loading="lazy"><span>Participante<br>Taller en SkyOne Home</span></div></figure>
+        <figure class="q glass"><blockquote>"La verdad que fue bastante dinámico y aprendimos mucho."</blockquote><div class="who"><img src="media/av_t2.jpg" alt="" width="192" height="192" loading="lazy"><span>Participante<br>Taller en SkyOne Home</span></div></figure>
+        <figure class="q glass"><blockquote>"La oratoria es una habilidad muy importante que tenemos que aprender a desarrollar sí o sí."</blockquote><div class="who"><img src="media/av_t5.jpg" alt="" width="192" height="192" loading="lazy"><span>Participante<br>Taller en SkyOne Home</span></div></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="head" aria-labelledby="para">
+    <span class="eyebrow">¿Es para vos?</span>
+    <h2 id="para" class="h2"><span class="grad">Para quién </span><span class="gold">es</span></h2>
+    <div class="fit" style="margin-top:18px">
+      <div class="glass"><h3>Es para vos si…</h3>
+        <ul>
+          <li>Tenés que defender tu tesis o presentar un proyecto.</li>
+          <li>Te bloqueás en entrevistas o reuniones.</li>
+          <li>Querés que tu forma de hablar esté a la altura de lo que sabés.</li>
+        </ul>
+      </div>
+      <div class="glass no"><h3>No es para vos si…</h3>
+        <ul>
+          <li>Buscás una fórmula mágica sin practicar.</li>
+          <li>No pensás aplicar nada de lo que veas.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="head offerwrap" aria-labelledby="oferta-h" id="oferta">
+    <div class="light l3" aria-hidden="true" style="top:40px"></div>
+    <span class="eyebrow">La oferta</span>
+    <h2 class="h2"><span class="grad">Todo lo que necesitás, </span><span class="gold">en 1 hora</span></h2>
+    <p class="lead">Más resultado, menos tiempo, menos esfuerzo.</p>
+    <div class="offergrid" style="margin-top:22px">
+      <ul class="why">
+        <li class="glass"><strong>Lo que querés</strong><span>Hablar seguro en el momento que importa: entrevista, reunión, tesis, venta.</span></li>
+        <li class="glass"><strong>Quién te lo enseña</strong><span>El Campeón Nacional de Oratoria de Paraguay, que empezó siendo tímido.</span></li>
+        <li class="glass"><strong>Cuánto tarda</strong><span>1 hora. Lo podés ver hoy mismo.</span></li>
+        <li class="glass"><strong>Cuánto esfuerzo</strong><span>Desde tu celular, cuando quieras. Sin viajar, sin horarios fijos.</span></li>
+      </ul>
+    <div class="offer glass">
+      <span class="pill">Acceso inmediato</span>
+      <h3 id="oferta-h">Masterclass de Oratoria</h3>
+      <div class="price"><span class="big gold">70.000 Gs</span><span class="cur">pago único</span></div>
+      <ul class="inc">
+        <li><span>Masterclass completa grabada</span><span>1 hora</span></li>
+        <li><span>Autoridad, carisma, bloqueo y muletillas</span><span>4 temas</span></li>
+        <li><span>Acceso desde el celular o la compu</span><span>Cuando quieras</span></li>
+        <li><span>Te lo paso directo por WhatsApp</span><span>Al instante</span></li>
+      </ul>
+      <a class="btn btn-gold wa" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Quiero mi acceso →</a>
+      <p class="small" style="text-align:center">Te respondo personalmente por WhatsApp.</p>
+    </div>
+    </div>
+    <h3 class="stepsh" id="como">Cómo funciona, en 3 pasos</h3>
+    <ol class="steps">
+      <li class="glass"><b>Tocás el botón dorado</b><span>Se abre mi WhatsApp con el mensaje ya escrito.</span></li>
+      <li class="glass"><b>Me escribís</b><span>Te respondo con los datos para el pago.</span></li>
+      <li class="glass"><b>Recibís el acceso</b><span>Te paso el link de la masterclass y la ves cuando quieras.</span></li>
+    </ol>
+  </section>
+
+  <section class="head" aria-labelledby="faq">
+    <span class="eyebrow">Preguntas frecuentes</span>
+    <h2 id="faq" class="h2"><span class="grad">Antes de </span><span class="gold">escribirme</span></h2>
+    <div class="faq" style="margin-top:18px">
+      <details class="glass"><summary>¿Es en vivo o grabado?</summary><p>Es una masterclass grabada de 1 hora. La ves cuando quieras y las veces que quieras.</p></details>
+      <details class="glass"><summary>¿Cómo recibo el acceso?</summary><p>Me escribís por WhatsApp y te paso el link de la masterclass directamente ahí.</p></details>
+      <details class="glass"><summary>¿Necesito experiencia previa?</summary><p>No. Está pensado para quien se bloquea o se pone nervioso al hablar, aunque nunca haya estudiado oratoria.</p></details>
+      <details class="glass"><summary>¿Cuánto cuesta?</summary><p>70.000 Gs, pago único.</p></details>
+    </div>
+  </section>
+
+  <section class="final glass" aria-labelledby="cierre">
+    <span class="medal"><svg><use href="#i-mic"/></svg></span>
+    <h2 id="cierre"><span class="grad">Tu próxima oportunidad de hablar ya tiene fecha. </span><span class="gold serif">Llegá preparado.</span></h2>
+    <a class="btn btn-gold wa" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Escribime por WhatsApp →</a>
+    <div class="num">WhatsApp: <code id="numero">0986 809 911</code><button class="copy" id="copiar" type="button">Copiar</button></div>
+  </section>
+
+  <footer>
+    <a class="logo" href="#top"><b>JESÚS</b><i>Ibarra</i></a>
+    <p>Instagram @jesus_ibarraok · © 2026 Jesús Ibarra</p>
+  </footer>
+</div></div>
+
+<div class="bar-cta" role="region" aria-label="Comprar la masterclass">
+  <div class="inner">
+    <div class="meta"><b>70.000 Gs</b><span>Masterclass · 1 hora</span></div>
+    <a class="btn btn-gold wa" href="#" target="_blank" rel="noopener">Quiero la masterclass →</a>
+  </div>
+</div>
+
+<script>
+  const WA = "https://wa.me/595986809911?text=" + encodeURIComponent("Hola Jesús, quiero la Masterclass de Oratoria");
+  document.querySelectorAll("a.wa").forEach(a => a.href = WA);
+
+  // Por qué funciona: pasos tipo ruta
+  const RT = [
+    ["Lo que querés", "Hablar seguro en el momento que importa: entrevista, reunión, tesis, venta."],
+    ["Quién te enseña", "El Campeón Nacional de Oratoria de Paraguay, que empezó siendo tímido."],
+    ["Cuánto tarda", "1 hora. Lo podés ver hoy mismo."],
+    ["Cuánto esfuerzo", "Desde tu celular, cuando quieras. Sin viajar, sin horarios fijos."]
+  ];
+  document.querySelectorAll(".node").forEach(n => n.addEventListener("click", () => {
+    document.querySelectorAll(".node").forEach(m => m.setAttribute("aria-selected", m === n ? "true" : "false"));
+    const [t, p] = RT[+n.dataset.i];
+    document.getElementById("rt").textContent = t;
+    document.getElementById("rp").textContent = p;
+  }));
+
+  // Copiar número
+  const btn = document.getElementById("copiar");
+  btn.addEventListener("click", () => {
+    const done = () => { btn.textContent = "Copiado"; setTimeout(() => btn.textContent = "Copiar", 1600); };
+    const sel = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById("numero")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+    try { navigator.clipboard.writeText("0986809911").then(done).catch(sel); } catch (e) { sel(); }
+  });
+
+  // Videos de testimonios: cada uno se baja entero cuando se acerca a la pantalla y se reproduce desde memoria
+  // (el navegador de Instagram en iPhone no siempre reproduce el archivo directo).
+  document.querySelectorAll(".tblock").forEach(bl => {
+    const v = bl.querySelector("video.tv"), st = bl.querySelector(".vstate"), fb = bl.querySelector(".vfb");
+    let started = false;
+    const fail = () => { st.textContent = "Si el video no se reproduce acá, miralo en Instagram:"; fb.hidden = false; };
+    v.addEventListener("error", () => { if (v.getAttribute("src")) fail(); });
+    v.addEventListener("play", () => document.querySelectorAll("video.tv").forEach(o => { if (o !== v) o.pause(); }));
+    const start = () => {
+      if (started) return; started = true;
+      const src = v.dataset.src;
+      const ready = u => { v.src = u; v.preload = "metadata"; st.textContent = "Tocá play para ver los testimonios."; };
+      fetch(src).then(r => { if (!r.ok) throw 0; return r.blob(); })
+        .then(b => ready(URL.createObjectURL(new Blob([b], {type: "video/mp4"}))))
+        .catch(() => { ready(src); setTimeout(() => { if (v.readyState === 0) fail(); }, 6000); });
+    };
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); start(); } }, {rootMargin: "400px"});
+      io.observe(bl);
+    } else start();
+  });
+</script>
+
+</body>
+</html>
