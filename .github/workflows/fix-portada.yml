@@ -1,0 +1,27 @@
+{
+ "name": "fix-portada",
+ "on": {
+  "workflow_dispatch": {}
+ },
+ "permissions": {
+  "contents": "write"
+ },
+ "jobs": {
+  "go": {
+   "runs-on": "ubuntu-latest",
+   "steps": [
+    {
+     "uses": "actions/checkout@v4"
+    },
+    {
+     "name": "Aplicar",
+     "run": "python3 - <<'PYEOF'\nimport base64\np='grow/index.html'\nh=open(p,encoding='utf-8').read()\nif 'id=\"fix-portada\"' in h:\n    print('ya')\nelse:\n    c=base64.b64decode('Ci5oZXJvIC5iZ3tvcGFjaXR5OjEhaW1wb3J0YW50fS5oZXJvIC5iZyAub3Jie29wYWNpdHk6LjZ9Lmhlcm8gLmJnIC53b3JkLC5oZXJvIC5iZyAuZ3JpZHtvcGFjaXR5Oi42fQo=').decode()\n    h=h.replace('</head>','<style id=\"fix-portada\">'+c+'</style></head>',1)\n    open(p,'w',encoding='utf-8').write(h); print('ok')\nPYEOF"
+    },
+    {
+     "name": "Commit",
+     "run": "git config user.name grow-bot\ngit config user.email grow-bot@users.noreply.github.com\ngit add -A grow\ngit commit -m 'GROW: foto de portada al frente' || echo nada\ngit push"
+    }
+   ]
+  }
+ }
+}
