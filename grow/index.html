@@ -350,7 +350,32 @@ footer a.wa{color:var(--yel);font-weight:700}
 .player:fullscreen,.player:-webkit-full-screen{width:100vw;height:100vh;background:#000}
 @media(max-width:560px){.player .vc{gap:6px;padding:0 8px}.player .vc #vcT{font-size:12px}}
 </style>
-</head>
+<style id="tema-rojo">
+:root{--bg:#08080a;--bg2:#121214;--card:#18181c;--line:#2b2226;--accent:#e50914;--accent2:#ff6b73;--red:#e50914}
+body{background:radial-gradient(1100px 620px at 88% -6%,rgba(229,9,20,.20),transparent 62%),radial-gradient(800px 520px at -8% 48%,rgba(229,9,20,.09),transparent 62%),radial-gradient(900px 520px at 100% 92%,rgba(229,9,20,.12),transparent 62%),var(--bg);background-attachment:fixed}
+.logo .sky{color:var(--red);text-shadow:0 0 22px rgba(229,9,20,.55)}
+.nav.solid{background:rgba(8,8,10,.97);box-shadow:0 1px 0 rgba(229,9,20,.35),0 8px 30px rgba(229,9,20,.08)}
+.hero{background:#060607}
+.hero .bg{opacity:.55}
+.hero::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(900px 560px at 78% 42%,rgba(229,9,20,.45),transparent 66%),radial-gradient(640px 380px at 100% 100%,rgba(229,9,20,.32),transparent 62%),radial-gradient(520px 320px at 0% 100%,rgba(229,9,20,.18),transparent 65%)}
+.hero h1{text-shadow:0 8px 40px rgba(0,0,0,.6)}
+.btn.play{box-shadow:0 8px 30px rgba(229,9,20,.38)}
+.stat{background:rgba(229,9,20,.09);border-color:rgba(229,9,20,.30)}
+.card{box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.card:hover{box-shadow:0 18px 46px rgba(229,9,20,.40),0 0 0 1px rgba(229,9,20,.55)}
+.rowH h2{position:relative;padding-left:14px}
+.rowH h2::before{content:"";position:absolute;left:0;top:.16em;bottom:.16em;width:4px;border-radius:3px;background:var(--red);box-shadow:0 0 14px rgba(229,9,20,.75)}
+.rank .num{-webkit-text-stroke:3px #8c1822;text-shadow:0 0 28px rgba(229,9,20,.35)}
+.rank:hover .num{-webkit-text-stroke-color:#e50914}
+.bar i{background:linear-gradient(90deg,#e50914,#ff7a3d)}
+.prog i{background:var(--red);box-shadow:0 0 10px rgba(229,9,20,.8)}
+.panel{background:linear-gradient(120deg,#2d0b10,#141215 62%);border-color:#4a161c;box-shadow:0 14px 50px rgba(229,9,20,.14)}
+.modal{background:radial-gradient(900px 520px at 50% 0,rgba(229,9,20,.20),transparent 62%),rgba(0,0,0,.84)}
+.regBox{box-shadow:0 30px 100px rgba(229,9,20,.30);border-color:#3a1a1f}
+.regBox h2 span{color:var(--red)}
+footer{border-top:1px solid rgba(229,9,20,.35)}
+.certBox:not(.lock){box-shadow:0 14px 50px rgba(229,9,20,.18)}
+</style></head>
 <body>
 <nav class="nav" id="nav">
   <a class="brand" href="#inicio" aria-label="GROW Academy"><div class="logo"><span class="sky">GROW</span><span class="play">ACADEMY</span><small>ORATORIA Y COMUNICACIÓN</small></div></a>
