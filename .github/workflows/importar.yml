@@ -1,0 +1,23 @@
+name: Importar landing
+on:
+  push:
+    paths:
+      - '.github/workflows/importar.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  importar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Copiar archivos de la landing
+        run: |
+          curl -sSL -o l.tgz https://github.com/skyonehome/skyonehome.github.io/archive/refs/heads/tmp-landing-jesus.tar.gz
+          tar -xzf l.tgz --strip-components=1
+          rm l.tgz
+          git config user.name "Jesús Ibarra"
+          git config user.email "jesusalejandroibarra01@gmail.com"
+          git add -A
+          git commit -m "Landing de la Masterclass de Oratoria"
+          git push
