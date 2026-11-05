@@ -384,10 +384,13 @@ footer{border-top:1px solid rgba(229,9,20,.35)}
  -webkit-mask-image:linear-gradient(180deg,#000 72%,transparent 99%);mask-image:linear-gradient(180deg,#000 72%,transparent 99%);pointer-events:none}
 @media (max-width:1100px){.hero .bg::after{width:58vw;right:-2vw;height:92%}}
 @media (max-width:600px){.hero .bg::after{width:86vw;height:62%;right:-14vw;top:56px;bottom:auto;opacity:.55;background-position:right top}}
-</style>
-<style id="fix-portada">
-.hero .bg{opacity:1!important}.hero .bg .orb{opacity:.6}.hero .bg .word,.hero .bg .grid{opacity:.6}
-</style><style id="fix-portada2">
+
+/* ---- Foto al frente: la opacidad va en los adornos, no en el contenedor ---- */
+.hero .bg{opacity:1!important}
+.hero .bg .orb{opacity:.6}
+.hero .bg .word,.hero .bg .grid{opacity:.6}
+
+/* ---- Portada: rojo oscuro + negro que se funde con la foto ---- */
 .hero{background:#040405}
 .hero::before{background:
  linear-gradient(90deg,#040405 0%,rgba(4,4,5,.55) 38%,rgba(4,4,5,0) 62%),
@@ -400,12 +403,82 @@ footer{border-top:1px solid rgba(229,9,20,.35)}
 .hero .bg .orb{opacity:.5}
 .hero .bg .word{opacity:.45}
 .hero .bg::after{filter:drop-shadow(0 0 50px rgba(130,6,16,.65)) drop-shadow(0 24px 34px rgba(0,0,0,.75))}
-</style></head>
+
+/* ---- Módulos desplegables (temporadas / capítulos) ---- */
+.modList{display:flex;flex-direction:column;gap:14px;padding:0 4vw}
+.mod{--mc:#e50914;border:1px solid #2a2125;border-radius:16px;background:linear-gradient(180deg,#141417,#0e0e10);overflow:hidden;position:relative;transition:border-color .25s,box-shadow .25s,transform .25s}
+.mod::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--mc);box-shadow:0 0 22px var(--mc)}
+.mod:hover{border-color:#4a2a31}
+.mod.open{border-color:#5a2831;box-shadow:0 18px 50px rgba(229,9,20,.14)}
+.modH{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:22px;padding:22px 26px 22px 30px}
+.modH:focus-visible{outline:2px solid var(--red);outline-offset:-3px;border-radius:16px}
+.mn{font-weight:900;font-size:clamp(40px,5vw,64px);line-height:1;letter-spacing:-2px;color:transparent;-webkit-text-stroke:2px var(--mc);opacity:.9;min-width:1.7em;text-align:center}
+.mt{display:flex;flex-direction:column;gap:3px;min-width:0}
+.mt small{font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--mc)}
+.mt b{font-size:clamp(19px,2.3vw,26px);font-weight:800;color:#fff;line-height:1.15}
+.msub{font-size:14px;color:#a9a3a6;line-height:1.4}
+.mp{display:flex;flex-direction:column;gap:7px;min-width:150px;align-items:flex-end}
+.mpt{font-size:13px;font-weight:700;color:#ddd}
+.mbar{display:block;width:150px;height:6px;border-radius:6px;background:#2b2528;overflow:hidden}
+.mbar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--mc),#fff8);box-shadow:0 0 10px var(--mc)}
+.mod.full .mpt{color:#4ade80}
+.mc{width:40px;height:40px;border-radius:50%;border:1.5px solid #44393d;display:grid;place-items:center;color:#fff;transition:transform .35s,background .25s,border-color .25s}
+.mc svg{width:20px;height:20px}
+.mod:hover .mc{border-color:var(--mc)}
+.mod.open .mc{transform:rotate(180deg);background:var(--mc);border-color:var(--mc)}
+.modB{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.8,.2,1)}
+.mod.open .modB{grid-template-rows:1fr}
+.modI{overflow:hidden;min-height:0}
+.eps{display:flex;flex-direction:column;border-top:1px solid #2a2125;margin:0 18px}
+.ep2{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:44px 230px 1fr;align-items:center;gap:20px;padding:16px 12px;border-bottom:1px solid #221c1f;border-radius:12px;transition:background .2s}
+.ep2:last-child{border-bottom:0}
+.ep2:hover{background:rgba(255,255,255,.05)}
+.ep2:focus-visible{outline:2px solid var(--red);outline-offset:-2px}
+.en{font-size:26px;font-weight:800;color:#8e868a;text-align:center}
+.ep2:hover .en{color:#fff}
+.et{position:relative;display:block;aspect-ratio:16/9;border-radius:10px;background-size:cover;background-position:center;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.5)}
+.et .ov{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.35);opacity:0;transition:opacity .2s}
+.et .ov span{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.95);color:#000;display:grid;place-items:center;transform:scale(.8);transition:transform .2s}
+.et .ov svg{width:20px;margin-left:2px}
+.ep2:hover .et .ov{opacity:1}.ep2:hover .et .ov span{transform:scale(1)}
+.et .prog{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(0,0,0,.55)}
+.et .prog i{display:block;height:100%;background:var(--red);box-shadow:0 0 8px var(--red)}
+.ex{display:flex;flex-direction:column;gap:6px;min-width:0}
+.eh{display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.eh b{font-size:18px;font-weight:700;color:#fff}
+.eh em{font-style:normal;font-size:13px;color:#a9a3a6;white-space:nowrap}
+.ed{font-size:14px;line-height:1.5;color:#b3adb0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ef{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
+.eb{font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:#241e21;color:#a9a3a6;border:1px solid #352d31}
+.eb.ok{background:rgba(74,222,128,.12);color:#4ade80;border-color:rgba(74,222,128,.35)}
+.eb.go{background:rgba(250,204,21,.12);color:#facc15;border-color:rgba(250,204,21,.35)}
+.eb.nx{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 0 14px rgba(229,9,20,.55)}
+.eb.pdf{background:transparent;text-transform:none;letter-spacing:0;font-weight:600}
+.modQ{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin:6px 18px 20px;padding:16px 20px;border-radius:12px;background:linear-gradient(100deg,rgba(229,9,20,.14),rgba(255,255,255,.03));border:1px dashed #5a2831}
+.modQ b{display:block;font-size:16px;color:#fff}
+.modQ span{font-size:13px;color:#b3adb0}
+.modQ .chip{cursor:pointer}
+@media (max-width:900px){
+ .modH{grid-template-columns:auto 1fr auto;gap:14px;padding:18px 16px 18px 20px}
+ .mp{grid-column:1/-1;grid-row:2;flex-direction:row;align-items:center;justify-content:space-between;width:100%}
+ .mbar{width:auto;flex:1;margin-left:14px}
+ .ep2{grid-template-columns:30px 130px 1fr;gap:12px;padding:14px 6px}
+ .en{font-size:20px}.ed{display:none}.eh{flex-direction:column;gap:2px}.eh b{font-size:15px}
+}
+@media (max-width:480px){
+ .msub{display:none}
+ .ep2{grid-template-columns:26px 104px 1fr;gap:10px}
+ .eps{margin:0 8px}.modQ{margin:6px 8px 14px}
+ .ef .pdf{display:none}
+}
+.row,.mods,#quiz,#cuestionarios,#vocabulario,#ruta{scroll-margin-top:84px}
+</style>
+</head>
 <body>
 <nav class="nav" id="nav">
   <a class="brand" href="#inicio" aria-label="GROW Academy"><div class="logo"><span class="sky">GROW</span><span class="play">ACADEMY</span><small>ORATORIA Y COMUNICACIÓN</small></div></a>
   <div class="links">
-    <a href="#inicio">Inicio</a><a href="#ruta">Ruta</a><a href="#todas">Clases</a><a href="#cuestionarios">Cuestionarios</a><a href="#vocabulario">Vocabulario</a>
+    <a href="#inicio">Inicio</a><a href="#ruta">Ruta</a><a href="#modulos">Módulos</a><a href="#cuestionarios">Cuestionarios</a><a href="#vocabulario">Vocabulario</a>
   </div>
   <div class="navR">
     <div class="search" id="search">
@@ -528,6 +601,36 @@ function row(id,title,sub,html){
     <button class="arrow r" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="m9 5 7 7-7 7"/></svg></button></div></section>`;
 }
 
+
+let openMods=null;
+const CHEV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="m6 9 6 6 6-6"/></svg>';
+function epRow(v,nextId){
+  const p=pct(v), st=ST.done[v.id]?"done":(p>3?"going":"");
+  const badge=ST.done[v.id]?`<span class="eb ok">✓ Vista</span>`:(p>3?`<span class="eb go">En curso · ${p}%</span>`:(v.id===nextId?`<span class="eb nx">Siguiente</span>`:`<span class="eb">Por ver</span>`));
+  return `<button class="ep2 ${st}" data-id="${v.id}" aria-label="${v.n}. ${esc(v.t)}">
+    <span class="en">${v.n}</span>
+    <span class="et" style="background-image:url('${v.img}')"><span class="ov"><span>${PLAY}</span></span><span class="prog"><i style="width:${p}%"></i></span></span>
+    <span class="ex"><span class="eh"><b>${esc(v.t)}</b><em>${fmt(v.d)}</em></span><span class="ed">${esc(v.desc)}</span><span class="ef">${badge}<span class="eb pdf">📄 Guía PDF</span></span></span></button>`;
+}
+function modules(){
+  const nx=VIDEOS.find(v=>!ST.done[v.id]); const nextId=nx&&nx.id;
+  if(openMods===null){ openMods=new Set(); openMods.add(String(nx?nx.cat:MODS[0])); }
+  let h=`<section class="row mods" id="modulos"><div class="rowH"><h2>Módulos del taller</h2><span>Desplegá cada módulo y mirá sus clases como capítulos</span></div><div class="modList">`;
+  for(const k of MODS){
+    const vs=VIDEOS.filter(v=>String(v.cat)===k), dn=vs.filter(v=>ST.done[v.id]).length, mins=Math.round(vs.reduce((a,v)=>a+v.d,0)/60);
+    const P=Math.round(dn/vs.length*100), best=ST.quiz[k], ok=(best||0)>=80, c=CATS[k].color, op=openMods.has(k);
+    h+=`<article class="mod ${op?"open":""} ${dn===vs.length?"full":""}" data-k="${k}" style="--mc:${c}">
+      <button class="modH" aria-expanded="${op}" aria-controls="mb${k}">
+        <span class="mn">${pad(+k)}</span>
+        <span class="mt"><small>MÓDULO ${k} · ${vs.length} CLASES · ${mins} MIN</small><b>${esc(CATS[k].name)}</b><span class="msub">${esc(CATS[k].sub)}</span></span>
+        <span class="mp"><span class="mpt">${dn}/${vs.length} vistas</span><span class="mbar"><i style="width:${P}%"></i></span></span>
+        <span class="mc">${CHEV}</span></button>
+      <div class="modB" id="mb${k}"><div class="modI"><div class="eps">${vs.map(v=>epRow(v,nextId)).join("")}</div>
+        <div class="modQ"><div><b>Cuestionario del módulo</b><span>${best!=null?`Tu mejor nota: ${best}% ${ok?"· ¡Aprobado!":"· necesitás 80% para aprobar"}`:"Aprobá con 80% o más"}</span></div><button class="chip qGo" data-cat="${k}">${best!=null?"Repetir":"Hacer cuestionario"} →</button></div></div></div></article>`;
+  }
+  return h+`</div></section>`;
+}
+
 let query="";
 function aprobados(){return MODS.filter(k=>(ST.quiz[k]||0)>=80).length;}
 function render(){
@@ -549,12 +652,7 @@ function render(){
   const cont=VIDEOS.filter(v=>!ST.done[v.id] && (ST.p[v.id]||0)>3);
   if(cont.length) h+=row("seguir","Seguir viendo","Retomá donde quedaste",cont.map(card).join(""));
   h+=row("ruta","Ruta del alumno",`Las ${TOTAL} clases en el orden recomendado`,VIDEOS.map(rank).join(""));
-  h+=`<div class="topics">`;
-  for(const k of MODS){
-    h+=row("mod"+k,`Módulo ${k} · ${esc(CATS[k].name)}`,esc(CATS[k].sub),VIDEOS.filter(v=>String(v.cat)===k).map(card).join(""));
-  }
-  h+=`</div>`;
-  h+=row("todas","Todas las clases","Taller Intensivo de Oratoria Profesional",VIDEOS.map(card).join(""));
+  h+=modules();
   h+=quizSection();
   h+=vocabSection();
   $("#main").innerHTML=h; bindVocab(); bindCert(); bind(); hero();
@@ -562,6 +660,9 @@ function render(){
 function bind(){
   document.querySelectorAll("#main .card").forEach(c=>c.onclick=()=>openV(c.dataset.id));
   document.querySelectorAll(".qCard").forEach(c=>c.onclick=()=>startQ(c.dataset.cat));
+  document.querySelectorAll("#main .ep2").forEach(c=>c.onclick=()=>openV(c.dataset.id));
+  document.querySelectorAll("#main .qGo").forEach(c=>c.onclick=()=>startQ(c.dataset.cat));
+  document.querySelectorAll("#main .modH").forEach(b=>b.onclick=()=>{const m=b.parentElement,k=m.dataset.k,o=!m.classList.contains("open");m.classList.toggle("open",o);b.setAttribute("aria-expanded",o);if(o)openMods.add(k);else openMods.delete(k);});
   document.querySelectorAll(".track").forEach(t=>{
     const s=t.querySelector(".scroller");
     t.querySelector(".arrow.l").onclick=()=>s.scrollBy({left:-s.clientWidth*.85,behavior:"smooth"});
