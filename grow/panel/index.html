@@ -1,0 +1,75 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Panel · GROW Academy</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#07090f;color:#e8eaf0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+.wrap{max-width:1240px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:22px;font-weight:900;letter-spacing:.02em}h1 b{color:#facc15}
+.top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:22px}
+.btn{background:#facc15;color:#111;border:0;border-radius:10px;padding:10px 16px;font-weight:800;font-size:14px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.g{background:#1a1f2e;color:#e8eaf0;border:1px solid #2a3145}
+.gate{max-width:360px;margin:18vh auto;text-align:center}
+.gate p{color:#9aa3b8;margin:10px 0 20px;font-size:14px}
+.gate input{width:100%;font-size:28px;letter-spacing:.5em;text-align:center;padding:14px;border-radius:12px;border:1px solid #2a3145;background:#10141f;color:#fff;margin-bottom:14px}
+.err{color:#f87171;font-size:13px;min-height:18px;margin-top:10px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.st{background:#10141f;border:1px solid #1f2638;border-radius:14px;padding:16px}
+.st small{color:#9aa3b8;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.st div{font-size:32px;font-weight:900;margin-top:6px}.st div i{color:#facc15;font-style:normal}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.bar input,.bar select{background:#10141f;border:1px solid #2a3145;color:#fff;border-radius:10px;padding:10px 12px;font-size:14px}
+.bar input{flex:1;min-width:200px}
+table{width:100%;border-collapse:collapse;background:#10141f;border:1px solid #1f2638;border-radius:14px;overflow:hidden;font-size:13px}
+th,td{padding:11px 10px;text-align:left;border-bottom:1px solid #1a2032;white-space:nowrap}
+th{color:#9aa3b8;font-size:11px;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;user-select:none;background:#0c1019}
+th:hover{color:#facc15}
+.pill{display:inline-block;padding:3px 9px;border-radius:99px;font-size:12px;font-weight:700}
+.ok{background:#14532d;color:#86efac}.no{background:#1f2638;color:#9aa3b8}.nt{background:#422006;color:#fdba74}
+.pg{display:inline-block;width:70px;height:7px;background:#1f2638;border-radius:9px;vertical-align:middle;margin-right:6px;overflow:hidden}.pg i{display:block;height:100%;background:#facc15}
+.wa{background:#16a34a;color:#fff;border-radius:8px;padding:6px 10px;font-weight:700;font-size:12px;text-decoration:none}
+.cards{display:none}
+.card{background:#10141f;border:1px solid #1f2638;border-radius:14px;padding:14px;margin-bottom:10px}
+.card h3{font-size:16px;margin-bottom:4px}.card .r{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:#9aa3b8;padding:4px 0}.card .r b{color:#e8eaf0;font-weight:600;text-align:right}
+.empty{padding:30px;text-align:center;color:#9aa3b8}
+@media(max-width:1000px){table{display:none}.cards{display:block}.stats{grid-template-columns:repeat(2,1fr)}}
+</style></head><body>
+<div id="gate" class="gate"><h1><b>GROW</b> ACADEMY</h1><p>Panel privado. Ingresá tu PIN de 6 dígitos.</p>
+<input id="pin" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="······"><button class="btn" id="go" style="width:100%">Entrar</button><div class="err" id="err"></div></div>
+<div id="app" class="wrap" style="display:none">
+<div class="top"><h1><b>GROW</b> ACADEMY · Panel</h1><div style="display:flex;gap:8px"><a class="btn g" id="sheet" target="_blank" rel="noopener">Abrir planilla</a><button class="btn g" id="ref">Actualizar</button><button class="btn g" id="out">Salir</button></div></div>
+<div class="stats"><div class="st"><small>Alumnos registrados</small><div id="s1">0</div></div><div class="st"><small>Avance promedio</small><div id="s2">0<i>%</i></div></div><div class="st"><small>Certificados</small><div id="s3">0</div></div><div class="st"><small>Activos esta semana</small><div id="s4">0</div></div></div>
+<div class="bar"><input id="q" placeholder="Buscar por nombre o WhatsApp"><select id="f"><option value="">Todos</option><option value="cert">Con certificado</option><option value="nocert">Sin certificado</option><option value="act">Activos esta semana</option><option value="ina">Sin actividad 7+ días</option></select></div>
+<table><thead><tr id="th"></tr></thead><tbody id="tb"></tbody></table><div class="cards" id="cards"></div>
+</div>
+<script>
+var API="https://script.google.com/macros/s/AKfycbyGPCbKRh2wUyHeLNDN8gWmt7EaD5RnEy4JISw7G6Hijmk9VeR2QHkLUk4ZPeN-C6py/exec";
+var pin="",data=[],sortK="ultimo",sortD=-1;
+var COLS=[["nombre","Alumno"],["wa","WhatsApp"],["nVistas","Clases"],["avance","Avance"],["m1","M1"],["m2","M2"],["m3","M3"],["m4","M4"],["aprobados","Aprobados"],["cert","Certificado"],["ultimo","Último acceso"]];
+function $(i){return document.getElementById(i)}
+function norm(s){return String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase()}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function waLink(w){var d=String(w||"").replace(/\D/g,"");if(!d)return"";if(d[0]==="0")d="595"+d.slice(1);return"https://wa.me/"+d}
+function isAct(s){var t=Date.parse(String(s.ultimo||"").replace(" ","T"));return t&&Date.now()-t<7*864e5}
+function grade(v){if(v===""||v==null)return'<span class="pill no">—</span>';var n=Number(v);return'<span class="pill '+(n>=80?"ok":"nt")+'">'+(n>=80?"✓ ":"")+n+'%</span>'}
+function load(p,cb){fetch(API+"?pin="+encodeURIComponent(p)).then(function(r){return r.json()}).then(function(j){cb(j)}).catch(function(){cb({ok:false,error:"net"})})}
+function enter(j){data=j.students||[];$("gate").style.display="none";$("app").style.display="block";$("sheet").href=j.sheetUrl||"#";render()}
+function render(){
+ var q=norm($("q").value),f=$("f").value;
+ var rows=data.filter(function(s){var m=!q||norm(s.nombre+" "+s.apellido).indexOf(q)>-1||String(s.wa).indexOf(q)>-1;
+  if(f==="cert")m=m&&s.cert==="Sí";if(f==="nocert")m=m&&s.cert!=="Sí";if(f==="act")m=m&&isAct(s);if(f==="ina")m=m&&!isAct(s);return m});
+ rows.sort(function(a,b){var x=a[sortK],y=b[sortK];if(sortK==="nombre"){x=norm(a.nombre+a.apellido);y=norm(b.nombre+b.apellido)}
+  if(typeof x==="number"||typeof y==="number"||sortK.match(/^m\d$/)){x=Number(x||0);y=Number(y||0)}else{x=String(x||"");y=String(y||"")}return x>y?sortD:x<y?-sortD:0});
+ var n=data.length,av=n?Math.round(data.reduce(function(a,s){return a+(s.avance||0)},0)/n):0;
+ $("s1").textContent=n;$("s2").innerHTML=av+"<i>%</i>";$("s3").textContent=data.filter(function(s){return s.cert==="Sí"}).length;$("s4").textContent=data.filter(isAct).length;
+ $("th").innerHTML=COLS.map(function(c){return'<th data-k="'+c[0]+'">'+c[1]+(sortK===c[0]?(sortD>0?" ▲":" ▼"):"")+"</th>"}).join("")+"<th></th>";
+ $("th").querySelectorAll("th[data-k]").forEach(function(t){t.onclick=function(){var k=t.dataset.k;if(sortK===k)sortD=-sortD;else{sortK=k;sortD=-1}render()}});
+ if(!rows.length){$("tb").innerHTML='<tr><td colspan="12" class="empty">Sin alumnos para mostrar</td></tr>';$("cards").innerHTML='<div class="empty">Sin alumnos para mostrar</div>';return}
+ $("tb").innerHTML=rows.map(function(s){var w=waLink(s.wa);return"<tr><td><b>"+esc(s.nombre+" "+s.apellido)+"</b></td><td>"+esc(s.wa)+'</td><td>'+(s.nVistas||0)+"/16</td><td><span class='pg'><i style='width:"+(s.avance||0)+"%'></i></span>"+(s.avance||0)+"%</td><td>"+grade(s.m1)+"</td><td>"+grade(s.m2)+"</td><td>"+grade(s.m3)+"</td><td>"+grade(s.m4)+"</td><td>"+(s.aprobados||0)+"/4</td><td>"+(s.cert==="Sí"?'<span class="pill ok">Sí</span>':'<span class="pill no">No</span>')+"</td><td>"+esc(s.ultimo)+"</td><td>"+(w?'<a class="wa" target="_blank" rel="noopener" href="'+w+'">WhatsApp</a>':"")+"</td></tr>"}).join("");
+ $("cards").innerHTML=rows.map(function(s){var w=waLink(s.wa);return'<div class="card"><h3>'+esc(s.nombre+" "+s.apellido)+'</h3><div class="r">Clases vistas<b>'+(s.nVistas||0)+'/16 · '+(s.avance||0)+'%</b></div><div class="r">Cuestionarios<b>'+[s.m1,s.m2,s.m3,s.m4].map(function(v){return v===""||v==null?"—":v+"%"}).join(" · ")+'</b></div><div class="r">Aprobados<b>'+(s.aprobados||0)+'/4</b></div><div class="r">Certificado<b>'+(s.cert==="Sí"?"Sí":"No")+'</b></div><div class="r">Último acceso<b>'+esc(s.ultimo)+'</b></div>'+(w?'<a class="wa" style="display:block;text-align:center;margin-top:8px;padding:10px" target="_blank" rel="noopener" href="'+w+'">Escribir por WhatsApp</a>':"")+"</div>"}).join("")}
+function tryPin(p){$("err").textContent="";load(p,function(j){if(j&&j.ok){pin=p;try{sessionStorage.setItem("ga_pin",p)}catch(e){}enter(j)}else{try{sessionStorage.removeItem("ga_pin")}catch(e){}$("err").textContent=j&&j.error==="net"?"No se pudo conectar. Probá de nuevo.":"PIN incorrecto"}})}
+$("go").onclick=function(){tryPin($("pin").value.trim())};$("pin").onkeydown=function(e){if(e.key==="Enter")$("go").click()};
+$("q").oninput=render;$("f").onchange=render;
+$("ref").onclick=function(){load(pin,function(j){if(j&&j.ok){data=j.students||[];render()}})};
+$("out").onclick=function(){try{sessionStorage.removeItem("ga_pin")}catch(e){}location.reload()};
+try{var sp=sessionStorage.getItem("ga_pin");if(sp)tryPin(sp)}catch(e){}
+</script></body></html>
