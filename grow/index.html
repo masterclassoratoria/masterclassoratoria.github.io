@@ -666,13 +666,20 @@ a.dc:hover{background:rgba(229,9,20,.25);border-color:var(--red)}
 .awBox .btn{position:relative}
 #awm.big .awBox{border-color:#f1d58a;box-shadow:0 0 120px rgba(241,213,138,.35)}
 @media (prefers-reduced-motion:reduce){.awRays,.awPin{animation:none!important}}
+
+/* pines más definidos: sin resplandor, sombras tipo moneda */
+.pin,.pin.on{filter:drop-shadow(0 1px 1px rgba(0,0,0,.9)) drop-shadow(0 5px 5px rgba(0,0,0,.55))}
+.pin.lock{filter:grayscale(.9) brightness(.55) drop-shadow(0 1px 1px #000) drop-shadow(0 4px 4px rgba(0,0,0,.5))}
+.cpin .pin.lock{filter:grayscale(.5) brightness(.85) drop-shadow(0 1px 1px #000) drop-shadow(0 3px 4px rgba(0,0,0,.6))}
+.awPin .pin{filter:drop-shadow(0 2px 2px rgba(0,0,0,.9)) drop-shadow(0 14px 12px rgba(0,0,0,.6))}
+.mpi.got .pin,.pcI .pin.on,.pcM .pin.on{filter:drop-shadow(0 1px 1px rgba(0,0,0,.9)) drop-shadow(0 5px 5px rgba(0,0,0,.55))}
 </style>
 </head>
 <body>
 <nav class="nav" id="nav">
   <a class="brand" href="#inicio" aria-label="GROW Academy"><div class="logo"><span class="sky">GROW</span><span class="play">ACADEMY</span><small>ORATORIA Y COMUNICACIÓN</small></div></a>
   <div class="links">
-    <a href="#inicio">Inicio</a><a href="#ruta">Ruta</a><a href="#modulos">Módulos</a><a href="#cuestionarios">Cuestionarios</a><a href="#vocabulario">Vocabulario</a>
+    <a href="#inicio">Inicio</a><a href="#ruta">Ruta</a><a href="#modulos">Módulos</a><a href="#cuestionarios">Cuestionarios</a><a href="#vocabulario">Vocabulario</a><a href="#pines">Pines</a>
   </div>
   <div class="navR">
     <div class="search" id="search">
@@ -844,13 +851,13 @@ function render(){
   }
   h+=dash(doneN,P);
   h+=certBox();
-  h+=pinsSection();
   const cont=VIDEOS.filter(v=>!ST.done[v.id] && (ST.p[v.id]||0)>3);
   if(cont.length) h+=row("seguir","Seguir viendo","Retomá donde quedaste",cont.map(card).join(""));
   h+=row("ruta","Ruta del alumno",`Las ${TOTAL} clases en el orden recomendado`,VIDEOS.map(rank).join(""));
   h+=modules();
   h+=quizSection();
   h+=vocabSection();
+  h+=pinsSection();
   $("#main").innerHTML=h; bindVocab(); bindCert(); bind(); hero(); fx();
 }
 function bind(){
@@ -1276,45 +1283,48 @@ function charge(n,cx,cy,fill){
 }
 function gemG(sh,gid,cx,cy,sc){
   let g;
-  if(sh===1) g=`<polygon points="50,24 74,37 74,63 50,76 26,63 26,37" fill="url(#${gid})"/><polygon points="50,24 74,37 50,50 26,37" fill="#fff" opacity=".35"/><path d="M26 37 50 50 74 37M50 50v26" stroke="#fff" stroke-opacity=".5" fill="none"/>`;
-  else if(sh===2) g=`<circle cx="50" cy="50" r="26" fill="url(#${gid})"/><circle cx="50" cy="50" r="13" fill="#fff" opacity=".22"/><path d="M50 24v52M24 50h52M32 32l36 36M68 32 32 68" stroke="#fff" stroke-opacity=".4"/><ellipse cx="41" cy="37" rx="7" ry="4" fill="#fff" opacity=".75" transform="rotate(-30 41 37)"/>`;
-  else g=`<polygon points="24,40 37,24 63,24 76,40 50,80" fill="url(#${gid})"/><polygon points="37,24 63,24 69,40 31,40" fill="#fff" opacity=".3"/><path d="M24 40h52M37 24l13 16 13-16M31 40l19 40 19-40" stroke="#fff" stroke-opacity=".55" fill="none"/><ellipse cx="42" cy="32" rx="6" ry="3" fill="#fff" opacity=".9"/>`;
+  if(sh===1) g=`<polygon points="50,24 74,37 74,63 50,76 26,63 26,37" fill="url(#${gid})" stroke="#000" stroke-opacity=".6" stroke-width="2.2" stroke-linejoin="round"/><polygon points="50,24 74,37 50,50 26,37" fill="#fff" opacity=".35"/><path d="M26 37 50 50 74 37M50 50v26" stroke="#fff" stroke-opacity=".5" fill="none"/>`;
+  else if(sh===2) g=`<circle cx="50" cy="50" r="26" fill="url(#${gid})" stroke="#000" stroke-opacity=".6" stroke-width="2.2"/><circle cx="50" cy="50" r="13" fill="#fff" opacity=".22"/><path d="M50 24v52M24 50h52M32 32l36 36M68 32 32 68" stroke="#fff" stroke-opacity=".4"/><ellipse cx="41" cy="37" rx="7" ry="4" fill="#fff" opacity=".75" transform="rotate(-30 41 37)"/>`;
+  else g=`<polygon points="24,40 37,24 63,24 76,40 50,80" fill="url(#${gid})" stroke="#000" stroke-opacity=".6" stroke-width="2.2" stroke-linejoin="round"/><polygon points="37,24 63,24 69,40 31,40" fill="#fff" opacity=".3"/><path d="M24 40h52M37 24l13 16 13-16M31 40l19 40 19-40" stroke="#fff" stroke-opacity=".55" fill="none"/><ellipse cx="42" cy="32" rx="6" ry="3" fill="#fff" opacity=".7"/>`;
   return `<g transform="translate(${cx} ${cy}) scale(${sc}) translate(-50 -50)">${g}</g>`;
 }
 function pinSVG2(d,size,earned){
   const id="pn"+(_pid++), mod=d.kind!=="class", bd=d.kind==="bd", big=size>=48;
-  const M=d.metal, Ml=mixHex(M,"#ffffff",.55), Md=mixHex(M,"#000000",.45), Mdd=mixHex(M,"#000000",.7);
-  const cx=50, cy=mod?63:50, R=mod?36:48, k=R/48;
-  const fa=bd?"#2a2830":mixHex(d.c1,d.c2,.15), fb=bd?"#000000":mixHex(d.c2,"#000000",.35);
-  // rayos grabados
-  let rays=""; for(let i=0;i<72;i++){const a=i*5*Math.PI/180,r1=14*k,r2=(i%2?31:34)*k;rays+=`M${(cx+Math.sin(a)*r1).toFixed(1)} ${(cy-Math.cos(a)*r1).toFixed(1)}L${(cx+Math.sin(a)*r2).toFixed(1)} ${(cy-Math.cos(a)*r2).toFixed(1)}`;}
-  // textos en el borde
+  const M=d.metal, Mh=mixHex(M,"#ffffff",.7), Ml=mixHex(M,"#ffffff",.3), Md=mixHex(M,"#000000",.4), Mx=mixHex(M,"#000000",.62), Mdd=mixHex(M,"#000000",.78);
+  const cx=50, cy=mod?60:49, R=mod?36:45.5, k=R/48;
+  const fa=bd?"#33313a":mixHex(d.c1,d.c2,.25), fb=bd?"#000000":mixHex(d.c2,"#000000",.5);
+  const pt=(r,t)=>{const a=t*Math.PI/180;return [(cx+Math.sin(a)*r).toFixed(1),(cy-Math.cos(a)*r).toFixed(1)];};
+  const arc=(r,t1,t2)=>{const A=pt(r,t1),B=pt(r,t2);return `M${A[0]} ${A[1]}A${r} ${r} 0 0 1 ${B[0]} ${B[1]}`;};
+  let rays=""; for(let i=0;i<72;i++){const a=i*5*Math.PI/180,r1=14*k,r2=(i%2?30:33.5)*k;rays+=`M${(cx+Math.sin(a)*r1).toFixed(1)} ${(cy-Math.cos(a)*r1).toFixed(1)}L${(cx+Math.sin(a)*r2).toFixed(1)} ${(cy-Math.cos(a)*r2).toFixed(1)}`;}
   let txt="";
   if(big){
-    const rt=R*.87, rb=R*.97, fs=(R*.115).toFixed(2), top="CASA "+d.name.toUpperCase();
+    const rt=R*.87, rb=R*.97, fs=(R*.118).toFixed(2), top="CASA "+d.name.toUpperCase();
     txt=`<path id="${id}t" fill="none" d="M${cx-rt} ${cy}a${rt} ${rt} 0 0 1 ${rt*2} 0"/><path id="${id}b" fill="none" d="M${cx-rb} ${cy}a${rb} ${rb} 0 0 0 ${rb*2} 0"/>
-    <g font-family="Cinzel,Georgia,serif" font-weight="700" font-size="${fs}" fill="${Mdd}" letter-spacing=".5"><text text-anchor="middle"><textPath href="#${id}t" startOffset="50%">${top}</textPath></text><text text-anchor="middle"><textPath href="#${id}b" startOffset="50%">GROW ACADEMY</textPath></text></g>`;
+    <g font-family="Cinzel,Georgia,serif" font-weight="700" font-size="${fs}" letter-spacing=".5"><g fill="${Mh}" opacity=".7" transform="translate(.35 .45)"><text text-anchor="middle"><textPath href="#${id}t" startOffset="50%">${top}</textPath></text><text text-anchor="middle"><textPath href="#${id}b" startOffset="50%">GROW ACADEMY</textPath></text></g><g fill="${Mdd}"><text text-anchor="middle"><textPath href="#${id}t" startOffset="50%">${top}</textPath></text><text text-anchor="middle"><textPath href="#${id}b" startOffset="50%">GROW ACADEMY</textPath></text></g></g>`;
   }
-  // piedras
   let gems="";
   const gsc=(mod?.52:.46)*k*1.4;
-  if(mod&&!bd||bd){ for(let i=0;i<8;i++){const a=i*45*Math.PI/180+Math.PI/8,gx=cx+Math.sin(a)*24*k,gy=cy-Math.cos(a)*24*k;gems+=`<circle cx="${gx.toFixed(1)}" cy="${gy.toFixed(1)}" r="${(2.6*k+.4).toFixed(1)}" fill="${d.c1}" stroke="${M}" stroke-width=".8"/><circle cx="${(gx-.7).toFixed(1)}" cy="${(gy-.8).toFixed(1)}" r=".8" fill="#fff" opacity=".9"/>`;} }
-  const bez=`<circle cx="${cx}" cy="${cy}" r="${(15*k).toFixed(1)}" fill="url(#${id}m)"/><circle cx="${cx}" cy="${cy}" r="${(12.6*k).toFixed(1)}" fill="${Mdd}"/>`;
-  const crown=mod?`<path d="M28 22L25 5l12 8 6-11 7 9 7-9 6 11 12-8-3 17z" fill="url(#${id}m)" stroke="${Md}" stroke-width=".6"/><rect x="27" y="19" width="46" height="6" rx="2" fill="url(#${id}m)" stroke="${Md}" stroke-width=".6"/><circle cx="37" cy="22" r="2.1" fill="${d.c1}"/><circle cx="50" cy="22" r="2.5" fill="${d.c1}"/><circle cx="63" cy="22" r="2.1" fill="${d.c1}"/><circle cx="25" cy="4.5" r="2" fill="${Ml}"/><circle cx="50" cy="1.8" r="2" fill="${Ml}"/><circle cx="75" cy="4.5" r="2" fill="${Ml}"/>`:"";
-  const stars=bd?`<g fill="#fff"><polygon transform="translate(${cx-8} ${cy+22*k})" points="0,-3.4 1,-1 3.4,-1 1.5,.6 2.1,3 0,1.6 -2.1,3 -1.5,.6 -3.4,-1 -1,-1"/><polygon transform="translate(${cx} ${cy+24*k})" points="0,-3.4 1,-1 3.4,-1 1.5,.6 2.1,3 0,1.6 -2.1,3 -1.5,.6 -3.4,-1 -1,-1"/><polygon transform="translate(${cx+8} ${cy+22*k})" points="0,-3.4 1,-1 3.4,-1 1.5,.6 2.1,3 0,1.6 -2.1,3 -1.5,.6 -3.4,-1 -1,-1"/></g>`:"";
-  return `<span class="pin ${earned?"on":"lock"} ${mod?"pm":""}" style="--s:${size}px;--g:${bd?"#ffffff":d.c1}"><svg viewBox="0 0 100 100" aria-hidden="true"><defs>
-   <linearGradient id="${id}m" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".22" stop-color="${Ml}"/><stop offset=".5" stop-color="${M}"/><stop offset=".72" stop-color="${Md}"/><stop offset=".88" stop-color="${Ml}"/><stop offset="1" stop-color="${Md}"/></linearGradient>
-   <radialGradient id="${id}f" cx=".4" cy=".35" r=".85"><stop offset="0" stop-color="${fa}"/><stop offset="1" stop-color="${fb}"/></radialGradient>
+  if(mod){ for(let i=0;i<8;i++){const a=i*45*Math.PI/180+Math.PI/8,gx=cx+Math.sin(a)*24*k,gy=cy-Math.cos(a)*24*k;gems+=`<circle cx="${(gx+.5).toFixed(1)}" cy="${(gy+.9).toFixed(1)}" r="${(2.7*k+.5).toFixed(1)}" fill="#000" opacity=".5"/><circle cx="${gx.toFixed(1)}" cy="${gy.toFixed(1)}" r="${(2.7*k+.5).toFixed(1)}" fill="${d.c1}" stroke="${Mx}" stroke-width=".9"/><circle cx="${(gx-.7).toFixed(1)}" cy="${(gy-.8).toFixed(1)}" r=".7" fill="#fff" opacity=".8"/>`;} }
+  const bez=`<circle cx="${cx+.6}" cy="${cy+1.2}" r="${(15*k).toFixed(1)}" fill="#000" opacity=".45"/><circle cx="${cx}" cy="${cy}" r="${(15*k).toFixed(1)}" fill="url(#${id}m)" stroke="${Mdd}" stroke-width=".9"/><circle cx="${cx}" cy="${cy}" r="${(12*k).toFixed(1)}" fill="${Mdd}"/>`;
+  const crown=mod?`<path d="M28 22L25 5l12 8 6-11 7 9 7-9 6 11 12-8-3 17z" fill="url(#${id}m)" stroke="${Mdd}" stroke-width="1"/><rect x="27" y="19" width="46" height="6" rx="2" fill="url(#${id}m)" stroke="${Mdd}" stroke-width="1"/><circle cx="37" cy="22" r="2.1" fill="${d.c1}" stroke="${Mdd}" stroke-width=".6"/><circle cx="50" cy="22" r="2.5" fill="${d.c1}" stroke="${Mdd}" stroke-width=".6"/><circle cx="63" cy="22" r="2.1" fill="${d.c1}" stroke="${Mdd}" stroke-width=".6"/><circle cx="25" cy="4.5" r="2" fill="${Ml}" stroke="${Mdd}" stroke-width=".6"/><circle cx="50" cy="1.8" r="2" fill="${Ml}" stroke="${Mdd}" stroke-width=".6"/><circle cx="75" cy="4.5" r="2" fill="${Ml}" stroke="${Mdd}" stroke-width=".6"/>`:"";
+  const star=`<polygon points="0,-3.4 1,-1 3.4,-1 1.5,.6 2.1,3 0,1.6 -2.1,3 -1.5,.6 -3.4,-1 -1,-1"`;
+  const stars=bd?`<g fill="#fff" stroke="#000" stroke-width=".4"><g transform="translate(${cx-8} ${cy+22*k})">${star}/></g><g transform="translate(${cx} ${cy+24*k})">${star}/></g><g transform="translate(${cx+8} ${cy+22*k})">${star}/></g></g>`:"";
+  const rf=R*.755;
+  return `<span class="pin ${earned?"on":"lock"} ${mod?"pm":""}" style="--s:${size}px"><svg viewBox="0 0 100 100" aria-hidden="true"><defs>
+   <linearGradient id="${id}m" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${Mh}"/><stop offset=".22" stop-color="${M}"/><stop offset=".48" stop-color="${Md}"/><stop offset=".7" stop-color="${M}"/><stop offset=".86" stop-color="${Ml}"/><stop offset="1" stop-color="${Md}"/></linearGradient>
+   <linearGradient id="${id}r" x1="1" y1="1" x2="0" y2="0"><stop offset="0" stop-color="${Mh}"/><stop offset=".3" stop-color="${M}"/><stop offset=".62" stop-color="${Md}"/><stop offset="1" stop-color="${Mx}"/></linearGradient>
+   <radialGradient id="${id}f" cx=".35" cy=".3" r=".95"><stop offset="0" stop-color="${fa}"/><stop offset="1" stop-color="${fb}"/></radialGradient>
    <linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${d.c1}"/><stop offset="1" stop-color="${d.c2}"/></linearGradient></defs>
-   
-   <circle cx="${cx}" cy="${cy}" r="${R}" fill="url(#${id}m)"/>
-   <circle cx="${cx}" cy="${cy}" r="${(R-.9).toFixed(1)}" fill="none" stroke="${Md}" stroke-width=".9" stroke-dasharray="1 1.1" opacity=".7"/>
-   <circle cx="${cx}" cy="${cy}" r="${(R*.8).toFixed(1)}" fill="url(#${id}m)"/>
-   <circle cx="${cx}" cy="${cy}" r="${(R*.755).toFixed(1)}" fill="url(#${id}f)" stroke="${Md}" stroke-width=".8"/>
-   <path d="${rays}" stroke="${Ml}" stroke-opacity=".38" stroke-width=".55" fill="none"/>
-   <circle cx="${cx}" cy="${cy}" r="${(34*k).toFixed(1)}" fill="none" stroke="${Ml}" stroke-opacity=".45" stroke-width=".7"/>
-   <circle cx="${cx}" cy="${cy}" r="${(30*k).toFixed(1)}" fill="none" stroke="${Ml}" stroke-opacity=".3" stroke-width=".5"/>
-   ${txt}${gems}${bez}${gemG(d.shape,id+"g",cx,cy,gsc)}${stars}${mod?crown:""}
+   <circle cx="${cx+.8}" cy="${cy+2.2}" r="${R}" fill="${Mdd}"/>
+   <circle cx="${cx}" cy="${cy}" r="${R}" fill="url(#${id}m)" stroke="${Mdd}" stroke-width="1.3"/>
+   <path d="${arc(R-1.8,250,40)}" stroke="${Mh}" stroke-opacity=".85" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="${arc(R-1.8,70,215)}" stroke="#000" stroke-opacity=".4" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+   <circle cx="${cx}" cy="${cy}" r="${(R*.8).toFixed(1)}" fill="url(#${id}r)" stroke="${Mdd}" stroke-width="1"/>
+   <circle cx="${cx}" cy="${cy}" r="${rf.toFixed(1)}" fill="url(#${id}f)" stroke="${Mdd}" stroke-width="1.7"/>
+   <path d="${arc(rf-1.2,200,350)}" stroke="#000" stroke-opacity=".55" stroke-width="1.6" fill="none"/><path d="${arc(rf-1.2,20,160)}" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" fill="none"/>
+   <path d="${rays}" stroke="#000" stroke-opacity=".45" stroke-width=".6" fill="none"/><path d="${rays}" transform="translate(.45 .5)" stroke="${Mh}" stroke-opacity=".45" stroke-width=".5" fill="none"/>
+   <circle cx="${cx}" cy="${cy}" r="${(33*k).toFixed(1)}" fill="none" stroke="${Mdd}" stroke-opacity=".7" stroke-width=".8"/>
+   <circle cx="${cx}" cy="${cy}" r="${(29.5*k).toFixed(1)}" fill="none" stroke="${Mh}" stroke-opacity=".4" stroke-width=".6"/>
+   ${txt}${gems}${bez}${gemG(d.shape,id+"g",cx,cy,gsc)}${stars}${crown}
    </svg></span>`;
 }
 function cPin(v,withLabel){
