@@ -571,6 +571,45 @@ a.dc:hover{background:rgba(229,9,20,.25);border-color:var(--red)}
 #toast.show{transform:translate(-50%,0);opacity:1}
 #confetti{position:fixed;inset:0;z-index:9999;pointer-events:none}
 @media (prefers-reduced-motion:reduce){.heroIn>*,.stats .stat,.certBox::after,.eb.nx,.dMain h2 .lv,.heroIn .btn.play::after{animation:none!important}.rv{opacity:1;transform:none}}
+
+/* ---- Rangos: Bronce → Black Diamond ---- */
+.ladder{grid-column:1/-1;display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding-top:6px;border-top:1px solid rgba(255,255,255,.08);position:relative}
+.tr{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;opacity:.38;transition:.3s}
+.tr small{font-size:11.5px;font-weight:700;color:#cfc8cb;line-height:1.2}
+.tr .gw{display:block;width:34px;height:34px;filter:grayscale(1) brightness(.6)}
+.gem{display:block;width:100%;height:100%;clip-path:polygon(50% 0,100% 36%,50% 100%,0 36%);background:linear-gradient(135deg,#fff8,var(--tc) 40%,#0006)}
+.tr.on{opacity:1}
+.tr.on .gw{filter:drop-shadow(0 0 9px var(--tc))}
+.tr.on small{color:#fff}
+.tr.cur .gw{animation:bob 2.2s ease-in-out infinite;transform:scale(1.25)}
+.tr.cur small{color:var(--tc);font-size:12.5px}
+.gem.g5{background:linear-gradient(135deg,#3a3640,#000 45%,#2a2630 70%,#000)}
+.tr:last-child .gw{filter:grayscale(1) brightness(.6)}
+.tr.on:last-child .gw{filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 10px rgba(255,255,255,.85))}
+.lnote{grid-column:1/-1;font-size:12.5px;color:#a9a3a6;line-height:1.5;margin-top:-4px}
+.lnote b{color:#fff}
+.dash.bd{background:radial-gradient(520px 260px at 0% 0%,rgba(255,255,255,.12),transparent 70%),linear-gradient(120deg,#000,#0c0b0e 70%);border-color:#d9b35e;box-shadow:0 0 0 1px rgba(255,241,196,.25),0 20px 70px rgba(255,255,255,.12)}
+.dash.bd .dRing .v{stroke:#fff1c4;filter:drop-shadow(0 0 10px rgba(255,241,196,.9))}
+.dash.bd .dMain small{color:#f1d58a}
+.dash.bd .dMain h2{background:linear-gradient(90deg,#fff,#f1d58a,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+@media (max-width:760px){.ladder{grid-template-columns:repeat(3,1fr);row-gap:14px}}
+
+.certBox.bd{background:radial-gradient(500px 240px at 0% 0%,rgba(255,255,255,.14),transparent 70%),linear-gradient(115deg,#000,#1b0a10 62%)!important;border-color:#f1d58a!important}
+.certBox.bd .cPrev{background:radial-gradient(circle at 50% 30%,#2a2630,#000 72%)}
+
+#bdm{position:fixed;inset:0;z-index:10001;display:none;align-items:center;justify-content:center;padding:20px;background:radial-gradient(700px 500px at 50% 40%,rgba(255,255,255,.14),transparent 70%),rgba(0,0,0,.93)}
+#bdm.show{display:flex;animation:fadeIn .5s both}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.bdBox{max-width:520px;text-align:center;padding:40px 30px;border-radius:24px;border:1px solid #d9b35e;background:linear-gradient(180deg,#0c0b0e,#000);box-shadow:0 0 80px rgba(255,241,196,.25);animation:up .7s .1s both}
+.bdBox small{font-size:11px;font-weight:800;letter-spacing:.22em;color:#f1d58a}
+.bdBox h2{font-size:clamp(26px,5vw,38px);margin:8px 0 12px;font-weight:900;background:linear-gradient(90deg,#fff,#f1d58a,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.bdBox p{color:#cfc8cb;font-size:15px;line-height:1.55;margin-bottom:22px}
+.bdBox .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.bdGem{width:110px;height:110px;margin:0 auto 18px;filter:drop-shadow(0 0 22px rgba(255,255,255,.8));animation:bob 2.4s ease-in-out infinite}
+.bdGem i{display:block;width:100%;height:100%;clip-path:polygon(50% 0,100% 36%,50% 100%,0 36%);background:linear-gradient(135deg,#4a4650,#000 40%,#2c2832 62%,#000);position:relative}
+.bdGem i::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);transform:translateX(-120%);animation:shine 3s ease-in-out infinite}
+
+.dash.bd .dMain h2 .lv{-webkit-text-fill-color:initial;color:initial}
 </style>
 </head>
 <body>
@@ -922,9 +961,11 @@ function pick(i){
 }
 function result(){
   const p=Math.round(Q.ok/Q.qs.length*100), pass=p>=PASS;
-  const prevQ=ST.quiz[Q.cat]||0, prevA=aprobados();
+  const prevQ=ST.quiz[Q.cat]||0, prevA=aprobados(), tb=tier(pts());
   ST.quiz[Q.cat]=Math.max(ST.quiz[Q.cat]||0,p); save();
-  if(pass&&prevQ<PASS){ if(aprobados()===MODS.length&&prevA<MODS.length) celebrate("🎓 ¡Desbloqueaste tu certificado!",true); else celebrate("🏅 ¡Módulo aprobado!",true); }
+  { const ta=tier(pts());
+    if(ta.n!==tb.n) tierUp(tb,ta);
+    else if(pass&&prevQ<PASS){ if(aprobados()===MODS.length&&prevA<MODS.length) celebrate("🎓 ¡Desbloqueaste tu certificado!",true); else celebrate("🏅 ¡Módulo aprobado! +3 puntos",true); } }
   send("cuestionario","Módulo "+Q.cat+" · "+CATS[Q.cat].name,p);
   $("#qCount").textContent="Resultado";
   const vids=VIDEOS.filter(v=>String(v.cat)===Q.cat);
@@ -954,8 +995,8 @@ function send(tipo,detalle,valor){
   try{fetch(API,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body,keepalive:true}).catch(()=>{});}catch(e){}
 }
 function doneCount(){return VIDEOS.filter(v=>ST.done[v.id]).length;}
-function markDone(v){ if(!ST.done[v.id]){ const b=level(doneCount()); ST.done[v.id]=1; save(); send("clase vista",`${v.n}. ${v.t}`);
-  const a=level(doneCount()); if(a.n!==b.n) celebrate(`Subiste de nivel: ${a.e} ${a.n}`,true); else celebrate(`✓ Clase ${v.n} completada`); } }
+function markDone(v){ if(!ST.done[v.id]){ const b=tier(pts()); ST.done[v.id]=1; save(); send("clase vista",`${v.n}. ${v.t}`);
+  tierUp(b,tier(pts()),`✓ Clase ${v.n} completada · +1 punto`); } }
 function who(){ $("#who").innerHTML=ST.user?`Hola, <b>${esc(ST.user.nombre)}</b><button id="whoX" title="Editar mis datos">editar</button>`:""; const x=$("#whoX"); if(x) x.onclick=()=>{ $("#rN").value=ST.user.nombre; $("#rA").value=ST.user.apellido||""; $("#rW").value=ST.user.wa||""; $("#reg").classList.add("show"); }; }
 $("#regF").addEventListener("submit",e=>{
   e.preventDefault();
@@ -992,17 +1033,17 @@ function bindVocab(){
 
 // ---- certificado ----
 function certBox(){
-  const a=aprobados(), ok=a===MODS.length;
+  const a=aprobados(), ok=a===MODS.length, bd=isBD();
   const dots=MODS.map(k=>`<i class="${(ST.quiz[k]||0)>=80?"on":""}"></i>`).join("");
-  return `<div class="certBox ${ok?"":"lock"}"><div class="cPrev"><div class="cp"><small>GROW ACADEMY</small><b>CERTIFICADO</b><u></u><em>ORADOR GROW</em></div></div>
-   <div class="cInfo"><h2>${ok?"¡Ya sos Orador GROW!":"Tu certificado Orador GROW"}</h2>
+  return `<div class="certBox ${ok?"":"lock"} ${bd?"bd":""}"><div class="cPrev"><div class="cp"><small>GROW ACADEMY</small><b>CERTIFICADO</b><u></u><em>${bd?"BLACK DIAMOND":"ORADOR GROW"}</em></div></div>
+   <div class="cInfo"><h2>${bd?"¡Sos Orador Black Diamond!":ok?"¡Ya sos Orador GROW!":"Tu certificado Orador GROW"}</h2>
    <p>${ok?"Aprobaste los 4 cuestionarios. Descargá tu certificado y compartilo.":`Aprobá los 4 cuestionarios para desbloquearlo · llevás ${a}/4`}</p><div class="cDots">${dots}</div></div>
    <div class="btns">${ok?`<button class="btn play" id="certPng">⬇ Descargar certificado</button>`:`<a class="btn info" href="#cuestionarios">Ir a los cuestionarios</a>`}</div></div>`;
 }
 function bindCert(){ const b=$("#certPng"); if(b) b.onclick=()=>makeCert(); }
 function nombreCompleto(){ return (ST.user.nombre+" "+(ST.user.apellido||"")).trim(); }
-async function makeCert(nameOverride,noDownload){
-  const NAME=nameOverride||nombreCompleto();
+async function makeCert(nameOverride,noDownload,forceBD){
+  const NAME=nameOverride||nombreCompleto(); const BD=forceBD||(!nameOverride&&isBD());
   const W=2400,H=1697,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");
   try{await Promise.all(["700 90px Cinzel","500 30px Cinzel","italic 500 50px 'Cormorant Garamond'","700 140px 'Cormorant Garamond'","500 46px 'Cormorant Garamond'"].map(f=>document.fonts.load(f)));}catch(e){}
   const SER="'Cormorant Garamond', Georgia, serif", CIN="Cinzel, 'Cormorant Garamond', Georgia, serif";
@@ -1039,10 +1080,13 @@ async function makeCert(nameOverride,noDownload){
   x.strokeStyle=goldH(W/2-nw/2,W/2+nw/2);x.lineWidth=3;x.beginPath();x.moveTo(W/2-nw/2,925);x.lineTo(W/2+nw/2,925);x.stroke();
   x.font=`500 46px ${SER}`;x.fillStyle="#f0dfc0";
   x.fillText("por haber completado con éxito el Taller Intensivo de Oratoria Profesional",W/2,1020);
-  x.fillText("y aprobado las cuatro evaluaciones del programa de formación de GROW Academy.",W/2,1080);
-  spaced("ORADOR GROW",1205,`700 64px ${CIN}`,gold(1150,1210),12);
-  x.strokeStyle=goldH(W/2-560,W/2-300);x.lineWidth=2;x.beginPath();x.moveTo(W/2-560,1183);x.lineTo(W/2-300,1183);x.stroke();
-  x.strokeStyle=goldH(W/2+300,W/2+560);x.beginPath();x.moveTo(W/2+300,1183);x.lineTo(W/2+560,1183);x.stroke();
+  x.fillText(BD?"y alcanzado el 100 % del programa: todas las clases vistas y los cuatro cuestionarios aprobados.":"y aprobado las cuatro evaluaciones del programa de formación de GROW Academy.",W/2,1080);
+  const TT=BD?"ORADOR BLACK DIAMOND":"ORADOR GROW", tsz=BD?58:64;
+  spaced(TT,1205,`700 ${tsz}px ${CIN}`,gold(1150,1210),BD?10:12);
+  x.font=`700 ${tsz}px ${CIN}`; if("letterSpacing" in x)x.letterSpacing=(BD?10:12)+"px"; const tw=x.measureText(TT).width; if("letterSpacing" in x)x.letterSpacing="0px";
+  const l0=tw/2+50;
+  x.strokeStyle=goldH(W/2-l0-260,W/2-l0);x.lineWidth=2;x.beginPath();x.moveTo(W/2-l0-260,1183);x.lineTo(W/2-l0,1183);x.stroke();
+  x.strokeStyle=goldH(W/2+l0,W/2+l0+260);x.beginPath();x.moveTo(W/2+l0,1183);x.lineTo(W/2+l0+260,1183);x.stroke();
   const f=new Date().toLocaleDateString("es-PY",{day:"numeric",month:"long",year:"numeric"});
   const num="GROW-"+new Date().getFullYear()+"-"+((ST.user&&ST.user.uid)||"TEST").replace(/[^a-z0-9]/gi,"").slice(-6).toUpperCase();
   const foot=(cx,val,lab)=>{x.font=`500 40px ${SER}`;x.fillStyle="#fdf1d8";x.fillText(val,cx,1420);
@@ -1053,19 +1097,19 @@ async function makeCert(nameOverride,noDownload){
   const sx=W/2,sy=1430,R=118;
   x.save();x.translate(sx,sy);
   for(let i=0;i<48;i++){x.rotate(Math.PI*2/48);x.fillStyle=gold(-R-14,R+14);x.beginPath();x.moveTo(0,-R-16);x.lineTo(7,-R+2);x.lineTo(-7,-R+2);x.closePath();x.fill();}
-  g=x.createRadialGradient(-30,-40,10,0,0,R);g.addColorStop(0,"#fff1c4");g.addColorStop(.55,"#dcb762");g.addColorStop(1,"#8a6420");
+  g=x.createRadialGradient(-30,-40,10,0,0,R);if(BD){g.addColorStop(0,"#5a5560");g.addColorStop(.5,"#1a1619");g.addColorStop(1,"#000000");}else{g.addColorStop(0,"#fff1c4");g.addColorStop(.55,"#dcb762");g.addColorStop(1,"#8a6420");}
   x.fillStyle=g;x.beginPath();x.arc(0,0,R,0,Math.PI*2);x.fill();
-  x.strokeStyle="#7a5a1c";x.lineWidth=2;x.beginPath();x.arc(0,0,R-14,0,Math.PI*2);x.stroke();
+  x.strokeStyle=BD?"#d9b35e":"#7a5a1c";x.lineWidth=2;x.beginPath();x.arc(0,0,R-14,0,Math.PI*2);x.stroke();
   x.beginPath();x.arc(0,0,R-50,0,Math.PI*2);x.stroke();
-  x.fillStyle="#4a0d1b";x.font=`700 19px ${CIN}`;x.textBaseline="middle";
-  const ring="GROW ACADEMY  ★  ORADOR GROW  ★  ";const step=Math.PI*2/ring.length;
+  x.fillStyle=BD?"#f1d58a":"#4a0d1b";x.font=`700 19px ${CIN}`;x.textBaseline="middle";
+  const ring=BD?"GROW ACADEMY  ★  BLACK DIAMOND  ★  ":"GROW ACADEMY  ★  ORADOR GROW  ★  ";const step=Math.PI*2/ring.length;
   for(let i=0;i<ring.length;i++){x.save();x.rotate(i*step-Math.PI/2+step/2);x.translate(0,-(R-32));x.fillText(ring[i],0,0);x.restore();}
   x.font=`700 34px ${CIN}`;x.fillText("GROW",0,-4);x.font=`500 15px ${CIN}`;x.fillText("★ ★ ★",0,26);
   x.restore();x.textBaseline="alphabetic";
   if(noDownload) return c;
-  const a=document.createElement("a");a.download=`Certificado-Orador-GROW-${NAME.replace(/\s+/g,"-")}.png`;
+  const a=document.createElement("a");a.download=`Certificado-${BD?"Orador-Black-Diamond":"Orador-GROW"}-${NAME.replace(/\s+/g,"-")}.png`;
   c.toBlob(b=>{a.href=URL.createObjectURL(b);document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},2000);},"image/png");
-  if(!ST.cert){ST.cert=1;save();} send("certificado","Orador GROW","");
+  if(!ST.cert){ST.cert=1;save();} send("certificado",BD?"Orador Black Diamond":"Orador GROW","");
 }
 window.__makeCert=makeCert;
 
@@ -1082,20 +1126,37 @@ if(!ST.user) $("#reg").classList.add("show");
 
 
 // ---- gamificación y efectos ----
-const LEVELS=[{min:0,n:"Aprendiz",e:"🌱"},{min:3,n:"Voz en formación",e:"🎙️"},{min:6,n:"Orador en ruta",e:"🔥"},{min:10,n:"Orador con presencia",e:"⭐"},{min:14,n:"Líder de la palabra",e:"🏆"},{min:16,n:"Orador GROW",e:"👑"}];
-function level(n){let L=LEVELS[0];for(const l of LEVELS) if(n>=l.min) L=l; return L;}
+const MAXP=TOTAL+MODS.length*3;
+const TIERS=[{min:0,n:"Bronce",e:"🥉",c:"#cd7f32"},{min:5,n:"Plata",e:"🥈",c:"#d5dce6"},{min:10,n:"Oro",e:"🥇",c:"#f5c542"},{min:16,n:"Platino",e:"💠",c:"#7fe3ff"},{min:22,n:"Diamante",e:"💎",c:"#9ad8ff"},{min:MAXP,n:"Black Diamond",e:"🖤",c:"#ffffff"}];
+function pts(){let p=VIDEOS.filter(v=>ST.done[v.id]).length;MODS.forEach(k=>{const b=ST.quiz[k];if(b!=null)p+=b>=80?3:1;});return p;}
+function tier(p){let T=TIERS[0];for(const t of TIERS) if(p>=t.min) T=t; return T;}
+const isBD=()=>pts()>=MAXP;
 function dkey(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());}
 function touchDay(){ST.days=ST.days||[];const t=dkey(new Date());if(!ST.days.includes(t)){ST.days.push(t);ST.days=ST.days.slice(-60);save();}}
 function streak(){const S=new Set(ST.days||[]);let n=0;const d=new Date();while(S.has(dkey(d))){n++;d.setDate(d.getDate()-1);}return n;}
 function dash(doneN,P){
-  const L=level(doneN), nxt=LEVELS.find(l=>l.min>doneN), st=streak(), C=2*Math.PI*52;
-  const mins=Math.round(VIDEOS.filter(v=>ST.done[v.id]).reduce((a,v)=>a+v.d,0)/60);
+  const p=pts(), T=tier(p), nxt=TIERS.find(t=>t.min>p), st=streak(), C=2*Math.PI*52, bd=p>=MAXP;
   const medals=MODS.map(k=>{const ok=(ST.quiz[k]||0)>=80;return `<div class="medalM ${ok?"on":""}" style="--mc:${CATS[k].color}" title="${esc(CATS[k].name)}"><i>${ok?"★":"🔒"}</i><small>Módulo ${k}</small></div>`;}).join("");
-  return `<div class="dash"><div class="dRing"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="t"/><circle cx="60" cy="60" r="52" class="v" style="stroke-dasharray:${C};stroke-dashoffset:${C}" data-off="${C*(1-P/100)}"/></svg><div><b>${P}%</b><span>de la ruta</span></div></div>
-   <div class="dMain"><small>TU NIVEL</small><h2><span class="lv">${L.e}</span> ${L.n}</h2>
-   <p>${nxt?`Te faltan <b>${nxt.min-doneN}</b> clase${nxt.min-doneN===1?"":"s"} para ser <b>${nxt.n}</b>`:"¡Completaste toda la ruta! Ya sos Orador GROW."}</p>
-   <div class="dChips"><span class="dc">🔥 Racha <b>${st}</b> día${st===1?"":"s"}</span><span class="dc">▶ <b>${doneN}/${TOTAL}</b> clases</span><span class="dc">⏱ <b>${mins}</b> min vistos</span><a class="dc" href="#cuestionarios">✅ Cuestionarios <b>${aprobados()}/${MODS.length}</b></a></div></div>
+  const ladder=TIERS.map((t,i)=>`<div class="tr ${p>=t.min?"on":""} ${t===T?"cur":""}" style="--tc:${t.c}"><i class="gw"><b class="gem g${i}"></b></i><small>${t.n}</small></div>`).join("");
+  return `<div class="dash ${bd?"bd":""}"><div class="dRing"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="t"/><circle cx="60" cy="60" r="52" class="v" style="stroke-dasharray:${C};stroke-dashoffset:${C}" data-off="${C*(1-P/100)}"/></svg><div><b>${P}%</b><span>de la ruta</span></div></div>
+   <div class="dMain"><small>TU RANGO</small><h2><span class="lv">${T.e}</span> Orador ${T.n}</h2>
+   <p>${nxt?`Te faltan <b>${nxt.min-p}</b> punto${nxt.min-p===1?"":"s"} para ser <b>Orador ${nxt.n}</b>`:"¡Lo lograste todo! Sos <b>Orador Black Diamond</b>, la máxima distinción de GROW."}</p>
+   <div class="dChips"><span class="dc">🔥 Racha <b>${st}</b> día${st===1?"":"s"}</span><span class="dc">▶ <b>${doneN}/${TOTAL}</b> clases</span><span class="dc">💎 <b>${p}/${MAXP}</b> puntos</span><a class="dc" href="#cuestionarios">✅ Cuestionarios <b>${aprobados()}/${MODS.length}</b></a></div></div>
+   <div class="ladder">${ladder}</div>
+   <div class="lnote">Cada clase vista suma 1 punto · cada cuestionario aprobado suma 3 (intentarlo suma 1). Completá todo el taller para llegar a <b>Orador Black Diamond</b>.</div>
    <div class="dMedals">${medals}</div></div>`;
+}
+function tierUp(b,a,fallback){
+  if(a.n!==b.n){ if(a.n==="Black Diamond") blackDiamond(); else celebrate(`${a.e} ¡Subiste a Orador ${a.n}!`,true); return true; }
+  if(fallback) celebrate(fallback); return false;
+}
+function blackDiamond(){
+  let m=$("#bdm"); if(!m){m=document.createElement("div");m.id="bdm";document.body.appendChild(m);m.onclick=e=>{if(e.target===m||e.target.id==="bdKeep")m.classList.remove("show");};}
+  m.innerHTML=`<div class="bdBox"><div class="bdGem"><i></i></div><small>MÁXIMA DISTINCIÓN DE GROW</small><h2>Orador Black Diamond</h2>
+   <p>Completaste las 16 clases y aprobaste los 4 cuestionarios. Llegaste hasta el final del taller: eso es lo que separa a un orador del resto.</p>
+   <div class="btns"><button class="btn play" id="bdCert">⬇ Descargar mi certificado</button><button class="btn info" id="bdKeep">Seguir</button></div></div>`;
+  m.classList.add("show"); $("#bdCert").onclick=()=>{m.classList.remove("show");makeCert();};
+  if(!reduceMo()){confetti(240);setTimeout(()=>confetti(160),700);}
 }
 const reduceMo=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
 function fx(){
