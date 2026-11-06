@@ -673,6 +673,22 @@ a.dc:hover{background:rgba(229,9,20,.25);border-color:var(--red)}
 .cpin .pin.lock{filter:grayscale(.5) brightness(.85) drop-shadow(0 1px 1px #000) drop-shadow(0 3px 4px rgba(0,0,0,.6))}
 .awPin .pin{filter:drop-shadow(0 2px 2px rgba(0,0,0,.9)) drop-shadow(0 14px 12px rgba(0,0,0,.6))}
 .mpi.got .pin,.pcI .pin.on,.pcM .pin.on{filter:drop-shadow(0 1px 1px rgba(0,0,0,.9)) drop-shadow(0 5px 5px rgba(0,0,0,.55))}
+/* los pines no deben tapar el texto de las miniaturas de la lista de módulos (ya hay un botón "Pin ..." al lado) */
+.et .cpin{display:none!important}
+.rank .cpin{left:6px;bottom:5px}
+.rank .cpin .pin{--s:30px!important}
+/* ===== pines: escudos con emblema (estilo Rumbo) ===== */
+.pin.sh{height:calc(var(--s,40px)*1.1667)}
+.pin .brillo{animation:brillo 5.5s ease-in-out infinite}
+@keyframes brillo{0%,62%{transform:skewX(-20deg) translateX(0)}86%,100%{transform:skewX(-20deg) translateX(190px)}}
+.pin .chispa{transform-box:fill-box;transform-origin:center;animation:chispa 2.6s ease-in-out infinite}
+.pin .chispa:nth-of-type(2){animation-delay:.7s}.pin .chispa:nth-of-type(3){animation-delay:1.4s}.pin .chispa:nth-of-type(4){animation-delay:2s}
+@keyframes chispa{0%,100%{opacity:.25;transform:scale(.6)}50%{opacity:1;transform:scale(1.1)}}
+.pin svg.esc .rayos{transform-origin:60px 64px;animation:rayos 40s linear infinite}
+@keyframes rayos{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.pin .brillo,.pin .chispa,.pin svg.esc .rayos{animation:none}}
+.pin.lock svg.esc{opacity:.7}
+.rank .cpin .pin{--s:24px!important}
 </style>
 </head>
 <body>
@@ -849,11 +865,11 @@ function render(){
     if(!r.length) h+=`<p class="empty">No encontramos clases con esa palabra. Probá con “muletillas”, “carisma” o “historia”.</p>`;
     $("#main").innerHTML=h; bind(); return;
   }
-  h+=dash(doneN,P);
   h+=certBox();
   const cont=VIDEOS.filter(v=>!ST.done[v.id] && (ST.p[v.id]||0)>3);
   if(cont.length) h+=row("seguir","Seguir viendo","Retomá donde quedaste",cont.map(card).join(""));
   h+=row("ruta","Ruta del alumno",`Las ${TOTAL} clases en el orden recomendado`,VIDEOS.map(rank).join(""));
+  h+=dash(doneN,P);
   h+=modules();
   h+=quizSection();
   h+=vocabSection();
@@ -1259,15 +1275,147 @@ function fabUpdate(){
 fab.onclick=()=>openV(fab.dataset.id);
 addEventListener("scroll",()=>fab.classList.toggle("show",scrollY>720),{passive:true});
 
-// ---- pines de logro (gemas) ----
-const STONES=[["Cuarzo","#f6e3ff","#b78bd6"],["Ágata","#ffd9b8","#c4723a"],["Jade","#b4f5cb","#2f9a63"],["Ónix","#7a7a89","#16161c"],
- ["Topacio","#fff0b0","#e0a21c"],["Ámbar","#ffd27a","#b8650a"],["Amatista","#e2b8ff","#7a35c9"],["Turquesa","#a0f5ee","#1ba6a0"],
- ["Granate","#ff9aa8","#8c1030"],["Citrino","#fff59a","#d7a60f"],["Aguamarina","#c8f6ff","#3bb3d1"],["Esmeralda","#9af7bb","#0b8a46"],
- ["Zafiro","#a9c3ff","#1b3fb5"],["Perla","#fffaf0","#cdbfae"],["Ópalo","#ffd9f3","#6fd0ff"],["Obsidiana","#6a6578","#050507"]];
-const MPINS=[["Plata","#f7f9fc","#8993a3","#d5dce8"],["Oro","#fff3b0","#c8962f","#f1cf72"],["Rubí","#ff7d95","#8a0720","#e0a64a"],["Diamante","#f4fdff","#5cc8ff","#bfefff"]];
-const BDPIN={name:"Black Diamond",c1:"#6a6572",c2:"#000000",shape:0,metal:"#f1d58a",kind:"bd"};
-function classPinD(n){const t=STONES[(n-1)%STONES.length];return {name:t[0],c1:t[1],c2:t[2],shape:(n-1)%3,metal:(MPINS[Math.max(0,MODS.indexOf(String((VIDEOS.find(v=>v.n===n)||{}).cat)))%4][3]),kind:"class",n:n};}
-function modPinD(k){const i=Math.max(0,MODS.indexOf(String(k))),t=MPINS[i%MPINS.length];return {name:t[0],c1:t[1],c2:t[2],shape:0,metal:t[3]||"#f1cf72",kind:"mod"};}
+const SIMP = [
+ '<path d="M12 3c1 3 4 5 4 9a4 4 0 0 1-8 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 0-8z"/>',
+ '<path d="M5 9l4-5 8 2 3 6-3 7-8 1-5-5z"/><path d="M9 4l1 6 7 2M10 10l-5 4"/>',
+ '<path d="M12 3l-7 17M12 3l7 17M7 15h10"/><path d="M4 21l8-6 8 6"/>',
+ '<path d="M4 20l9-9M11 5l4-2 6 6-2 4-3-1-4-4z"/>',
+ '<path d="M12 2v13"/><path d="M12 15l-3 4h6z"/><path d="M6 4h12"/>',
+ '<rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 10h18M9 4v16M15 10v10"/>',
+ '<path d="M4 5h16v10H9l-5 4z"/><path d="M8 9h8M8 12h5"/>',
+ '<path d="M10 22h4l1-10H9z"/><path d="M12 2c2 2 3 4 3 6a3 3 0 0 1-6 0c0-2 1-4 3-6z"/>',
+ '<path d="M12 2l8 4.5v9L12 20l-8-4.5v-9z"/><path d="M12 11l8-4.5M12 11v9M12 11L4 6.5"/>',
+ '<path d="M6 22V2"/><path d="M6 3h12l-3 4.5 3 4.5H6"/>',
+ '<path d="M12 1.5l1.7 3v11h-3.4v-11z"/><path d="M6.5 15.5h11M12 15.5v5M9.5 21.5h5"/>',
+ '<path d="M5.5 21v-9a6.5 6.5 0 0 1 13 0v9z"/><path d="M5.5 12.5h13M12 12.5V21M8.5 16h1.5M14 16h1.5"/><path d="M12 5.5c1-3 4-3.5 5-2"/>',
+ '<path d="M12 3v17M7 21h10M4.5 6.5h15"/><path d="M4.5 6.5L2 12.5h5zM19.5 6.5L17 12.5h5z"/>',
+ '<circle cx="12" cy="12" r="5"/><circle cx="12" cy="3.5" r="1.3"/><circle cx="12" cy="20.5" r="1.3"/><circle cx="3.5" cy="12" r="1.3"/><circle cx="20.5" cy="12" r="1.3"/><circle cx="6" cy="6" r="1.3"/><circle cx="18" cy="18" r="1.3"/><circle cx="18" cy="6" r="1.3"/><circle cx="6" cy="18" r="1.3"/>',
+ '<path d="M2.5 17h19M6 21h12"/><path d="M6.5 17a5.5 5.5 0 0 1 11 0"/><path d="M12 5v3.5M5 9l2.4 2.2M19 9l-2.4 2.2"/>',
+ '<path d="M3 9l9-6 9 6z"/><path d="M5 9v9M9.5 9v9M14.5 9v9M19 9v9M3 20.5h18"/>',
+ '<path d="M12 2v20M5 9h14"/><circle cx="12" cy="9" r="3.2"/><path d="M12 6.5c1.2.6 1.6 1.6 1.4 2.6M10.6 8.8c.4 1 1.3 1.4 2.4 1.2"/>',
+ '<path d="M12 7.5c1.2 0 2 .9 2 2v1l6-3.5-1.5 4 2.5-.5-3 3.5h-2l-1 3 1 3h-2.5L12 18l-1.5 2H8l1-3-1-3H6L3 10.5l2.5.5L4 7l6 3.5v-1c0-1.1.8-2 2-2z"/><path d="M12 5.5V3.5"/>',
+ '<circle cx="12" cy="12" r="4.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/>',
+ '<path d="M7 2v20M17 2v20M7 5h10M7 9h10M7 13h10M7 17h10M7 21h10"/>',
+ '<path d="M9.5 2h5l-1.5 7.5L20.5 8v8l-7.5-1.5L14.5 22h-5l1.5-7.5L3.5 16V8l7.5 1.5z"/>',
+ '<path d="M4 4l13 13M20 4L7 17"/><path d="M14.5 19.5l5-5M4.5 14.5l5 5M17 17l3 3M7 17l-3 3"/>',
+ '<circle cx="12" cy="15" r="6"/><path d="M6 15h12M12 9v12"/><path d="M12 9V3M9.8 5h4.4"/>',
+ '<path d="M12 3l9.5 17h-19z"/><path d="M7.5 14.5c2.4-2.8 6.6-2.8 9 0-2.4 2.8-6.6 2.8-9 0z"/><circle cx="12" cy="14.5" r="1.1"/>',
+ '<path d="M5 19L18 6"/><circle cx="19.3" cy="4.7" r="1.9"/><path d="M5 5l14 14M14.5 17.5l3-3M3.5 20.5l2-2"/>',
+ '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.4"/><path d="M12 .5v2M12 21.5v2M.5 12h2M21.5 12h2"/>',
+ '<path d="M12 21c-5-2-8-6-8-12M12 21c5-2 8-6 8-12"/><path d="M4.4 12.5c1.6-.1 2.6-1.1 3-2.6M4.6 8.4c1.3.1 2.1-.6 2.5-1.8M6.9 16c1.4-.4 2.2-1.4 2.3-2.8M19.6 12.5c-1.6-.1-2.6-1.1-3-2.6M19.4 8.4c-1.3.1-2.1-.6-2.5-1.8M17.1 16c-1.4-.4-2.2-1.4-2.3-2.8"/><path d="M12 4.5l1 2h2.1l-1.7 1.3.7 2.1-2.1-1.3-2.1 1.3.7-2.1L8.9 6.5H11z"/>',
+ '<path d="M12 2l6 4v12l-6 4-6-4V6z"/><path d="M6 6l6 4 6-4M12 10v12"/>',
+ '<path d="M8 3h8l4 4v10l-4 4H8l-4-4V7z"/><path d="M9.6 7h4.8l1.6 1.6v6.8L14.4 17H9.6L8 15.4V8.6z"/>',
+ '<path d="M12 21c-4-4-8-7.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 3.5-4 7-8 11z"/><path d="M8 9.5l4 3 4-3"/>',
+ '<path d="M6 4h12l4 5-10 12L2 9z"/><path d="M2 9h20M9 4l-2 5 5 12 5-12-2-5"/>',
+ '<path d="M3 17.5h18l1-11-5.5 4.5L12 4l-4.5 7L2 6.5z"/><path d="M3 21h18"/><circle cx="12" cy="13.5" r="1.4"/>',
+ '<path d="M7 6h10l4 5-9 11-9-11z"/><path d="M3 11h18M10 6l-1.5 5L12 22l3.5-11L14 6"/><path d="M20 1l.6 1.5 1.5.6-1.5.6L20 5.2l-.6-1.5-1.5-.6 1.5-.6z"/>'
+];
+const PIN_TIER = [
+ ['#FFC48A','#B4501A'],['#F3BE8C','#8C4A1E'],['#F7B6A0','#9A3D2A'],
+ ['#DDE6EE','#5B6B7A'],['#FFFFFF','#7D838C'],['#CFF3EE','#2E7A73'],
+ ['#F9E08B','#A27512'],['#FFD27A','#B8580E'],['#FF9A8F','#A3101C'],
+ ['#EEF3F8','#56636F'],['#D8EBFF','#2E5E9C'],['#FFD0D0','#8E1A1A'],['#D2F5E3','#1F7A55'],['#F2D7A8','#7A5323'],['#FFD9B8','#C2410C'],
+ ['#FBE3A1','#8E1018'],['#FFD1E3','#A3245A'],['#EBD3B0','#6B4423'],['#FFF3A6','#D08A00'],['#F2F2F2','#2A2A2A'],['#FFB4A8','#B3261E'],
+ ['#DCE7FF','#1E3C96'],['#E0DBFF','#3B2A99'],['#CFF7FA','#0E6F7A'],['#FFE7A3','#14234F'],
+ ['#FFF4B0','#C98A00'],['#FFFFFF','#8FA6BC'],
+ ['#DDE8FF','#1D4ED8'],['#D9FFEA','#0B8A4E'],['#FFD6DD','#B0122E'],['#E8FCFF','#2FA9D3'],['#F3DCFF','#7A2BC0'],['#6a6a6a','#030303']];
+const TIER_NOM = ['Brasa','Bronce','Cobre','Hierro','Plata','Pizarra','Oro viejo','Ámbar','Rubí','Acero','Acero azul','Acero carmesí','Jade','Roble','Alba','Templario','Rosa','Bronce de águila','Solar','Blanco y negro','Escarlata','Azul real','Índigo','Turquesa','Oro y medianoche','Oro','Platino','Zafiro','Esmeralda','Rubí imperial','Diamante','Diamante imperial','Black diamond'];
+const TIER_CSS = i => i===32 ? ['#FFFFFF','#E5383B'] : i===24 ? ['#FFE7A3','#7D93E0'] : i===19 ? ['#FFFFFF','#8A8A8A'] : i===22 ? ['#E0DBFF','#7B6CF0'] : i===21 ? ['#DCE7FF','#4D72E0'] : PIN_TIER[i];
+/* Formas de escudo: [trazo, centro vertical del emblema] */
+const FORMAS = [
+ ['M22 26 Q60 19 98 26 L98 60 C98 90 80 107 60 119 C40 107 22 90 22 60 Z',66],
+ ['M60 20 A46 46 0 1 1 59.9 20 Z',66],
+ ['M60 16 C84 18 98 30 98 46 C98 72 78 100 60 122 C42 100 22 72 22 46 C22 30 36 18 60 16 Z',60],
+ ['M22 24 H98 V86 Q98 104 78 106 Q66 107 60 118 Q54 107 42 106 Q22 104 22 86 Z',66],
+ ['M60 14 L106 66 L60 118 L14 66 Z',66],
+ ['M60 14 L105 40 L105 92 L60 118 L15 92 L15 40 Z',66],
+ ['M41 16 H79 L104 41 V91 L79 116 H41 L16 91 V41 Z',66],
+ ['M60 14 A42 52 0 1 1 59.9 14 Z',66],
+ ['M22 24 Q41 34 60 22 Q79 34 98 24 L98 62 C98 92 80 108 60 120 C40 108 22 92 22 62 Z',68],
+ ['__estrella8',66],
+ ['M60 14 L102 30 L96 84 L60 120 L24 84 L18 30 Z',64],
+ ['M22 120 V54 A38 38 0 0 1 98 54 V120 Z',72],
+ ['M22 24 H98 V72 A38 44 0 0 1 22 72 Z',64],
+ ['M18 20 Q39 30 60 22 Q81 30 102 20 Q95 44 98 60 C98 92 80 108 60 120 C40 108 22 92 22 60 Q25 44 18 20 Z',66],
+ ['M34 40 A26 26 0 0 1 86 40 A26 26 0 0 1 86 92 A26 26 0 0 1 34 92 A26 26 0 0 1 34 40 Z',66],
+ ['__estrella12',66],
+ ['M18 22 Q60 14 102 22 L60 122 Z',52],
+ ['M24 20 H96 V108 L78 96 L60 118 L42 96 L24 108 Z',60],
+ ['M60 18 C96 18 102 24 102 66 C102 108 96 114 60 114 C24 114 18 108 18 66 C18 24 24 18 60 18 Z',66],
+ ['M60 14 C76 24 100 22 100 22 C100 70 88 102 60 120 C32 102 20 70 20 22 C20 22 44 24 60 14 Z',64],
+ ['M18 20 L60 30 L102 20 L98 64 C96 94 80 108 60 120 C40 108 24 94 22 64 Z',68],
+ ['M60 12 C60 12 100 56 100 80 A40 40 0 0 1 20 80 C20 56 60 12 60 12 Z',80],
+ ['M34 20 H86 L106 46 L60 120 L14 46 Z',56]
+];
+const FORMA_DE = [1,2,0, 3,18,5, 7,21,6, 0,17,13,12,1,15, 10,14,20,9,11,8, 2,19,16,3, 9,18, 7,6,21,4,5,22];
+const FORMA_NOM = ['Escudo clásico','Medallón','Cometa normando','Escudo francés','Losange','Hexágono','Octógono','Óvalo','Escudo almenado','Estrella','Insignia','Arco','Escudo español','Escudo de torneo','Cuadrifolio','Sol de doce rayos','Triángulo','Gonfalón','Placa','Escudo de cáliz','Escudo bocel','Gota','Brillante'];
+function formaPath(i){ const f=FORMAS[FORMA_DE[i]]||FORMAS[0]; if(f[0]==='__estrella8') return ['M'+_estrella(8,56,42,60,66).replace(/ /g,' L')+' Z',66]; if(f[0]==='__estrella12') return ['M'+_estrella(12,56,46,60,66).replace(/ /g,' L')+' Z',66]; return f; }
+function romano(n){ const R=[[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']]; let s=''; for(const [v,l] of R) while(n>=v){ s+=l; n-=v; } return s; }
+let pinN = 0;
+function _poli(n,R,cx,cy,rot){ const p=[]; for(let k=0;k<n;k++){ const a=(Math.PI*2*k/n)+(rot||0)*Math.PI/180-Math.PI/2; p.push([cx+R*Math.cos(a),cy+R*Math.sin(a)]); } return p; }
+function _pts(p){ return p.map(x=>x[0].toFixed(1)+','+x[1].toFixed(1)).join(' '); }
+function _estrella(n,R,r,cx,cy){ const p=[]; for(let k=0;k<n*2;k++){ const rad=k%2?r:R, a=Math.PI*k/n-Math.PI/2; p.push([cx+rad*Math.cos(a),cy+rad*Math.sin(a)]); } return _pts(p); }
+function _espada(x1,y1,x2,y2,u){
+  const dx=x2-x1, dy=y2-y1, L=Math.hypot(dx,dy), ux=dx/L, uy=dy/L, px=-uy, py=ux;
+  const g=[x1+ux*16,y1+uy*16], tip=[x2,y2], f=n=>n.toFixed(1);
+  const bw=2.6, b1=[g[0]+px*bw,g[1]+py*bw], b2=[g[0]-px*bw,g[1]-py*bw], t1=[x2-ux*8+px*1.2,y2-uy*8+py*1.2], t2=[x2-ux*8-px*1.2,y2-uy*8-py*1.2];
+  return `<polygon points="${f(b1[0])},${f(b1[1])} ${f(t1[0])},${f(t1[1])} ${f(tip[0])},${f(tip[1])} ${f(t2[0])},${f(t2[1])} ${f(b2[0])},${f(b2[1])}" fill="url(#${u}s)" stroke="rgba(0,0,0,.45)" stroke-width=".6"/>
+    <path d="M${f(g[0]+px*10)} ${f(g[1]+py*10)}L${f(g[0]-px*10)} ${f(g[1]-py*10)}" stroke="url(#${u})" stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M${f(x1+ux*3)} ${f(y1+uy*3)}L${f(g[0])} ${f(g[1])}" stroke="#3b2a1c" stroke-width="3.4" stroke-linecap="round"/>
+    <circle cx="${f(x1)}" cy="${f(y1)}" r="3.4" fill="url(#${u})"/>`;
+}
+function _laurel(lado){
+  let s=''; for(let k=0;k<7;k++){ const t=k/6, ang=(200-t*85)*Math.PI/180, R=50, cx=60+lado*0, x=60+lado*Math.abs(R*Math.cos(ang))*1.02, y=70-R*Math.sin(ang)*-1;
+    const yy=112-t*70, xx=60+lado*(40+Math.sin(t*Math.PI)*12); const rot=lado*(-30-t*40);
+    s+=`<ellipse cx="${xx.toFixed(1)}" cy="${yy.toFixed(1)}" rx="6.5" ry="2.8" transform="rotate(${rot.toFixed(0)} ${xx.toFixed(1)} ${yy.toFixed(1)})"/>`; }
+  return s;
+}
+function pinSVG(i, sz, on, lab, nm){
+  if(on===undefined) on=true;
+  i=Math.max(0,Math.min(32,i));
+  const [a,b]=PIN_TIER[i]||PIN_TIER[0], u='pg'+(++pinN);
+  const black=i===32, cab=i>=9, temp=i>=15&&i<=20, sob=i>=21, noble=i>=25, gema=i>=27;
+  const rib = i<9 ? [a,b,'#141414'] : i<=14 ? ['#D1323A','#5c0d12','#FFFFFF'] : i<=20 ? ['#F7F3EA','#B9AE98','#8E1018'] : i<=24 ? ['#2C4FB8','#0d1d52','#FBE3A1'] : black ? ['#E5383B','#5a0a10','#FFFFFF'] : ['#B3122A','#4a0610','#FFE9A8'];
+  const campo = black ? ['#2b2b2b','#030303'] : ['#262626','#050505'];
+  const [ESC,cy]=formaPath(i);
+  const division2 = i<9 ? '' : i<=14 ? `<path d="M60 10v120"/>` : i<=20 ? `<path d="M60 10v120M10 ${cy-4}h100"/>` : i<=24 ? `<path d="M10 10l100 120M110 10L10 130"/>` : `<path d="M20 ${cy+34}L60 ${cy-2}l40 36"/>`; const INT_T=`translate(60 ${cy}) scale(.84) translate(-60 -${cy})`;
+  const division = '';
+  const top = i<9 ? `<circle cx="60" cy="21" r="3.6" fill="url(#${u})" stroke="rgba(0,0,0,.4)" stroke-width=".6"/>`
+    : i<=14 ? `<path d="M49 24v-8a11 11 0 0 1 22 0v8z" fill="url(#${u})" stroke="rgba(0,0,0,.45)" stroke-width=".7"/><path d="M51.5 15.5h17M60 15.5v8" stroke="#141414" stroke-width="1.3"/><path d="M60 5c4-4 10-3 12 2-3-1-6 0-8 2" fill="#D1323A"/>`
+    : i<=20 ? `<path d="M57 3h6l-1.5 6.5L68 8v6l-6.5-1.5L63 19h-6l1.5-6.5L52 14V8l6.5 1.5z" fill="#C8202B" stroke="url(#${u})" stroke-width="1.2"/>`
+    : `<path d="M41 24L43 9l8.5 7.5L60 4l8.5 12.5L77 9l2 15z" fill="url(#${u})" stroke="rgba(0,0,0,.45)" stroke-width=".7"/><circle cx="43" cy="8.5" r="2" fill="url(#${u})"/><circle cx="60" cy="3.5" r="2.2" fill="url(#${u})"/><circle cx="77" cy="8.5" r="2" fill="url(#${u})"/>${gema?`<path d="M60 12l3.5 4-3.5 4-3.5-4z" fill="${black?'#E5383B':b}" stroke="#fff" stroke-width=".6"/>`:`<circle cx="60" cy="17" r="2.4" fill="#B3122A"/>`}`;
+  const chispas = noble ? [[12,22,4.5],[108,26,4],[106,100,3.4],[14,96,3]].slice(0,Math.min(4,i-24)).map(([x,y,r])=>`<path class="chispa" d="M${x} ${y-r*2}l${r*.45} ${r*1.55} ${r*1.55} ${r*.45}-${r*1.55} ${r*.45}-${r*.45} ${r*1.55}-${r*.45}-${r*1.55}-${r*1.55}-${r*.45} ${r*1.55}-${r*.45}z" fill="${black?'#ffffff':a}"/>`).join('') : '';
+  return `<svg viewBox="0 0 120 140" width="${sz}" height="${Math.round(sz*140/120)}" class="esc t${i}" role="img" aria-label="Pin ${nm||TIER_NOM[i]}${on?'':' (bloqueado)'}">
+    <defs>
+      <linearGradient id="${u}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/>${gema?`<stop offset=".45" stop-color="${black?'#3a3a3a':'#ffffff'}"/><stop offset=".55" stop-color="${a}"/>`:`<stop offset=".45" stop-color="${a}" stop-opacity=".9"/>`}<stop offset="1" stop-color="${b}"/></linearGradient>
+      <linearGradient id="${u}s" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f4f7fa"/><stop offset=".5" stop-color="#9aa4ad"/><stop offset="1" stop-color="#e3e8ec"/></linearGradient>
+      <linearGradient id="${u}c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${rib[0]}"/><stop offset="1" stop-color="${rib[1]}"/></linearGradient>
+      <radialGradient id="${u}f" cx=".4" cy=".3" r=".85"><stop offset="0" stop-color="${campo[0]}"/><stop offset="1" stop-color="${campo[1]}"/></radialGradient>
+      <radialGradient id="${u}g" cx=".5" cy=".42" r=".62"><stop offset="0" stop-color="${black?'#E5383B':b}" stop-opacity="${black?'.25':'.5'}"/><stop offset="1" stop-color="${b}" stop-opacity="0"/></radialGradient>
+      <clipPath id="${u}k"><path d="${ESC}"/></clipPath><clipPath id="${u}k2"><path d="${ESC}" transform="${INT_T}"/></clipPath>
+    </defs>
+    ${gema?`<polygon class="rayos" points="${_estrella(24,60,40,60,64)}" fill="url(#${u})" opacity=".32"/>`:''}
+    ${cab?_espada(16,124,104,12,u)+_espada(104,124,16,12,u):''}
+    ${noble?`<g fill="url(#${u})" stroke="rgba(0,0,0,.35)" stroke-width=".5">${_laurel(-1)}${_laurel(1)}</g>`:''}
+    <path d="${ESC}" fill="url(#${u})" stroke="rgba(0,0,0,.5)" stroke-width="1"/>
+    <path d="${ESC}" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1" transform="translate(60 ${cy}) scale(.96) translate(-60 -${cy})"/>
+    <path d="${ESC}" fill="url(#${u}f)" stroke="rgba(0,0,0,.6)" stroke-width="1.2" transform="${INT_T}"/>
+    <path d="${ESC}" fill="url(#${u}g)" transform="${INT_T}"/>
+    ${division2?`<g fill="none" stroke="url(#${u})" stroke-opacity=".2" stroke-width="2.2" clip-path="url(#${u}k2)">${division2}</g>`:''}
+    <g transform="translate(39.6 ${cy-21.4}) scale(1.7)" fill="none" stroke="${black?'#EDEDED':`url(#${u})`}" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round">${SIMP[i]||SIMP[0]}</g>
+    ${top}
+    <g clip-path="url(#${u}k)"><ellipse cx="44" cy="${cy-30}" rx="30" ry="11" fill="#fff" opacity=".12" transform="rotate(-22 44 ${cy-30})"/>${on?`<rect class="brillo" x="-30" y="0" width="16" height="130" fill="#fff" opacity=".2" transform="skewX(-20)"/>`:''}</g>
+    <path d="M20 117h13v13H20l4.5-6.5z" fill="${rib[1]}"/><path d="M100 117H87v13h13l-4.5-6.5z" fill="${rib[1]}"/>
+    <path d="M29 112.5h62l-2 15.5H31z" fill="url(#${u}c)" stroke="rgba(0,0,0,.45)" stroke-width=".7"/>
+    <text x="60" y="124" text-anchor="middle" font-size="9.5" font-weight="800" fill="${rib[2]}" font-family="JetBrains Mono, monospace" letter-spacing=".6">${lab||romano(i+1)}</text>
+    ${on?chispas:''}
+  </svg>`;
+}
+
+const GR_CLASS=[1,3,4,6,7,8,10,12,13,15,17,19,21,22,23,25], GR_MOD=[27,28,29,30], MOD_N=["Zafiro","Esmeralda","Rubí imperial","Diamante"];
+const BDPIN={name:"Black Diamond",g:32,lab:"★",kind:"bd"};
+function classPinD(n){const g=GR_CLASS[(n-1)%GR_CLASS.length];return {name:TIER_NOM[g],g:g,lab:romano(n),kind:"class",n:n};}
+function modPinD(k){const i=Math.max(0,MODS.indexOf(String(k)))%4;return {name:MOD_N[i],g:GR_MOD[i],lab:"M"+(i+1),kind:"mod"};}
 const classEarned=v=>!!ST.done[v.id];
 const modEarned=k=>(ST.quiz[k]||0)>=PASS;
 let _pid=0;
@@ -1281,90 +1429,8 @@ function charge(n,cx,cy,fill){
   if(t===2) return `<path transform="translate(${cx} ${cy})" d="M-7 8V-2h2v-4h3v2h2v-2h3v2h2v-2h3v4h2V8z" fill="${fill}"/>`;
   return `<g transform="translate(${cx} ${cy})" fill="${fill}"><path d="M0 -9C3 -5 3 -1 0 3C-3 -1 -3 -5 0 -9Z"/><path d="M-1 1C-5 -3 -9 -1 -8 3C-7 6 -3 6 -1 4Z"/><path d="M1 1C5 -3 9 -1 8 3C7 6 3 6 1 4Z"/><rect x="-6" y="4" width="12" height="2.4" rx="1"/></g>`;
 }
-function gemG(sh,gid,cx,cy,sc,c1,c2){
-  const sd=t=>mixHex(c1,c2,t), li=(t,w)=>mixHex(sd(t),"#ffffff",w), O='stroke="#000" stroke-opacity=".55" stroke-width=".9" stroke-linejoin="round"';
-  const P=(pts,f)=>`<polygon points="${pts.map(q=>q[0].toFixed(1)+","+q[1].toFixed(1)).join(" ")}" fill="${f}" ${O}/>`;
-  let g="";
-  if(sh===0){ /* diamante clásico: corona y pabellón facetados */
-    const L=[20,42],R=[80,42],TL=[35,24],TR=[65,24],G2=[35,42],G3=[50,42],G4=[65,42],Pp=[50,82];
-    g+=P([L,TL,G2],li(.35,.45))+P([TL,G3,G2],li(.1,.7))+P([TL,TR,G3],li(0,.85))+P([TR,G4,G3],li(.2,.55))+P([TR,R,G4],li(.55,.15));
-    g+=P([L,G2,Pp],li(.5,.2))+P([G2,G3,Pp],li(.15,.45))+P([G3,G4,Pp],li(.7,.05))+P([G4,R,Pp],li(.95,0));
-    g+=`<path d="M41 28l4 8M59 28l-4 8" stroke="#fff" stroke-opacity=".7" stroke-width="1"/>`;
-    g=`<g transform="translate(11 9.5) scale(.78)">${g}</g>`;
-  } else if(sh===1){ /* corte esmeralda: escalones */
-    const oc=(w,h,c)=>[[-w+c,-h],[w-c,-h],[w,-h+c],[w,h-c],[w-c,h],[-w+c,h],[-w,h-c],[-w,-h+c]].map(q=>[50+q[0],50+q[1]]);
-    const A=oc(22,28,9),B=oc(15.5,21.5,6),C=oc(9,14,3.5);
-    const edge=(X,Y,t)=>{for(let j=0;j<8;j++){const k=(j+1)%8,dx=X[k][0]-X[j][0],dy=X[k][1]-X[j][1];const up=dy===0&&X[j][1]<50,dn=dy===0&&X[j][1]>50,lf=dx===0&&X[j][0]<50,rt=dx===0&&X[j][0]>50;let f=up?li(t,.7):lf?li(t,.4):dn?li(t+.5,0):rt?li(t+.35,.05):li(t+.1,.3);g+=P([X[j],X[k],Y[k],Y[j]],f);}};
-    g+=P(A,sd(.5)); edge(A,B,.05); edge(B,C,.2); g+=P(C,li(0,.8));
-    g+=`<path d="M${A[0][0]} ${A[0][1]}L${B[0][0]} ${B[0][1]}L${C[0][0]} ${C[0][1]}" stroke="#fff" stroke-opacity=".55" fill="none" stroke-width=".8"/>`;
-  } else { /* brillante redondo, vista superior */
-    const r=27,v=(rr,a)=>[50+Math.sin(a*Math.PI/180)*rr,50-Math.cos(a*Math.PI/180)*rr];
-    g+=`<circle cx="50" cy="50" r="${r}" fill="${sd(.6)}" ${O}/>`;
-    for(let i=0;i<8;i++){const a0=i*45,a1=a0+45,am=a0+22.5;
-      g+=P([v(r,a0),v(r,a1),v(15,am)],(i%2?li(.2+((i*37)%5)/10,.1):li(.05+((i*53)%4)/10,.5)));
-      g+=P([v(r,a0),v(15,am),v(15,a0-22.5)],li(.3+((i*29)%6)/12,.25));}
-    g+=P(Array.from({length:8},(_,i)=>v(15,i*45+22.5)),li(0,.8));
-    g+=`<path d="${Array.from({length:8},(_,i)=>"M"+v(15,i*45+22.5).map(n=>n.toFixed(1)).join(" ")+"L"+v(r,i*45).map(n=>n.toFixed(1)).join(" ")).join("")}" stroke="#fff" stroke-opacity=".35" stroke-width=".6" fill="none"/>`;
-  }
-  /* destellos */
-  g+=`<path d="M32 30l1.8 5.2 5.2 1.8-5.2 1.8L32 44l-1.8-5.2L25 37l5.2-1.8z" fill="#fff" opacity=".95" stroke="none"/><circle cx="66" cy="70" r="1.6" fill="#fff" opacity=".85"/>`;
-  return `<g transform="translate(${cx} ${cy}) scale(${sc}) translate(-50 -50)">${g}</g>`;
-}
-function laurel(cx,cy,r,M,Ml,Mdd,k){
-  let o="";
-  for(const side of [1,-1]){
-    for(let i=0;i<8;i++){
-      const th=165-i*17, rad=th*Math.PI/180;
-      const px=cx+side*Math.sin(rad)*r, py=cy-Math.cos(rad)*r;
-      const phi=(Math.atan2(-Math.sin(rad),-Math.cos(rad))*180/Math.PI);
-      const hd=side>0?phi:180-phi;
-      const L=(i>5?4.6:5.6)*k, W=1.7*k;
-      for(const t of [-1,1]){
-        const rot=hd+t*side*34;
-        o+=`<path transform="translate(${px.toFixed(1)} ${py.toFixed(1)}) rotate(${rot.toFixed(0)})" d="M0 0C${(L*.3).toFixed(1)} ${-W*1.6} ${(L*.75).toFixed(1)} ${-W*1.1} ${L.toFixed(1)} 0C${(L*.75).toFixed(1)} ${W*1.1} ${(L*.3).toFixed(1)} ${W*1.6} 0 0z" fill="${t>0?M:Ml}" stroke="${Mdd}" stroke-width=".45"/>`;
-      }
-    }
-  }
-  return o+`<path d="M${cx-3} ${cy+r+3}Q${cx} ${cy+r+5.5} ${cx+3} ${cy+r+3}" stroke="${Mdd}" stroke-width="1.2" fill="none"/>`;
-}
 function pinSVG2(d,size,earned){
-  const id="pn"+(_pid++), mod=d.kind!=="class", bd=d.kind==="bd", big=size>=48;
-  const M=d.metal, Mh=mixHex(M,"#ffffff",.7), Ml=mixHex(M,"#ffffff",.3), Md=mixHex(M,"#000000",.4), Mx=mixHex(M,"#000000",.62), Mdd=mixHex(M,"#000000",.78);
-  const cx=50, cy=mod?60:49, R=mod?36:45.5, k=R/48;
-  const fa=bd?"#33313a":mixHex(d.c1,d.c2,.25), fb=bd?"#000000":mixHex(d.c2,"#000000",.5);
-  const pt=(r,t)=>{const a=t*Math.PI/180;return [(cx+Math.sin(a)*r).toFixed(1),(cy-Math.cos(a)*r).toFixed(1)];};
-  const arc=(r,t1,t2)=>{const A=pt(r,t1),B=pt(r,t2);return `M${A[0]} ${A[1]}A${r} ${r} 0 0 1 ${B[0]} ${B[1]}`;};
-  let rays=""; for(let i=0;i<48;i++){const a=i*7.5*Math.PI/180,r1=22*k,r2=(i%2?29:33)*k;rays+=`M${(cx+Math.sin(a)*r1).toFixed(1)} ${(cy-Math.cos(a)*r1).toFixed(1)}L${(cx+Math.sin(a)*r2).toFixed(1)} ${(cy-Math.cos(a)*r2).toFixed(1)}`;}
-  let txt="";
-  if(big){
-    const rt=R*.87, rb=R*.97, fs=(R*.118).toFixed(2), top="CASA "+d.name.toUpperCase();
-    txt=`<path id="${id}t" fill="none" d="M${cx-rt} ${cy}a${rt} ${rt} 0 0 1 ${rt*2} 0"/><path id="${id}b" fill="none" d="M${cx-rb} ${cy}a${rb} ${rb} 0 0 0 ${rb*2} 0"/>
-    <g font-family="Cinzel,Georgia,serif" font-weight="700" font-size="${fs}" letter-spacing=".5"><g fill="${Mh}" opacity=".7" transform="translate(.35 .45)"><text text-anchor="middle"><textPath href="#${id}t" startOffset="50%">${top}</textPath></text><text text-anchor="middle"><textPath href="#${id}b" startOffset="50%">GROW ACADEMY</textPath></text></g><g fill="${Mdd}"><text text-anchor="middle"><textPath href="#${id}t" startOffset="50%">${top}</textPath></text><text text-anchor="middle"><textPath href="#${id}b" startOffset="50%">GROW ACADEMY</textPath></text></g></g>`;
-  }
-  let gems="";
-  const gsc=(mod?.66:.72)*k;
-  if(mod){ for(let i=0;i<8;i++){const a=i*45*Math.PI/180+Math.PI/8,gx=cx+Math.sin(a)*24*k,gy=cy-Math.cos(a)*24*k;gems+=`<circle cx="${(gx+.5).toFixed(1)}" cy="${(gy+.9).toFixed(1)}" r="${(2.7*k+.5).toFixed(1)}" fill="#000" opacity=".5"/><circle cx="${gx.toFixed(1)}" cy="${gy.toFixed(1)}" r="${(2.7*k+.5).toFixed(1)}" fill="${d.c1}" stroke="${Mx}" stroke-width=".9"/><circle cx="${(gx-.7).toFixed(1)}" cy="${(gy-.8).toFixed(1)}" r=".7" fill="#fff" opacity=".8"/>`;} }
-  const bez=`<circle cx="${cx+.6}" cy="${cy+1.2}" r="${(21*k).toFixed(1)}" fill="#000" opacity=".45"/><circle cx="${cx}" cy="${cy}" r="${(21*k).toFixed(1)}" fill="url(#${id}m)" stroke="${Mdd}" stroke-width=".9"/><circle cx="${cx}" cy="${cy}" r="${(18.4*k).toFixed(1)}" fill="${Mdd}"/>`;
-  const crown=mod?`<path d="M28 22L25 5l12 8 6-11 7 9 7-9 6 11 12-8-3 17z" fill="url(#${id}m)" stroke="${Mdd}" stroke-width="1"/><rect x="27" y="19" width="46" height="6" rx="2" fill="url(#${id}m)" stroke="${Mdd}" stroke-width="1"/><circle cx="37" cy="22" r="2.1" fill="${d.c1}" stroke="${Mdd}" stroke-width=".6"/><circle cx="50" cy="22" r="2.5" fill="${d.c1}" stroke="${Mdd}" stroke-width=".6"/><circle cx="63" cy="22" r="2.1" fill="${d.c1}" stroke="${Mdd}" stroke-width=".6"/><circle cx="25" cy="4.5" r="2" fill="${Ml}" stroke="${Mdd}" stroke-width=".6"/><circle cx="50" cy="1.8" r="2" fill="${Ml}" stroke="${Mdd}" stroke-width=".6"/><circle cx="75" cy="4.5" r="2" fill="${Ml}" stroke="${Mdd}" stroke-width=".6"/>`:"";
-  const star=`<polygon points="0,-3.4 1,-1 3.4,-1 1.5,.6 2.1,3 0,1.6 -2.1,3 -1.5,.6 -3.4,-1 -1,-1"`;
-  const stars=bd?`<g fill="#fff" stroke="#000" stroke-width=".4"><g transform="translate(${cx-9} ${cy+27*k})">${star}/></g><g transform="translate(${cx} ${cy+29*k})">${star}/></g><g transform="translate(${cx+9} ${cy+27*k})">${star}/></g></g>`:"";
-  const rf=R*.755;
-  return `<span class="pin ${earned?"on":"lock"} ${mod?"pm":""}" style="--s:${size}px"><svg viewBox="0 0 100 100" aria-hidden="true"><defs>
-   <linearGradient id="${id}m" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${Mh}"/><stop offset=".22" stop-color="${M}"/><stop offset=".48" stop-color="${Md}"/><stop offset=".7" stop-color="${M}"/><stop offset=".86" stop-color="${Ml}"/><stop offset="1" stop-color="${Md}"/></linearGradient>
-   <linearGradient id="${id}r" x1="1" y1="1" x2="0" y2="0"><stop offset="0" stop-color="${Mh}"/><stop offset=".3" stop-color="${M}"/><stop offset=".62" stop-color="${Md}"/><stop offset="1" stop-color="${Mx}"/></linearGradient>
-   <radialGradient id="${id}f" cx=".35" cy=".3" r=".95"><stop offset="0" stop-color="${fa}"/><stop offset="1" stop-color="${fb}"/></radialGradient>
-   <linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${d.c1}"/><stop offset="1" stop-color="${d.c2}"/></linearGradient></defs>
-   <circle cx="${cx+.8}" cy="${cy+2.2}" r="${R}" fill="${Mdd}"/>
-   <circle cx="${cx}" cy="${cy}" r="${R}" fill="url(#${id}m)" stroke="${Mdd}" stroke-width="1.3"/>
-   <path d="${arc(R-1.8,250,40)}" stroke="${Mh}" stroke-opacity=".85" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="${arc(R-1.8,70,215)}" stroke="#000" stroke-opacity=".4" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-   <circle cx="${cx}" cy="${cy}" r="${(R*.8).toFixed(1)}" fill="url(#${id}r)" stroke="${Mdd}" stroke-width="1"/>
-   <circle cx="${cx}" cy="${cy}" r="${rf.toFixed(1)}" fill="url(#${id}f)" stroke="${Mdd}" stroke-width="1.7"/>
-   <path d="${arc(rf-1.2,200,350)}" stroke="#000" stroke-opacity=".55" stroke-width="1.6" fill="none"/><path d="${arc(rf-1.2,20,160)}" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" fill="none"/>
-   <path d="${rays}" stroke="#000" stroke-opacity=".45" stroke-width=".6" fill="none"/><path d="${rays}" transform="translate(.45 .5)" stroke="${Mh}" stroke-opacity=".45" stroke-width=".5" fill="none"/>
-   <circle cx="${cx}" cy="${cy}" r="${(33*k).toFixed(1)}" fill="none" stroke="${Mdd}" stroke-opacity=".7" stroke-width=".8"/>
-   <circle cx="${cx}" cy="${cy}" r="${(29.5*k).toFixed(1)}" fill="none" stroke="${Mh}" stroke-opacity=".4" stroke-width=".6"/>
-   ${txt}${gems}${mod||bd?"":laurel(cx,cy,27.5*k,M,Ml,Mdd,k)}${bez}${gemG(d.shape,id+"g",cx,cy,gsc,d.c1,d.c2)}${stars}${crown}
-   </svg></span>`;
+  return `<span class="pin sh ${earned?"on":"lock"} ${d.kind==="class"?"":"pm"}" style="--s:${size}px">${pinSVG(d.g,size,earned,d.lab,d.name)}</span>`;
 }
 function cPin(v,withLabel){
   const d=classPinD(v.n), e=classEarned(v);
