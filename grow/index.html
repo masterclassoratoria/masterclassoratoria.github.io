@@ -610,6 +610,62 @@ a.dc:hover{background:rgba(229,9,20,.25);border-color:var(--red)}
 .bdGem i::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);transform:translateX(-120%);animation:shine 3s ease-in-out infinite}
 
 .dash.bd .dMain h2 .lv{-webkit-text-fill-color:initial;color:initial}
+
+/* ---- Pines de logro ---- */
+.pin{display:inline-block;width:var(--s,40px);height:var(--s,40px);flex:none;vertical-align:middle;filter:drop-shadow(0 3px 7px rgba(0,0,0,.65));transition:filter .3s,transform .3s}
+.pin svg{display:block;width:100%;height:100%}
+.pin.on{filter:drop-shadow(0 0 9px var(--g,#fff)) drop-shadow(0 3px 6px rgba(0,0,0,.6))}
+.pin.lock{filter:grayscale(.9) brightness(.55) drop-shadow(0 2px 4px #000)}
+.cpin{position:absolute;left:8px;bottom:8px;z-index:3;display:flex;align-items:center;gap:6px}
+.cpin .pin.lock{filter:grayscale(.55) brightness(.8) drop-shadow(0 2px 5px #000)}
+.cpin em{font-style:normal;font-size:10.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;background:rgba(0,0,0,.78);border:1px solid rgba(255,255,255,.22);padding:3px 8px 3px 7px;border-radius:999px;color:#fff;white-space:nowrap}
+.cpin.got em{background:rgba(74,222,128,.9);color:#04130c;border-color:transparent}
+.rank .cpin{left:6px;bottom:6px}
+.et .cpin{left:5px;bottom:9px}
+.eb.pn{display:inline-flex;align-items:center;gap:6px;padding:2px 10px 2px 4px;text-transform:none;letter-spacing:0;font-weight:700;color:#e8e2e5}
+.mpin{display:inline-block;margin-left:10px;vertical-align:middle}
+.modQ .mqL{display:flex;align-items:center;gap:14px}
+.modQ .mqL em{display:block;font-style:normal;font-size:12px;font-weight:800;color:#f1d58a;margin-top:3px}
+.qCard{position:relative}
+.qpin{position:absolute;right:14px;top:14px}
+.heroPin{display:flex;align-items:center;gap:12px;margin:14px 0 4px;padding:9px 16px 9px 10px;border-radius:14px;max-width:560px;background:rgba(0,0,0,.45);border:1px solid rgba(241,213,138,.3);backdrop-filter:blur(6px);font-size:13.5px;color:#e6dfe2;line-height:1.4}
+.heroPin b{color:#f1d58a}
+.mPins{display:flex;gap:14px;flex-wrap:wrap;padding:14px 22px 0}
+.mpi{flex:1 1 260px;display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)}
+.mpi small{display:block;font-size:10.5px;font-weight:800;letter-spacing:.14em;color:#f1d58a}
+.mpi b{display:block;font-size:17px;color:#fff;margin:2px 0}
+.mpi span{font-size:12.5px;color:#a9a3a6}
+.mpi.got{border-color:rgba(74,222,128,.5);background:rgba(74,222,128,.07)}
+.mpi.got>div>span{color:#4ade80;font-weight:700}
+/* colección */
+.pcBox{margin:0 4vw;display:flex;flex-direction:column;gap:12px}
+.pcRow{--mc:#e50914;display:flex;align-items:center;gap:22px;padding:16px 22px;border-radius:16px;background:linear-gradient(180deg,#141417,#0e0e10);border:1px solid #2a2125;border-left:5px solid var(--mc)}
+.pcM{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;min-width:110px}
+.pcM small{font-size:10.5px;font-weight:800;letter-spacing:.12em;color:var(--mc);text-transform:uppercase;margin-top:4px}
+.pcM b{font-size:14px;color:#fff}
+.pcC{display:flex;gap:18px;flex-wrap:wrap}
+.pcI{display:flex;flex-direction:column;align-items:center;gap:3px}
+.pcI small{font-size:11px;color:#a9a3a6;font-weight:600}
+.pcBD{border-left-color:#f1d58a;background:linear-gradient(120deg,#000,#16110a)}
+.pcT{font-size:14px;color:#cfc8cb}
+@media (max-width:600px){.pcRow{flex-direction:column;align-items:flex-start;gap:12px;padding:14px}.pcM{flex-direction:row;gap:12px;text-align:left}.pcC{gap:12px}.rank .cpin em{display:none}.et .cpin .pin{--s:24px!important}}
+/* reconocimiento */
+#awm{position:fixed;inset:0;z-index:10002;display:none;align-items:center;justify-content:center;padding:20px;background:radial-gradient(650px 480px at 50% 38%,rgba(255,214,120,.2),transparent 70%),rgba(4,2,3,.92)}
+#awm.show{display:flex;animation:fadeIn .4s both}
+.awBox{position:relative;max-width:460px;width:100%;text-align:center;padding:34px 28px 30px;border-radius:26px;border:1px solid rgba(241,213,138,.55);background:linear-gradient(180deg,#1a0a10,#08050a);box-shadow:0 0 90px rgba(241,213,138,.22);overflow:hidden;animation:up .6s .05s both}
+.awRays{position:absolute;left:50%;top:92px;width:420px;height:420px;margin:-210px 0 0 -210px;background:repeating-conic-gradient(from 0deg,rgba(255,225,150,.16) 0 8deg,transparent 8deg 22deg);-webkit-mask-image:radial-gradient(circle,#000 20%,transparent 68%);mask-image:radial-gradient(circle,#000 20%,transparent 68%);animation:spin 18s linear infinite;pointer-events:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.awPin{position:relative;display:inline-block;animation:awPop .9s cubic-bezier(.2,1.4,.4,1) both}
+.awPin .pin{filter:drop-shadow(0 0 28px var(--g,#fff)) drop-shadow(0 10px 14px rgba(0,0,0,.6))}
+@keyframes awPop{0%{transform:scale(.1) rotate(-200deg);opacity:0}70%{transform:scale(1.15) rotate(8deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+.awBox small{position:relative;display:block;margin-top:14px;font-size:11px;font-weight:800;letter-spacing:.24em;color:#f1d58a}
+.awBox h2{position:relative;font-size:clamp(28px,6vw,38px);font-weight:900;margin:6px 0 8px;background:linear-gradient(90deg,#fff,#f1d58a,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.awBox p{position:relative;color:#d8d0d3;font-size:15px;line-height:1.5}
+.awX{position:relative;margin:14px auto 0;display:inline-block;padding:8px 16px;border-radius:999px;font-weight:800;font-size:13.5px;color:#3a0a14;background:linear-gradient(180deg,#fff1c4,#e8b94d)}
+.awC{position:relative;margin:16px 0 18px;font-size:13px;color:#a9a3a6}.awC b{color:#fff}
+.awBox .btn{position:relative}
+#awm.big .awBox{border-color:#f1d58a;box-shadow:0 0 120px rgba(241,213,138,.35)}
+@media (prefers-reduced-motion:reduce){.awRays,.awPin{animation:none!important}}
 </style>
 </head>
 <body>
@@ -635,6 +691,7 @@ a.dc:hover{background:rgba(229,9,20,.25);border-color:var(--red)}
     <h1 id="heroTitle"></h1>
     <div class="meta"><span class="ep" id="heroEp"></span><span class="box">Clase</span><span id="heroDur"></span><span id="heroCat"></span></div>
     <p id="heroDesc"></p>
+    <div class="heroPin" id="heroPin"></div>
     <div class="btns">
       <button class="btn play" id="heroPlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z"/></svg><span id="heroPlayTxt">Reproducir</span></button>
       <button class="btn info" id="heroInfo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.01"/></svg>Más información</button>
@@ -673,6 +730,7 @@ a.dc:hover{background:rgba(229,9,20,.25);border-color:var(--red)}
       <div class="gTxt"><b id="gTitle">Guía de la clase</b><span>Puntos importantes, pasos, ejercicio y checklist</span></div>
       <div class="gBtns"><a class="gBtn y" id="gView" href="#" target="_blank" rel="noopener">📄 Ver guía</a><a class="gBtn o" id="gDown" href="#" download>⬇ Descargar</a></div>
     </div>
+    <div class="mPins" id="mPins"></div>
     <div class="mBody">
       <div>
         <div class="meta"><span class="ep" id="mEp"></span><span id="mDur"></span><span class="box">HD</span></div>
@@ -722,14 +780,14 @@ const TOTAL=VIDEOS.length, MODS=Object.keys(CATS);
 
 function card(v){
   return `<button class="card ${ST.done[v.id]?"done":""}" data-id="${v.id}" aria-label="${esc(v.t)}">
-    <div class="thumb" style="background-image:url('${v.img}')"><span class="seen">✓ VISTA</span><span class="dur">${fmt(v.d)}</span><span class="cardPdf">+ GUÍA PDF</span><div class="ov"><span>${PLAY}</span></div></div>
+    <div class="thumb" style="background-image:url('${v.img}')"><span class="seen">✓ VISTA</span><span class="dur">${fmt(v.d)}</span><span class="cardPdf">+ GUÍA PDF</span>${cPin(v,true)}<div class="ov"><span>${PLAY}</span></div></div>
     <div class="prog"><i style="width:${pct(v)}%"></i></div>
     <div class="cBody"><div class="cat" style="color:${CATS[v.cat].color}">${esc(CATS[v.cat].name)}</div><h3>${esc(v.t)}</h3></div></button>`;
 }
 function rank(v){
   return `<div class="rank"><span class="num">${v.n}</span>
     <button class="card ${ST.done[v.id]?"done":""}" data-id="${v.id}" aria-label="${v.n}. ${esc(v.t)}">
-      <div class="thumb" style="background-image:url('${v.vert}')"><span class="seen">✓</span><div class="ov"><span>${PLAY}</span></div></div>
+      <div class="thumb" style="background-image:url('${v.vert}')"><span class="seen">✓</span>${cPin(v,false)}<div class="ov"><span>${PLAY}</span></div></div>
       <div class="cBody"><h3>${esc(v.t)}</h3></div><div class="prog"><i style="width:${pct(v)}%"></i></div></button></div>`;
 }
 function row(id,title,sub,html){
@@ -747,8 +805,8 @@ function epRow(v,nextId){
   const badge=ST.done[v.id]?`<span class="eb ok">✓ Vista</span>`:(p>3?`<span class="eb go">En curso · ${p}%</span>`:(v.id===nextId?`<span class="eb nx">Siguiente</span>`:`<span class="eb">Por ver</span>`));
   return `<button class="ep2 ${st}" data-id="${v.id}" aria-label="${v.n}. ${esc(v.t)}">
     <span class="en">${v.n}</span>
-    <span class="et" style="background-image:url('${v.img}')"><span class="ov"><span>${PLAY}</span></span><span class="prog"><i style="width:${p}%"></i></span></span>
-    <span class="ex"><span class="eh"><b>${esc(v.t)}</b><em>${fmt(v.d)}</em></span><span class="ed">${esc(v.desc)}</span><span class="ef">${badge}<span class="eb pdf">📄 Guía PDF</span></span></span></button>`;
+    <span class="et" style="background-image:url('${v.img}')"><span class="ov"><span>${PLAY}</span></span>${cPin(v,false)}<span class="prog"><i style="width:${p}%"></i></span></span>
+    <span class="ex"><span class="eh"><b>${esc(v.t)}</b><em>${fmt(v.d)}</em></span><span class="ed">${esc(v.desc)}</span><span class="ef">${badge}<span class="eb pn">${pinSVG2(classPinD(v.n),22,classEarned(v))} Pin ${classPinD(v.n).name}</span><span class="eb pdf">📄 Guía PDF</span></span></span></button>`;
 }
 function modules(){
   const nx=VIDEOS.find(v=>!ST.done[v.id]); const nextId=nx&&nx.id;
@@ -760,11 +818,11 @@ function modules(){
     h+=`<article class="mod ${op?"open":""} ${dn===vs.length?"full":""}" data-k="${k}" style="--mc:${c}">
       <button class="modH" aria-expanded="${op}" aria-controls="mb${k}">
         <span class="mn">${pad(+k)}</span>
-        <span class="mt"><small>MÓDULO ${k} · ${vs.length} CLASES · ${mins} MIN</small><b>${esc(CATS[k].name)}</b><span class="msub">${esc(CATS[k].sub)}</span></span>
+        <span class="mt"><small>MÓDULO ${k} · ${vs.length} CLASES · ${mins} MIN</small><b>${esc(CATS[k].name)}<span class="mpin">${pinSVG2(modPinD(k),34,modEarned(k))}</span></b><span class="msub">${esc(CATS[k].sub)}</span></span>
         <span class="mp"><span class="mpt">${dn}/${vs.length} vistas</span><span class="mbar"><i style="width:${P}%"></i></span></span>
         <span class="mc">${CHEV}</span></button>
       <div class="modB" id="mb${k}"><div class="modI"><div class="eps">${vs.map(v=>epRow(v,nextId)).join("")}</div>
-        <div class="modQ"><div><b>Cuestionario del módulo</b><span>${best!=null?`Tu mejor nota: ${best}% ${ok?"· ¡Aprobado!":"· necesitás 80% para aprobar"}`:"Aprobá con 80% o más"}</span></div><button class="chip qGo" data-cat="${k}">${best!=null?"Repetir":"Hacer cuestionario"} →</button></div></div></div></article>`;
+        <div class="modQ"><div class="mqL">${pinSVG2(modPinD(k),46,ok)}<div><b>Cuestionario del módulo</b><span>${best!=null?`Tu mejor nota: ${best}% ${ok?"· ¡Aprobado!":"· necesitás 80% para aprobar"}`:"Aprobá con 80% o más"}</span><em>${ok?`✓ Pin ${modPinD(k).name} desbloqueado`:`Premio: Pin ${modPinD(k).name}`}</em></div></div><button class="chip qGo" data-cat="${k}">${best!=null?"Repetir":"Hacer cuestionario"} →</button></div></div></div></article>`;
   }
   return h+`</div></section>`;
 }
@@ -786,6 +844,7 @@ function render(){
   }
   h+=dash(doneN,P);
   h+=certBox();
+  h+=pinsSection();
   const cont=VIDEOS.filter(v=>!ST.done[v.id] && (ST.p[v.id]||0)>3);
   if(cont.length) h+=row("seguir","Seguir viendo","Retomá donde quedaste",cont.map(card).join(""));
   h+=row("ruta","Ruta del alumno",`Las ${TOTAL} clases en el orden recomendado`,VIDEOS.map(rank).join(""));
@@ -818,6 +877,8 @@ function hero(){
   $("#heroDur").textContent=fmt(v.d);
   $("#heroCat").textContent="Módulo "+v.cat+" · "+CATS[v.cat].name;
   $("#heroDesc").textContent=v.desc;
+  const cp=classPinD(v.n), mp=modPinD(String(v.cat));
+  $("#heroPin").innerHTML=`${pinSVG2(cp,44,classEarned(v))}<span>Con esta clase ganás el <b>Pin ${cp.name}</b> · y el <b>Pin ${mp.name}</b> al aprobar el cuestionario del Módulo ${v.cat}</span>`;
   $("#heroPlayTxt").textContent=started&&!allDone?"Continuar":"Reproducir";
   $("#heroPlay").onclick=()=>openV(v.id);
   $("#heroInfo").onclick=()=>openV(v.id,false);
@@ -904,7 +965,7 @@ function openV(id,autoplay=true){
   $("#mYt").href=`https://youtu.be/${VID}?t=${v.s}`;
   $("#gTitle").textContent=`Guía de la clase ${pad(v.n)}`;
   $("#gView").href=v.pdf; $("#gDown").href=v.pdf;
-  doneBtn();
+  doneBtn(); mPins();
   const nx=VIDEOS.filter(x=>x.n>v.n).slice(0,3);
   $("#nextWrap").style.display=nx.length?"":"none";
   $("#nextList").innerHTML=nx.map(x=>`<button class="nItem" data-id="${x.id}"><span class="t" style="background-image:url('${x.img}')"></span><span><b>${x.n}. ${esc(x.t)}</b><small>${fmt(x.d)} · ${esc(CATS[x.cat].name)}${ST.done[x.id]?" · ✓ vista":""}</small></span></button>`).join("");
@@ -917,7 +978,7 @@ function doneBtn(){
   if(!cur) return;
   const on=!!ST.done[cur.id];
   $("#mDone").classList.toggle("on",on);
-  $("#mDone").textContent=on?"✓ Vista":"✓ Marcar como vista";
+  $("#mDone").textContent=on?"✓ Vista":"✓ Marcar como vista"; mPins();
 }
 $("#mDone").onclick=()=>{ if(!cur) return; if(ST.done[cur.id]) { delete ST.done[cur.id]; save(); send("clase desmarcada",`${cur.n}. ${cur.t}`); } else markDone(cur); save(); doneBtn(); };
 function closeM(){ $("#modal").classList.remove("show"); killPlayer(); document.body.style.overflow=""; cur=null; render(); }
@@ -930,7 +991,7 @@ const PASS=80;
 function quizSection(){
   return `<section class="row" id="cuestionarios"><div class="rowH"><h2>Cuestionarios</h2><span>Comprobá lo que aprendiste en cada módulo · se aprueba con ${PASS} %</span></div>
   <div class="qGrid">${MODS.map(k=>{const best=ST.quiz[k];const n=QUIZ[k].length;const vids=VIDEOS.filter(v=>String(v.cat)===k).length;
-    return `<button class="qCard" data-cat="${k}" style="--qc:${CATS[k].color}"><small>Módulo ${k} · ${vids} clase${vids>1?"s":""}</small><h3>${esc(CATS[k].name)}</h3><p>${n} preguntas de opción múltiple</p>
+    return `<button class="qCard" data-cat="${k}" style="--qc:${CATS[k].color}"><span class="qpin">${pinSVG2(modPinD(k),40,(best||0)>=PASS)}</span><small>Módulo ${k} · ${vids} clase${vids>1?"s":""}</small><h3>${esc(CATS[k].name)}</h3><p>${n} preguntas de opción múltiple</p>
     <div class="qSt">${best==null?`<span class="qGo">Empezar ▶</span>`:best>=PASS?`<span class="ok">✓ Aprobado · ${best} %</span><span class="qGo">Repetir</span>`:`<span>Mejor nota: ${best} %</span><span class="qGo">Reintentar</span>`}</div></button>`}).join("")}</div></section>`;
 }
 let Q=null;
@@ -963,9 +1024,11 @@ function result(){
   const p=Math.round(Q.ok/Q.qs.length*100), pass=p>=PASS;
   const prevQ=ST.quiz[Q.cat]||0, prevA=aprobados(), tb=tier(pts());
   ST.quiz[Q.cat]=Math.max(ST.quiz[Q.cat]||0,p); save();
-  { const ta=tier(pts());
-    if(ta.n!==tb.n) tierUp(tb,ta);
-    else if(pass&&prevQ<PASS){ if(aprobados()===MODS.length&&prevA<MODS.length) celebrate("🎓 ¡Desbloqueaste tu certificado!",true); else celebrate("🏅 ¡Módulo aprobado! +3 puntos",true); } }
+  { const ta=tier(pts()), up=ta.n!==tb.n;
+    if(pass&&prevQ<PASS){
+      let ex=[]; if(aprobados()===MODS.length&&prevA<MODS.length) ex.push("🎓 ¡Desbloqueaste tu certificado!"); if(up) ex.push(`${ta.e} ¡Subiste a Orador ${ta.n}!`);
+      award({kind:"mod",k:Q.cat},ex.join("  ·  "), up&&ta.n==="Black Diamond"?blackDiamond:null);
+    } else if(up) tierUp(tb,ta); }
   send("cuestionario","Módulo "+Q.cat+" · "+CATS[Q.cat].name,p);
   $("#qCount").textContent="Resultado";
   const vids=VIDEOS.filter(v=>String(v.cat)===Q.cat);
@@ -996,7 +1059,8 @@ function send(tipo,detalle,valor){
 }
 function doneCount(){return VIDEOS.filter(v=>ST.done[v.id]).length;}
 function markDone(v){ if(!ST.done[v.id]){ const b=tier(pts()); ST.done[v.id]=1; save(); send("clase vista",`${v.n}. ${v.t}`);
-  tierUp(b,tier(pts()),`✓ Clase ${v.n} completada · +1 punto`); } }
+  const a=tier(pts()), up=a.n!==b.n;
+  award({kind:"class",n:v.n},up?`${a.e} ¡Subiste a Orador ${a.n}!`:"", up&&a.n==="Black Diamond"?blackDiamond:null); } }
 function who(){ $("#who").innerHTML=ST.user?`Hola, <b>${esc(ST.user.nombre)}</b><button id="whoX" title="Editar mis datos">editar</button>`:""; const x=$("#whoX"); if(x) x.onclick=()=>{ $("#rN").value=ST.user.nombre; $("#rA").value=ST.user.apellido||""; $("#rW").value=ST.user.wa||""; $("#reg").classList.add("show"); }; }
 $("#regF").addEventListener("submit",e=>{
   e.preventDefault();
@@ -1187,6 +1251,65 @@ function fabUpdate(){
 }
 fab.onclick=()=>openV(fab.dataset.id);
 addEventListener("scroll",()=>fab.classList.toggle("show",scrollY>720),{passive:true});
+
+// ---- pines de logro (gemas) ----
+const STONES=[["Cuarzo","#f6e3ff","#b78bd6"],["Ágata","#ffd9b8","#c4723a"],["Jade","#b4f5cb","#2f9a63"],["Ónix","#7a7a89","#16161c"],
+ ["Topacio","#fff0b0","#e0a21c"],["Ámbar","#ffd27a","#b8650a"],["Amatista","#e2b8ff","#7a35c9"],["Turquesa","#a0f5ee","#1ba6a0"],
+ ["Granate","#ff9aa8","#8c1030"],["Citrino","#fff59a","#d7a60f"],["Aguamarina","#c8f6ff","#3bb3d1"],["Esmeralda","#9af7bb","#0b8a46"],
+ ["Zafiro","#a9c3ff","#1b3fb5"],["Perla","#fffaf0","#cdbfae"],["Ópalo","#ffd9f3","#6fd0ff"],["Obsidiana","#6a6578","#050507"]];
+const MPINS=[["Plata","#f7f9fc","#8993a3","#d5dce8"],["Oro","#fff3b0","#c8962f","#f1cf72"],["Rubí","#ff7d95","#8a0720","#e0a64a"],["Diamante","#f4fdff","#5cc8ff","#bfefff"]];
+const BDPIN={name:"Black Diamond",c1:"#6a6572",c2:"#000000",shape:0,metal:"#f1d58a",kind:"bd"};
+function classPinD(n){const t=STONES[(n-1)%STONES.length];return {name:t[0],c1:t[1],c2:t[2],shape:(n-1)%3,metal:"#d3d8e2",kind:"class"};}
+function modPinD(k){const i=Math.max(0,MODS.indexOf(String(k))),t=MPINS[i%MPINS.length];return {name:t[0],c1:t[1],c2:t[2],shape:0,metal:t[3]||"#f1cf72",kind:"mod"};}
+const classEarned=v=>!!ST.done[v.id];
+const modEarned=k=>(ST.quiz[k]||0)>=PASS;
+let _pid=0;
+function pinSVG2(d,size,earned){
+  const id="pn"+(_pid++), sh=d.shape;
+  let gem;
+  if(sh===1) gem=`<polygon points="50,25 72,37 72,63 50,75 28,63 28,37" fill="url(#${id}g)"/><polygon points="50,25 72,37 50,50 28,37" fill="#fff" opacity=".35"/><path d="M28 37 50 50 72 37M50 50v25" stroke="#fff" stroke-opacity=".45" fill="none"/>`;
+  else if(sh===2) gem=`<circle cx="50" cy="50" r="24" fill="url(#${id}g)"/><circle cx="50" cy="50" r="12" fill="#fff" opacity=".22"/><path d="M50 26v48M26 50h48M33 33l34 34M67 33 33 67" stroke="#fff" stroke-opacity=".35"/><ellipse cx="42" cy="38" rx="6" ry="3.5" fill="#fff" opacity=".7" transform="rotate(-30 42 38)"/>`;
+  else gem=`<polygon points="28,40 39,26 61,26 72,40 50,78" fill="url(#${id}g)"/><polygon points="39,26 61,26 66,40 34,40" fill="#fff" opacity=".3"/><path d="M28 40h44M39 26l11 14 11-14M34 40l16 38 16-38" stroke="#fff" stroke-opacity=".5" fill="none"/><ellipse cx="43" cy="33" rx="5" ry="2.5" fill="#fff" opacity=".85"/>`;
+  const ring=d.kind==="class"?"":`<circle cx="50" cy="50" r="47" fill="none" stroke="${d.metal}" stroke-width="1.5" stroke-dasharray="2 4" opacity=".7"/>`;
+  return `<span class="pin ${earned?"on":"lock"}" style="--s:${size}px;--g:${d.c2===("#000000")?"#ffffff":d.c1}"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="${id}m" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="${d.metal}"/><stop offset="1" stop-color="#6b5a2e"/></linearGradient><linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${d.c1}"/><stop offset="1" stop-color="${d.c2}"/></linearGradient><radialGradient id="${id}b" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#3a2228"/><stop offset="1" stop-color="#120a0d"/></radialGradient></defs>
+   <circle cx="50" cy="50" r="46" fill="url(#${id}m)"/><circle cx="50" cy="50" r="38" fill="url(#${id}b)"/>${ring}${gem}</svg></span>`;
+}
+function cPin(v,withLabel){
+  const d=classPinD(v.n), e=classEarned(v);
+  return `<span class="cpin ${e?"got":""}" title="Pin ${d.name}">${pinSVG2(d,withLabel?34:30,e)}${withLabel?`<em>Pin ${d.name}</em>`:""}</span>`;
+}
+function mPins(){
+  const el=$("#mPins"); if(!el||!cur) return;
+  const cd=classPinD(cur.n), md=modPinD(String(cur.cat)), ce=classEarned(cur), me=modEarned(String(cur.cat));
+  el.innerHTML=`<div class="mpi ${ce?"got":""}">${pinSVG2(cd,54,ce)}<div><small>LOGRO DE ESTA CLASE</small><b>Pin ${cd.name}</b><span>${ce?"✓ Desbloqueado":"Se desbloquea al completar la clase"}</span></div></div>
+   <div class="mpi ${me?"got":""}">${pinSVG2(md,54,me)}<div><small>LOGRO DEL MÓDULO ${cur.cat}</small><b>Pin ${md.name}</b><span>${me?"✓ Desbloqueado":"Aprobá el cuestionario del módulo (80 %)"}</span></div></div>`;
+}
+function pinsSection(){
+  const all=VIDEOS.filter(classEarned).length+MODS.filter(modEarned).length+(isBD()?1:0), tot=TOTAL+MODS.length+1;
+  const rows=MODS.map(k=>{const vs=VIDEOS.filter(v=>String(v.cat)===k);
+    return `<div class="pcRow" style="--mc:${CATS[k].color}"><div class="pcM">${pinSVG2(modPinD(k),64,modEarned(k))}<small>Módulo ${k}</small><b>Pin ${modPinD(k).name}</b></div>
+     <div class="pcC">${vs.map(v=>{const d=classPinD(v.n);return `<div class="pcI">${pinSVG2(d,44,classEarned(v))}<small>${d.name}</small></div>`;}).join("")}</div></div>`;}).join("");
+  return `<section class="row pcol" id="pines"><div class="rowH"><h2>Tu colección de pines</h2><span>${all} de ${tot} desbloqueados</span></div>
+   <div class="pcBox">${rows}<div class="pcRow pcBD"><div class="pcM">${pinSVG2(BDPIN,64,isBD())}<small>Final del taller</small><b>Pin Black Diamond</b></div><div class="pcT">Completá las 16 clases y aprobá los 4 cuestionarios para ganarlo.</div></div></div></section>`;
+}
+// ---- pantalla de reconocimiento ----
+let awardQ=[], awarding=false;
+function award(it,extra,then){ awardQ.push({it,extra,then}); if(!awarding) nextAward(); }
+function pinInfo(it){
+  if(it.kind==="class"){const v=VIDEOS.find(x=>x.n===it.n),d=classPinD(it.n);return {d,t:`Pin ${d.name}`,s:`Completaste la clase ${it.n}: ${v.t}.`};}
+  const d=modPinD(it.k);return {d,t:`Pin ${d.name}`,s:`Aprobaste el cuestionario del Módulo ${it.k} · ${CATS[it.k].name}.`};
+}
+function nextAward(){
+  const a=awardQ.shift(); if(!a){awarding=false;return;} awarding=true;
+  let m=$("#awm"); if(!m){m=document.createElement("div");m.id="awm";document.body.appendChild(m);}
+  const I=pinInfo(a.it), got=VIDEOS.filter(classEarned).length+MODS.filter(modEarned).length, tot=TOTAL+MODS.length+1, big=a.it.kind==="mod";
+  m.className="show "+(big?"big":"");
+  m.innerHTML=`<div class="awBox"><div class="awRays"></div><div class="awPin">${pinSVG2(I.d,big?190:150,true)}</div><small>${big?"¡LOGRO DE MÓDULO!":"¡NUEVO PIN DESBLOQUEADO!"}</small><h2>${I.t}</h2><p>${esc(I.s)}</p>
+   ${a.extra?`<div class="awX">${esc(a.extra)}</div>`:""}<div class="awC">Pines en tu colección: <b>${got}/${tot}</b></div><button class="btn play" id="awOk">${a.then?"Continuar ▶":"Seguir"}</button></div>`;
+  if(!reduceMo()) confetti(big?200:110);
+  const close=()=>{m.className="";const th=a.then;setTimeout(()=>{nextAward();if(th)th();},250);};
+  $("#awOk").onclick=close; m.onclick=e=>{if(e.target===m)close();};
+}
 
 render(); who();
 
