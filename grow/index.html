@@ -689,6 +689,16 @@ a.dc:hover{background:rgba(229,9,20,.25);border-color:var(--red)}
 @media (prefers-reduced-motion: reduce){.pin .brillo,.pin .chispa,.pin svg.esc .rayos{animation:none}}
 .pin.lock svg.esc{opacity:.7}
 .rank .cpin .pin{--s:24px!important}
+/* simbolismo de cada pin */
+.awSym{position:relative;margin:14px 0 4px;padding:12px 14px;border-radius:14px;background:rgba(241,213,138,.07);border:1px solid rgba(241,213,138,.28);text-align:left}
+.awSym span{display:block;font-size:10.5px;font-weight:800;letter-spacing:.16em;color:#f1d58a;margin-bottom:5px}
+.awSym p{font-size:13.5px;line-height:1.5;color:#e6dfe2;margin:0}
+.awSym i{display:block;margin-top:7px;font-size:13px;color:#f1d58a}
+.awBox{max-height:92vh;overflow-y:auto}
+.bdBox .awSym{margin:12px 0}
+button.pcM,button.pcI{background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:0;transition:transform .2s}
+button.pcM:hover,button.pcI:hover{transform:translateY(-3px)}
+button.pcM:focus-visible,button.pcI:focus-visible{outline:2px solid #f1d58a;outline-offset:4px;border-radius:10px}
 </style>
 </head>
 <body>
@@ -874,7 +884,7 @@ function render(){
   h+=quizSection();
   h+=vocabSection();
   h+=pinsSection();
-  $("#main").innerHTML=h; bindVocab(); bindCert(); bind(); hero(); fx();
+  $("#main").innerHTML=h; bindVocab(); bindCert(); bind(); bindPins(); hero(); fx();
 }
 function bind(){
   document.querySelectorAll("#main .card").forEach(c=>c.onclick=()=>openV(c.dataset.id));
@@ -1240,7 +1250,7 @@ function tierUp(b,a,fallback){
 function blackDiamond(){
   let m=$("#bdm"); if(!m){m=document.createElement("div");m.id="bdm";document.body.appendChild(m);m.onclick=e=>{if(e.target===m||e.target.id==="bdKeep")m.classList.remove("show");};}
   m.innerHTML=`<div class="bdBox"><div class="bdGem"><i></i></div><small>MÁXIMA DISTINCIÓN DE GROW</small><h2>Orador Black Diamond</h2>
-   <p>Completaste las 16 clases y aprobaste los 4 cuestionarios. Llegaste hasta el final del taller: eso es lo que separa a un orador del resto.</p>
+   <p>Completaste las 16 clases y aprobaste los 4 cuestionarios. Llegaste hasta el final del taller: eso es lo que separa a un orador del resto.</p>${symHTML(BDPIN)}
    <div class="btns"><button class="btn play" id="bdCert">⬇ Descargar mi certificado</button><button class="btn info" id="bdKeep">Seguir</button></div></div>`;
   m.classList.add("show"); $("#bdCert").onclick=()=>{m.classList.remove("show");makeCert();};
   if(!reduceMo()){confetti(240);setTimeout(()=>confetti(160),700);}
@@ -1445,14 +1455,26 @@ function mPins(){
 function pinsSection(){
   const all=VIDEOS.filter(classEarned).length+MODS.filter(modEarned).length+(isBD()?1:0), tot=TOTAL+MODS.length+1;
   const rows=MODS.map(k=>{const vs=VIDEOS.filter(v=>String(v.cat)===k);
-    return `<div class="pcRow" style="--mc:${CATS[k].color}"><div class="pcM">${pinSVG2(modPinD(k),64,modEarned(k))}<small>Módulo ${k}</small><b>Pin ${modPinD(k).name}</b></div>
-     <div class="pcC">${vs.map(v=>{const d=classPinD(v.n);return `<div class="pcI">${pinSVG2(d,44,classEarned(v))}<small>${d.name}</small></div>`;}).join("")}</div></div>`;}).join("");
+    return `<div class="pcRow" style="--mc:${CATS[k].color}"><button class="pcM" data-pin="m${k}">${pinSVG2(modPinD(k),64,modEarned(k))}<small>Módulo ${k}</small><b>Pin ${modPinD(k).name}</b></button>
+     <div class="pcC">${vs.map(v=>{const d=classPinD(v.n);return `<button class="pcI" data-pin="c${v.n}">${pinSVG2(d,44,classEarned(v))}<small>${d.name}</small></button>`;}).join("")}</div></div>`;}).join("");
   return `<section class="row pcol" id="pines"><div class="rowH"><h2>Tu colección de pines</h2><span>${all} de ${tot} desbloqueados</span></div>
-   <div class="pcBox">${rows}<div class="pcRow pcBD"><div class="pcM">${pinSVG2(BDPIN,64,isBD())}<small>Final del taller</small><b>Pin Black Diamond</b></div><div class="pcT">Completá las 16 clases y aprobá los 4 cuestionarios para ganarlo.</div></div></div></section>`;
+   <div class="pcBox">${rows}<div class="pcRow pcBD"><button class="pcM" data-pin="bd">${pinSVG2(BDPIN,64,isBD())}<small>Final del taller</small><b>Pin Black Diamond</b></button><div class="pcT">Completá las 16 clases y aprobá los 4 cuestionarios para ganarlo. Tocá cualquier pin para ver qué simboliza.</div></div></div></section>`;
 }
 // ---- pantalla de reconocimiento ----
 let awardQ=[], awarding=false;
 function award(it,extra,then){ awardQ.push({it,extra,then}); if(!awarding) nextAward(); }
+const PIN_SYM={"1": {"e": "La piedra bruta", "l": "Primero el orden, después la grandeza.", "t": "La piedra bruta es la persona sin trabajar: llena de potencial y de aristas. El aprendiz no la rechaza: la acepta como materia prima y empieza a quitar lo que sobra."}, "3": {"e": "El martillo y el cincel", "l": "El carácter se talla golpe a golpe.", "t": "El martillo es la voluntad; el cincel, la inteligencia que la dirige. Uno sin el otro rompe o no avanza. El artesano aprende a combinarlos con práctica deliberada."}, "4": {"e": "La plomada", "l": "Quien se gobierna a sí mismo puede guiar a otros.", "t": "La plomada señala la vertical: lo recto, lo íntegro. Es el grado de la coherencia: lo que pensás, lo que decís y lo que hacés caen en la misma línea."}, "6": {"e": "La palabra", "l": "Tu voz es tu firma en el mundo.", "t": "La palabra crea realidad. La palabra justa abre puertas que la fuerza no puede abrir. El orador aprende a usarla con estructura, emoción y propósito."}, "7": {"e": "La antorcha", "l": "Una llama no pierde nada al encender otra.", "t": "La antorcha lleva el fuego que recibiste para que otros vean el camino. El mentor entiende que su crecimiento se completa cuando hace crecer a otros."}, "8": {"e": "La piedra cúbica", "l": "La obra está a la vista, y aun así se sigue puliendo.", "t": "La piedra cúbica, perfectamente pulida, encaja en el templo: ya no es solo tuya, sostiene a otros. El Gran Maestro es la persona que decidió ser, sin dejar de trabajar."}, "10": {"e": "La espada", "l": "La palabra justa corta más que cualquier espada.", "t": "La espada del caballero era recta y de doble filo: la verdad corta en ambas direcciones. El caballero de la palabra jura no usarla para herir sin causa ni para mentir."}, "12": {"e": "La balanza", "l": "Quien domina sus deseos, domina su destino.", "t": "La balanza es la virtud cardinal de la templanza: ni exceso ni defecto. El caballero templado no se deja arrastrar por el placer inmediato ni por la ira."}, "13": {"e": "La mesa redonda", "l": "Nadie llega lejos solo: la grandeza se construye entre iguales.", "t": "En la mesa redonda nadie se sentaba en la cabecera: todos eran iguales en dignidad. Representa la fraternidad, el consejo y la fuerza de un círculo comprometido."}, "15": {"e": "El templo", "l": "Tu cuerpo, tu mente y tu obra son tu templo: custodialos.", "t": "Los caballeros del templo juraban proteger a los peregrinos en el camino. Representa la misión de custodiar lo valioso: tu propósito, tu palabra y tu comunidad."}, "17": {"e": "El águila", "l": "El águila no discute con los cuervos: vuela más alto.", "t": "El águila vuela más alto que cualquier ave y mira de frente al sol. Representa la visión amplia, la agudeza y la libertad de quien eleva su perspectiva."}, "19": {"e": "La escalera de siete peldaños", "l": "Lo sagrado se alcanza peldaño a peldaño.", "t": "Kadosh significa \"santo\" o \"apartado\". Su escalera de siete peldaños simboliza las virtudes que se suben una por una. Es el grado de quien se aparta de lo vulgar para consagrarse a su obra."}, "21": {"e": "Las espadas cruzadas", "l": "Defendé lo justo aunque tengas que hacerlo solo.", "t": "Los paladines eran los doce pares de Carlomagno, los caballeros más valientes y leales de las leyendas. Representan la fuerza puesta al servicio de la justicia."}, "22": {"e": "El orbe", "l": "Quien guía la orden, carga con su destino.", "t": "El gran maestre era la cabeza de la orden, elegido por sus pares. El orbe coronado con la cruz simboliza el mundo puesto bajo una misión."}, "23": {"e": "El ojo vigilante", "l": "El verdadero secreto es la constancia que nadie ve.", "t": "El ojo dentro del triángulo representa la conciencia vigilante. El \"real secreto\" es que no hay atajos: solo la obra diaria, silenciosa y constante."}, "25": {"e": "El sol alquímico", "l": "Convertí el plomo de tus días en oro.", "t": "En la alquimia, el oro es el metal que no se corrompe: el resultado de purificar la materia con fuego. Su símbolo es el sol. Representa el valor que se sostiene en el tiempo."}, "27": {"e": "El zafiro", "l": "La sabiduría es la joya que nadie te puede robar.", "t": "El zafiro, azul como el cielo, fue la piedra de los sabios y de los reyes. Representa la verdad, la lealtad y la mente clara que ve lejos."}, "28": {"e": "La esmeralda", "l": "Todo lo que florece fue sembrado con paciencia.", "t": "La esmeralda, verde como la vida, simboliza el renacimiento y la abundancia. Representa la cosecha de quien sembró con paciencia."}, "29": {"e": "El rubí", "l": "Ardé con pasión, gobernate con sabiduría.", "t": "El rubí, rojo como la sangre y el fuego, era la piedra de emperadores y guerreros. Representa la pasión, el coraje y la vitalidad al servicio de una visión."}, "30": {"e": "El diamante", "l": "La presión que rompe a otros, a vos te forma.", "t": "El diamante nace del carbón sometido a presión y tiempo. Es la materia más dura y la que mejor refleja la luz: resistencia por dentro, brillo hacia afuera."}, "32": {"e": "El diamante negro", "l": "Lo más raro no se compara: se reconoce.", "t": "El diamante negro es el más raro de todos: absorbe la luz en vez de solo reflejarla. Representa la maestría silenciosa, el poder que no necesita demostrarse y la obra de toda una vida."}};
+function symHTML(d){const y=PIN_SYM[d.g];return y?`<div class="awSym"><span>SIMBOLIZA · ${esc(y.e)}</span><p>${esc(y.t)}</p><i>“${esc(y.l)}”</i></div>`:"";}
+function pinCode(c){ if(c==="bd") return {d:BDPIN,e:isBD(),t:"Pin Black Diamond",how:"Completá las 16 clases y aprobá los 4 cuestionarios."};
+  if(c[0]==="m"){const k=c.slice(1),d=modPinD(k);return {d,e:modEarned(k),t:`Pin ${d.name}`,how:`Aprobá el cuestionario del Módulo ${k} con 80 % o más.`};}
+  const n=+c.slice(1),v=VIDEOS.find(x=>x.n===n),d=classPinD(n);return {d,e:classEarned(v),t:`Pin ${d.name}`,how:`Completá la clase ${n}: ${v.t}.`}; }
+function pinView(c){
+  const I=pinCode(c); let m=$("#awm"); if(!m){m=document.createElement("div");m.id="awm";document.body.appendChild(m);}
+  m.className="show "+(I.d.kind!=="class"?"big":"");
+  m.innerHTML=`<div class="awBox"><div class="awRays"></div><div class="awPin">${pinSVG2(I.d,150,I.e)}</div><small>${I.e?"PIN DESBLOQUEADO":"PIN BLOQUEADO"}</small><h2>${I.t}</h2>${I.e?symHTML(I.d):`<p>${esc(I.how)}</p>`}<button class="btn play" id="awOk">Cerrar</button></div>`;
+  const close=()=>{m.className="";}; $("#awOk").onclick=close; m.onclick=e=>{if(e.target===m)close();};
+}
+function bindPins(){ document.querySelectorAll("[data-pin]").forEach(b=>b.onclick=()=>pinView(b.dataset.pin)); }
 function pinInfo(it){
   if(it.kind==="class"){const v=VIDEOS.find(x=>x.n===it.n),d=classPinD(it.n);return {d,t:`Pin ${d.name}`,s:`Completaste la clase ${it.n}: ${v.t}.`};}
   const d=modPinD(it.k);return {d,t:`Pin ${d.name}`,s:`Aprobaste el cuestionario del Módulo ${it.k} · ${CATS[it.k].name}.`};
@@ -1462,7 +1484,7 @@ function nextAward(){
   let m=$("#awm"); if(!m){m=document.createElement("div");m.id="awm";document.body.appendChild(m);}
   const I=pinInfo(a.it), got=VIDEOS.filter(classEarned).length+MODS.filter(modEarned).length, tot=TOTAL+MODS.length+1, big=a.it.kind==="mod";
   m.className="show "+(big?"big":"");
-  m.innerHTML=`<div class="awBox"><div class="awRays"></div><div class="awPin">${pinSVG2(I.d,big?190:150,true)}</div><small>${big?"¡LOGRO DE MÓDULO!":"¡NUEVO PIN DESBLOQUEADO!"}</small><h2>${I.t}</h2><p>${esc(I.s)}</p>
+  m.innerHTML=`<div class="awBox"><div class="awRays"></div><div class="awPin">${pinSVG2(I.d,big?190:150,true)}</div><small>${big?"¡LOGRO DE MÓDULO!":"¡NUEVO PIN DESBLOQUEADO!"}</small><h2>${I.t}</h2><p>${esc(I.s)}</p>${symHTML(I.d)}
    ${a.extra?`<div class="awX">${esc(a.extra)}</div>`:""}<div class="awC">Pines en tu colección: <b>${got}/${tot}</b></div><button class="btn play" id="awOk">${a.then?"Continuar ▶":"Seguir"}</button></div>`;
   if(!reduceMo()) confetti(big?200:110);
   const close=()=>{m.className="";const th=a.then;setTimeout(()=>{nextAward();if(th)th();},250);};
