@@ -707,13 +707,41 @@ html.pfsOn,html.pfsOn body{overflow:hidden!important}
 .player .vc .vcS{width:auto;min-width:44px;padding:0 10px;height:32px;border-radius:16px;font-size:13px;font-weight:800;font-variant-numeric:tabular-nums;background:rgba(255,255,255,.16);letter-spacing:.2px}
 .player .vc .vcS:hover{background:rgba(255,255,255,.28)}
 @media(max-width:560px){.player .vc .vcS{min-width:40px;padding:0 8px;font-size:12px}.player .vc button{width:36px;height:36px}.player .vc .vcS{width:auto;height:30px}}
+
+/* gimnasio de improvisacion */
+.impBox{margin:0 4vw;background:var(--card);border:1px solid #ffffff14;border-radius:14px;padding:18px;max-width:900px}
+.impTop{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.impCats,.impEst{display:flex;flex-wrap:wrap;gap:8px}
+.impCount{font-size:13px;color:var(--mute)}.impCount b{color:#fff;font-size:16px}
+.impCard{background:linear-gradient(135deg,rgba(229,9,20,.22),rgba(229,9,20,.04));border:1px solid rgba(229,9,20,.45);border-radius:14px;padding:22px 18px;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center;margin-bottom:16px}
+.impCard small{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#ffb4b8;font-weight:800}
+.impTema{font-size:clamp(22px,4.2vw,34px);font-weight:800;line-height:1.2}.impTema.ph{font-size:16px;font-weight:600;color:var(--mute)}
+.impSpin,.impGo,.impStop{border:0;border-radius:999px;padding:12px 22px;font-weight:800;font-size:15px;cursor:pointer}
+.impSpin{background:#ffffff1f;color:#fff}.impSpin:hover{background:#ffffff33}
+.impGo{background:#e50914;color:#fff;margin-top:6px}.impGo:hover{filter:brightness(1.12)}
+.impStop{background:#ffffff26;color:#fff;margin-top:10px}
+.impLbl{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);font-weight:800;margin:4px 0 8px}
+.impSteps{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 8px}
+.impStep{display:flex;align-items:center;gap:8px;background:#ffffff0f;border:1px solid #ffffff1a;border-radius:10px;padding:9px 12px;font-weight:700;font-size:14px;transition:.2s}
+.impStep i{font-style:normal;width:22px;height:22px;border-radius:50%;background:#e50914;display:flex;align-items:center;justify-content:center;font-size:12px}
+.impStep.now{background:#e50914;border-color:#e50914;transform:scale(1.04)}.impStep.now i{background:#fff;color:#e50914}
+.impTip{font-size:13.5px;color:var(--mute);line-height:1.5;margin-bottom:10px}
+.impSet{display:flex;gap:14px;flex-wrap:wrap;margin:6px 0 4px}.impSet label{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--mute);font-weight:700}
+.impSet select{background:#0b0d12;color:#fff;border:1px solid #ffffff26;border-radius:8px;padding:9px 12px;font-size:14px}
+.impRun{text-align:center;padding:14px 0 4px}.impPh{font-weight:800;font-size:15px;margin-bottom:6px}
+.impClock{font-size:clamp(56px,16vw,92px);font-weight:900;font-variant-numeric:tabular-nums;line-height:1}
+.impRun.talk .impClock{color:#ff4d55}.impRun.prep .impClock{color:#facc15}
+.impBar{height:8px;border-radius:8px;background:#ffffff1f;overflow:hidden;margin:12px auto 0;max-width:420px}.impBar i{display:block;height:100%;width:0;background:#e50914;transition:width 1s linear}
+.impEnd{display:flex;flex-direction:column;gap:10px;align-items:flex-start;margin-top:8px}
+.impChk{display:flex;gap:10px;align-items:center;font-size:15px;font-weight:600;cursor:pointer}.impChk input{width:20px;height:20px;accent-color:#e50914}
+.impOk{color:var(--ok);font-weight:700}
 </style>
 </head>
 <body>
 <nav class="nav" id="nav">
   <a class="brand" href="#inicio" aria-label="GROW Academy"><div class="logo"><span class="sky">GROW</span><span class="play">ACADEMY</span><small>ORATORIA Y COMUNICACIÓN</small></div></a>
   <div class="links">
-    <a href="#inicio">Inicio</a><a href="#ruta">Ruta</a><a href="#modulos">Módulos</a><a href="#cuestionarios">Cuestionarios</a><a href="#vocabulario">Vocabulario</a><a href="#pines">Pines</a>
+    <a href="#inicio">Inicio</a><a href="#ruta">Ruta</a><a href="#modulos">Módulos</a><a href="#cuestionarios">Cuestionarios</a><a href="#improvisacion">Improvisación</a><a href="#vocabulario">Vocabulario</a><a href="#pines">Pines</a>
   </div>
   <div class="navR">
     <div class="search" id="search">
@@ -870,6 +898,87 @@ function modules(){
 
 let query="";
 function aprobados(){return MODS.filter(k=>(ST.quiz[k]||0)>=80).length;}
+// ---- Gimnasio de improvisación ----
+const IMP_TEMAS={
+ "Liderazgo":["Liderar es servir","Autoridad sin gritar","Delegar con confianza","El ejemplo antes que la orden","Dar una mala noticia","Tomar una decisión difícil","Equipo","Responsabilidad","Cómo se gana el respeto","El líder que escucha","Pedir ayuda","Dar feedback que no ofende"],
+ "Desarrollo personal":["Disciplina","Salir de la zona de comodidad","El poder de los hábitos","Constancia","Empezar antes de estar listo","Tu mejor versión","Fracasar rápido","Energía y enfoque","Gratitud","Decir que no","Propósito","Una decisión que cambió tu vida"],
+ "Crecimiento":["Aprender de los errores","Mentalidad de crecimiento","Incomodidad que transforma","El valor de un mentor","Reinventarse","Paciencia","Cambiar de rumbo","Aprender a esperar","Soltar lo que ya no sirve","Rodearte de mejores personas","Ambición sana","El próximo nivel"],
+ "Influencia":["Carisma","Persuadir sin manipular","Credibilidad","Dar el ejemplo","Tu marca personal","Primera impresión","Generar confianza","Inspirar a otros","Reputación","Presencia","Vender una idea","Por qué nos siguen"],
+ "Comunicación":["Escuchar de verdad","El poder del silencio","Claridad","Decir lo difícil con respeto","Lenguaje corporal","Preguntar bien","Hablar para que te entiendan","Empatía","Conversaciones que cambian","Mensaje corto, mensaje fuerte","Contar una historia","Perder el miedo a hablar"],
+ "Psicología":["Miedo escénico","Autoimagen","Autoestima","Sesgos","Ansiedad antes de hablar","Motivación","Primera impresión y prejuicio","Inteligencia emocional","Creencias limitantes","Hábitos mentales","Validación externa","El síndrome del impostor"],
+ "Filosofía":["¿Qué es una vida bien vivida?","Estoicismo: controlar lo que depende de vos","Libertad y responsabilidad","El valor de la duda","Sentido y propósito","Virtud","¿Se nace líder o se hace?","Verdad","El tiempo","Coraje","Humildad","La palabra como acto"]
+};
+const IMP_EST=[
+ {k:"hist",n:"Historia (la de clase)",p:["Estado inicial","Punto de quiebre","Estado actual","Moraleja transferible"],t:"La estructura de la clase 15: contás de dónde partías, qué te quebró, dónde estás hoy y qué se lleva el que te escucha."},
+ {k:"prep",n:"PREP",p:["Punto","Razón","Ejemplo","Punto otra vez"],t:"Ideal para opinar rápido: afirmás, justificás, das un ejemplo y cerrás repitiendo tu punto."},
+ {k:"ppf",n:"Pasado · Presente · Futuro",p:["Pasado","Presente","Futuro"],t:"Muy útil para presentarte o mostrar un cambio: de dónde venís, dónde estás y hacia dónde vas."},
+ {k:"pcs",n:"Problema · Causa · Solución",p:["Problema","Causa","Solución","Primer paso"],t:"Para convencer: nombrás el problema, explicás por qué pasa y proponés qué hacer."},
+ {k:"qyq",n:"Qué · Y qué · Ahora qué",p:["Qué pasa","Y qué importa","Ahora qué hacemos"],t:"La más simple para improvisar: hecho, importancia y acción."},
+ {k:"all",n:"Anécdota · Lección · Llamado",p:["Anécdota breve","Lección","Llamado a la acción"],t:"Empezás con una escena corta, sacás la enseñanza y le pedís algo concreto a quien escucha."}
+];
+const IMP_CHK=["Seguí la estructura","Hablé sin muletillas","Usé pausas","Cerré con una idea clara"];
+let IMP={cat:"",tema:null,est:"hist",prep:30,dur:120,fase:"idle",left:0,chk:[],saved:false,sorpresa:false};
+let impTimer=null;
+function impSection(){ return `<section class="row" id="improvisacion"><div class="rowH"><h2>Gimnasio de improvisación</h2><span>Girá un tema, elegí una estructura y hablá</span></div><div class="impBox" id="impBox"></div></section>`; }
+function impPick(a){ return a[Math.floor(Math.random()*a.length)]; }
+function impSpin(){
+  const cats=IMP.cat?[IMP.cat]:Object.keys(IMP_TEMAS);
+  let c,t,n=0; do{ c=impPick(cats); t=impPick(IMP_TEMAS[c]); n++; }while(IMP.tema&&IMP.tema.t===t&&n<10);
+  IMP.tema={c:c,t:t}; if(IMP.sorpresa) IMP.est=impPick(IMP_EST).k;
+  impStop(true); drawImp();
+}
+function impStop(silent){ clearInterval(impTimer); impTimer=null; if(IMP.fase==="prep"||IMP.fase==="talk"){ IMP.fase="idle"; } if(!silent) drawImp(); }
+function impStart(){
+  if(!IMP.tema) impSpin();
+  IMP.fase="prep"; IMP.left=IMP.prep; IMP.saved=false; IMP.chk=[]; drawImp(); clearInterval(impTimer);
+  impTimer=setInterval(()=>{
+    IMP.left--;
+    if(IMP.left<=0){
+      if(IMP.fase==="prep"){ IMP.fase="talk"; IMP.left=IMP.dur; drawImp(); impBeep(); return; }
+      clearInterval(impTimer); impTimer=null; IMP.fase="fin"; impBeep(); drawImp(); return;
+    }
+    impTick();
+  },1000);
+}
+function impBeep(){ try{ navigator.vibrate&&navigator.vibrate(180); }catch(e){} }
+function impTick(){
+  const T=document.getElementById("impTime"), B=document.getElementById("impBar"); if(!T) return;
+  T.textContent=clk(IMP.left);
+  const tot=IMP.fase==="prep"?IMP.prep:IMP.dur; if(B) B.style.width=(100-IMP.left/tot*100)+"%";
+  if(IMP.fase==="talk"){ const E=IMP_EST.find(x=>x.k===IMP.est), n=E.p.length, i=Math.min(n-1,Math.floor((IMP.dur-IMP.left)/IMP.dur*n));
+    document.querySelectorAll("#impBox .impStep").forEach((el,j)=>el.classList.toggle("now",j===i)); }
+}
+function drawImp(){
+  const B=document.getElementById("impBox"); if(!B) return;
+  const E=IMP_EST.find(x=>x.k===IMP.est), cats=Object.keys(IMP_TEMAS);
+  const n=(ST.imp&&ST.imp.n)||0;
+  let h=`<div class="impTop"><div class="impCats"><button class="vChip ${IMP.cat?"":"on"}" data-ic="">Todos los temas</button>${cats.map(c=>`<button class="vChip ${IMP.cat===c?"on":""}" data-ic="${esc(c)}">${esc(c)}</button>`).join("")}</div><div class="impCount"><b>${n}</b> práctica${n===1?"":"s"} hecha${n===1?"":"s"}</div></div>`;
+  h+=`<div class="impCard ${IMP.tema?"":"empty"}">${IMP.tema?`<small>${esc(IMP.tema.c)}</small><div class="impTema">${esc(IMP.tema.t)}</div>`:`<div class="impTema ph">Tocá “Girar tema” para recibir tu tema</div>`}<button class="impSpin" id="impSpin" type="button">${IMP.tema?"Otro tema":"Girar tema"}</button></div>`;
+  h+=`<div class="impLbl">Estructura</div><div class="impEst">${IMP_EST.map(x=>`<button class="vChip ${!IMP.sorpresa&&IMP.est===x.k?"on":""}" data-ie="${x.k}">${esc(x.n)}</button>`).join("")}<button class="vChip ${IMP.sorpresa?"on":""}" data-ie="rnd">Sorpresa</button></div>`;
+  h+=`<div class="impSteps">${E.p.map((p,i)=>`<div class="impStep"><i>${i+1}</i>${esc(p)}</div>`).join("")}</div><p class="impTip">${esc(E.t)}</p>`;
+  if(IMP.fase==="idle"||IMP.fase==="fin"){
+    h+=`<div class="impSet"><label>Preparación<select id="impPrep">${[15,30,60].map(v=>`<option value="${v}" ${IMP.prep===v?"selected":""}>${v} s</option>`).join("")}</select></label><label>Tu discurso<select id="impDur">${[60,120,180].map(v=>`<option value="${v}" ${IMP.dur===v?"selected":""}>${v/60} min</option>`).join("")}</select></label></div>`;
+  }
+  if(IMP.fase==="idle") h+=`<button class="impGo" id="impGo" type="button">Empezar</button>`;
+  if(IMP.fase==="prep"||IMP.fase==="talk"){
+    h+=`<div class="impRun ${IMP.fase}"><div class="impPh">${IMP.fase==="prep"?"Preparate: armá los pasos en tu cabeza":"¡Hablá! Seguí los pasos"}</div><div class="impClock" id="impTime">${clk(IMP.left)}</div><div class="impBar"><i id="impBar"></i></div><button class="impStop" id="impStop" type="button">Parar</button></div>`;
+  }
+  if(IMP.fase==="fin"){
+    h+=`<div class="impEnd"><div class="impPh">¡Tiempo! Evaluá tu práctica</div>${IMP_CHK.map((c,i)=>`<label class="impChk"><input type="checkbox" data-ik="${i}" ${IMP.chk.includes(i)?"checked":""}><span>${esc(c)}</span></label>`).join("")}${IMP.saved?`<p class="impOk">¡Práctica guardada! Seguí con otro tema.</p>`:`<button class="impGo" id="impSave" type="button">Guardar práctica</button>`}<button class="impSpin" id="impAgain" type="button">Otro tema</button></div>`;
+  }
+  B.innerHTML=h;
+  B.querySelectorAll("[data-ic]").forEach(b=>b.onclick=()=>{ IMP.cat=b.dataset.ic; drawImp(); });
+  B.querySelectorAll("[data-ie]").forEach(b=>b.onclick=()=>{ if(b.dataset.ie==="rnd"){ IMP.sorpresa=!IMP.sorpresa; if(IMP.sorpresa) IMP.est=impPick(IMP_EST).k; } else { IMP.sorpresa=false; IMP.est=b.dataset.ie; } drawImp(); });
+  const sp=B.querySelector("#impSpin"); if(sp) sp.onclick=impSpin;
+  const go=B.querySelector("#impGo"); if(go&&go.id==="impGo") go.onclick=impStart;
+  const st=B.querySelector("#impStop"); if(st) st.onclick=()=>{ impStop(true); IMP.fase="idle"; drawImp(); };
+  const pp=B.querySelector("#impPrep"); if(pp) pp.onchange=()=>{ IMP.prep=+pp.value; };
+  const dd=B.querySelector("#impDur"); if(dd) dd.onchange=()=>{ IMP.dur=+dd.value; };
+  B.querySelectorAll("[data-ik]").forEach(c=>c.onchange=()=>{ const i=+c.dataset.ik; IMP.chk=c.checked?[...IMP.chk,i]:IMP.chk.filter(x=>x!==i); });
+  const sv=B.querySelector("#impSave"); if(sv) sv.onclick=()=>{ ST.imp=ST.imp||{n:0}; ST.imp.n++; ST.imp.last=Date.now(); save(); IMP.saved=true; drawImp(); };
+  const ag=B.querySelector("#impAgain"); if(ag) ag.onclick=()=>{ IMP.fase="idle"; impSpin(); };
+  if(IMP.fase==="talk") impTick();
+}
 function render(){
   touchDay(); fabUpdate();
   const doneN=VIDEOS.filter(v=>ST.done[v.id]).length;
@@ -890,9 +999,10 @@ function render(){
   h+=dash(doneN,P);
   h+=modules();
   h+=quizSection();
+  h+=impSection();
   h+=vocabSection();
   h+=pinsSection();
-  $("#main").innerHTML=h; bindVocab(); bindCert(); bind(); bindPins(); hero(); fx();
+  $("#main").innerHTML=h; bindVocab(); drawImp(); bindCert(); bind(); bindPins(); hero(); fx();
 }
 function bind(){
   document.querySelectorAll("#main .card").forEach(c=>c.onclick=()=>openV(c.dataset.id));
