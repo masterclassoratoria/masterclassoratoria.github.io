@@ -699,6 +699,14 @@ a.dc:hover{background:rgba(229,9,20,.25);border-color:var(--red)}
 button.pcM,button.pcI{background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:0;transition:transform .2s}
 button.pcM:hover,button.pcI:hover{transform:translateY(-3px)}
 button.pcM:focus-visible,button.pcI:focus-visible{outline:2px solid #f1d58a;outline-offset:4px;border-radius:10px}
+
+/* pantalla completa en celular (respaldo cuando el navegador no la ofrece) + velocidad */
+.player.pfs{position:fixed!important;left:0;top:0;right:0;bottom:0;width:100vw!important;height:100vh!important;height:100dvh!important;max-width:none!important;max-height:none!important;aspect-ratio:auto!important;z-index:99999;background:#000;border-radius:0!important;margin:0!important}
+.player.pfs #ytp,.player.pfs iframe{width:100%!important;height:100%!important}
+html.pfsOn,html.pfsOn body{overflow:hidden!important}
+.player .vc .vcS{width:auto;min-width:44px;padding:0 10px;height:32px;border-radius:16px;font-size:13px;font-weight:800;font-variant-numeric:tabular-nums;background:rgba(255,255,255,.16);letter-spacing:.2px}
+.player .vc .vcS:hover{background:rgba(255,255,255,.28)}
+@media(max-width:560px){.player .vc .vcS{min-width:40px;padding:0 8px;font-size:12px}.player .vc button{width:36px;height:36px}.player .vc .vcS{width:auto;height:30px}}
 </style>
 </head>
 <body>
@@ -930,7 +938,8 @@ function loadYT(){
   return ytReady;
 }
 let ui=null;
-function killPlayer(){ clearInterval(tick); tick=null; clearInterval(ui); ui=null; try{YTP&&YTP.destroy&&YTP.destroy();}catch(e){} YTP=null; $("#player").innerHTML=""; }
+function pfsOff(){ const P=document.getElementById("player"); if(P) P.classList.remove("pfs"); document.documentElement.classList.remove("pfsOn"); try{screen.orientation&&screen.orientation.unlock&&screen.orientation.unlock();}catch(e){} }
+function killPlayer(){ pfsOff(); clearInterval(tick); tick=null; clearInterval(ui); ui=null; try{YTP&&YTP.destroy&&YTP.destroy();}catch(e){} YTP=null; $("#player").innerHTML=""; }
 function fallbackIframe(v,autoplay,start){
   $("#player").innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${VID}?start=${start}&end=${v.e}&autoplay=${autoplay?1:0}&rel=0&modestbranding=1&playsinline=1&hl=es" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="${esc(v.t)}"></iframe>`;
 }
@@ -941,10 +950,10 @@ const IC={play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11
  vol:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 10v4h4l5 4V6L7 10z"/><path d="M16 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',
  mute:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 10v4h4l5 4V6L7 10z"/><path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',
  fs:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>'};
-let dragging=false;
+let dragging=false, SPEED=1;
 function buildCtl(){
   const P=$("#player"); if(!P||!cur||P.querySelector("#vc")) return;
-  P.insertAdjacentHTML("beforeend",`<div class="vclick" id="vcClick"></div><div class="vc" id="vc"><button type="button" id="vcPlay" aria-label="Reproducir o pausar">${IC.play}</button><span id="vcT">0:00 / ${clk(cur.d)}</span><input id="vcR" type="range" min="0" max="1000" value="0" step="1" aria-label="Avance de la clase"><button type="button" id="vcM" aria-label="Sonido">${IC.vol}</button>${(P.requestFullscreen||P.webkitRequestFullscreen)?`<button type="button" id="vcF" aria-label="Pantalla completa">${IC.fs}</button>`:""}</div>`);
+  P.insertAdjacentHTML("beforeend",`<div class="vclick" id="vcClick"></div><div class="vc" id="vc"><button type="button" id="vcPlay" aria-label="Reproducir o pausar">${IC.play}</button><span id="vcT">0:00 / ${clk(cur.d)}</span><input id="vcR" type="range" min="0" max="1000" value="0" step="1" aria-label="Avance de la clase"><button type="button" id="vcS" class="vcS" aria-label="Velocidad de reproducción">${SPEED}x</button><button type="button" id="vcM" aria-label="Sonido">${IC.vol}</button><button type="button" id="vcF" aria-label="Pantalla completa">${IC.fs}</button></div>`);
   const toggle=()=>{ if(!YTP||!YTP.getPlayerState) return; const st=YTP.getPlayerState(), t=YTP.getCurrentTime();
     if(st===1){ YTP.pauseVideo(); } else { if(st===0||t>=cur.e-.5||t<cur.s-1) YTP.seekTo(cur.s,true); YTP.playVideo(); } };
   $("#vcPlay").onclick=toggle; $("#vcClick").onclick=toggle;
@@ -952,7 +961,20 @@ function buildCtl(){
   R.oninput=()=>{ dragging=true; ctlPaint(R.value/1000*cur.d); };
   R.onchange=()=>{ dragging=false; if(YTP&&YTP.seekTo){ YTP.seekTo(cur.s+R.value/1000*cur.d,true); } };
   $("#vcM").onclick=()=>{ if(!YTP) return; if(YTP.isMuted()){YTP.unMute();$("#vcM").innerHTML=IC.vol;} else {YTP.mute();$("#vcM").innerHTML=IC.mute;} };
-  const F=$("#vcF"); if(F) F.onclick=()=>{ const fsEl=document.fullscreenElement||document.webkitFullscreenElement; if(fsEl){(document.exitFullscreen||document.webkitExitFullscreen).call(document);} else {(P.requestFullscreen||P.webkitRequestFullscreen).call(P);} };
+  const F=$("#vcF");
+  const lockLand=()=>{ try{ screen.orientation&&screen.orientation.lock&&screen.orientation.lock("landscape").catch(()=>{}); }catch(e){} };
+  F.onclick=()=>{
+    const fsEl=document.fullscreenElement||document.webkitFullscreenElement;
+    if(fsEl){ (document.exitFullscreen||document.webkitExitFullscreen).call(document); return; }
+    if(P.classList.contains("pfs")){ pfsOff(); return; }
+    const req=P.requestFullscreen||P.webkitRequestFullscreen;
+    const fallback=()=>{ P.classList.add("pfs"); document.documentElement.classList.add("pfsOn"); lockLand(); };
+    if(req){ try{ const r=req.call(P); if(r&&r.then){ r.then(lockLand).catch(fallback); } else { lockLand(); } }catch(e){ fallback(); } }
+    else { fallback(); }
+  };
+  const Sb=$("#vcS");
+  Sb.onclick=()=>{ SPEED=SPEED===1?1.25:(SPEED===1.25?1.5:1); Sb.textContent=SPEED+"x"; try{YTP.setPlaybackRate(SPEED);}catch(e){} };
+  try{ YTP.setPlaybackRate(SPEED); }catch(e){}
   clearInterval(ui); ui=setInterval(ctlSync,250); ctlSync();
 }
 function ctlPaint(rel){ const R=$("#vcR"); if(!R||!cur) return; const p=Math.max(0,Math.min(1,rel/cur.d)); R.style.setProperty("--p",(p*100)+"%"); const T=$("#vcT"); if(T) T.textContent=clk(rel)+" / "+clk(cur.d); }
@@ -972,7 +994,7 @@ async function mountPlayer(v,autoplay,resume){
   $("#player").innerHTML='<div id="ytp"></div>';
   YTP=new YT.Player("ytp",{videoId:VID,width:"100%",height:"100%",
     playerVars:{start:start,end:v.e,autoplay:autoplay?1:0,controls:0,disablekb:1,fs:0,rel:0,modestbranding:1,playsinline:1,iv_load_policy:3,cc_load_policy:0,hl:"es",origin:location.origin},
-    events:{onReady:()=>buildCtl(),onStateChange:ev=>{ if(ev.data===0&&cur){ markDone(cur); save(); doneBtn(); } ctlSync(); },
+    events:{onReady:()=>buildCtl(),onStateChange:ev=>{ if(ev.data===0&&cur){ markDone(cur); save(); doneBtn(); } if(ev.data===1){ try{ if(YTP.getPlaybackRate()!==SPEED) YTP.setPlaybackRate(SPEED); }catch(e){} } ctlSync(); },
             onError:()=>{ if(cur) fallbackIframe(cur,autoplay,start); }}});
   clearInterval(tick);
   tick=setInterval(()=>{
