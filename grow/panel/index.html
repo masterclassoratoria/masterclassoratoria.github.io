@@ -31,20 +31,33 @@ th:hover{color:#facc15}
 .card{background:#10141f;border:1px solid #1f2638;border-radius:14px;padding:14px;margin-bottom:10px}
 .card h3{font-size:16px;margin-bottom:4px}.card .r{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:#9aa3b8;padding:4px 0}.card .r b{color:#e8eaf0;font-weight:600;text-align:right}
 .empty{padding:30px;text-align:center;color:#9aa3b8}
+.n2{background:linear-gradient(135deg,#1a0f05,#10141f);border:1px solid #5b3a0a;border-radius:16px;padding:18px;margin-bottom:20px}
+.n2 h2{font-size:17px;font-weight:900;margin-bottom:4px}.n2 h2 b{color:#f59e0b}.n2 p{color:#9aa3b8;font-size:13px;margin-bottom:14px}
+.n2row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.n2 .cur{font-size:22px;font-weight:900;letter-spacing:.08em;background:#07090f;border:1px dashed #f59e0b;border-radius:10px;padding:8px 14px;color:#fde68a}
+.n2 input[type=text]{background:#07090f;border:1px solid #2a3145;color:#fff;border-radius:10px;padding:10px 12px;font-size:15px;min-width:220px;text-transform:uppercase}
+.sw{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}.sw input{width:18px;height:18px;accent-color:#f59e0b}
+.n2msg{font-size:13px;margin-top:10px;min-height:16px}.n2msg.ok{background:none;color:#86efac}.n2msg.bad{color:#f87171}
+.mini{background:#1a1f2e;color:#e8eaf0;border:1px solid #2a3145;border-radius:8px;padding:5px 9px;font-size:12px;font-weight:700;cursor:pointer;margin-left:6px}
+.mini.gr{border-color:#14532d;color:#86efac}.mini.rv{border-color:#7f1d1d;color:#fca5a5}
+.stats{grid-template-columns:repeat(5,1fr)}
 @media(max-width:1000px){table{display:none}.cards{display:block}.stats{grid-template-columns:repeat(2,1fr)}}
 </style></head><body>
 <div id="gate" class="gate"><h1><b>GROW</b> ACADEMY</h1><p>Panel privado. Ingresá tu PIN de 6 dígitos.</p>
 <input id="pin" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="······"><button class="btn" id="go" style="width:100%">Entrar</button><div class="err" id="err"></div></div>
 <div id="app" class="wrap" style="display:none">
 <div class="top"><h1><b>GROW</b> ACADEMY · Panel</h1><div style="display:flex;gap:8px"><a class="btn g" id="sheet" target="_blank" rel="noopener">Abrir planilla</a><button class="btn g" id="ref">Actualizar</button><button class="btn g" id="out">Salir</button></div></div>
-<div class="stats"><div class="st"><small>Alumnos registrados</small><div id="s1">0</div></div><div class="st"><small>Avance promedio</small><div id="s2">0<i>%</i></div></div><div class="st"><small>Certificados</small><div id="s3">0</div></div><div class="st"><small>Activos esta semana</small><div id="s4">0</div></div></div>
-<div class="bar"><input id="q" placeholder="Buscar por nombre o WhatsApp"><select id="f"><option value="">Todos</option><option value="cert">Con certificado</option><option value="nocert">Sin certificado</option><option value="act">Activos esta semana</option><option value="ina">Sin actividad 7+ días</option></select></div>
+<div class="stats"><div class="st"><small>Alumnos registrados</small><div id="s1">0</div></div><div class="st"><small>Avance promedio</small><div id="s2">0<i>%</i></div></div><div class="st"><small>Certificados</small><div id="s3">0</div></div><div class="st"><small>Activos esta semana</small><div id="s4">0</div></div><div class="st"><small>Nivel 2 · con acceso</small><div id="s5">0</div></div></div>
+<div class="n2"><h2><b>Nivel 2 · Persuasión</b> — Código de acceso</h2><p>Este es el código general que le enviás a cada alumno después del pago. Sirve para todos, no vence y no se gasta. Solo desbloquea el Nivel 2.</p>
+<div class="n2row"><span>Código actual:</span><span class="cur" id="nCur">—</span><span id="nSt" class="pill no">—</span></div>
+<div class="n2row" style="margin-top:12px"><input type="text" id="nNew" placeholder="Nuevo código (opcional)" maxlength="40" autocomplete="off"><label class="sw"><input type="checkbox" id="nOn"> Desbloqueo con código activo</label><button class="btn" id="nSave">Guardar cambios</button></div><div class="n2msg" id="nMsg"></div></div>
+<div class="bar"><input id="q" placeholder="Buscar por nombre o WhatsApp"><select id="f"><option value="">Todos</option><option value="cert">Con certificado</option><option value="nocert">Sin certificado</option><option value="act">Activos esta semana</option><option value="ina">Sin actividad 7+ días</option><option value="n2">Con Nivel 2</option><option value="non2">Sin Nivel 2</option></select></div>
 <table><thead><tr id="th"></tr></thead><tbody id="tb"></tbody></table><div class="cards" id="cards"></div>
 </div>
 <script>
 var API="https://script.google.com/macros/s/AKfycbyGPCbKRh2wUyHeLNDN8gWmt7EaD5RnEy4JISw7G6Hijmk9VeR2QHkLUk4ZPeN-C6py/exec";
 var pin="",data=[],sortK="ultimo",sortD=-1;
-var COLS=[["nombre","Alumno"],["wa","WhatsApp"],["nVistas","Clases"],["avance","Avance"],["m1","M1"],["m2","M2"],["m3","M3"],["m4","M4"],["aprobados","Aprobados"],["cert","Certificado"],["ultimo","Último acceso"]];
+var COLS=[["nombre","Alumno"],["wa","WhatsApp"],["nVistas","Clases"],["avance","Avance"],["m1","M1"],["m2","M2"],["m3","M3"],["m4","M4"],["aprobados","Aprobados"],["cert","Certificado"],["n2","Nivel 2"],["n2Avance","N2 avance"],["ultimo","Último acceso"]];
 function $(i){return document.getElementById(i)}
 function norm(s){return String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase()}
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
@@ -52,24 +65,31 @@ function waLink(w){var d=String(w||"").replace(/\D/g,"");if(!d)return"";if(d[0]=
 function isAct(s){var t=Date.parse(String(s.ultimo||"").replace(" ","T"));return t&&Date.now()-t<7*864e5}
 function grade(v){if(v===""||v==null)return'<span class="pill no">—</span>';var n=Number(v);return'<span class="pill '+(n>=80?"ok":"nt")+'">'+(n>=80?"✓ ":"")+n+'%</span>'}
 function load(p,cb){fetch(API+"?pin="+encodeURIComponent(p)).then(function(r){return r.json()}).then(function(j){cb(j)}).catch(function(){cb({ok:false,error:"net"})})}
-function enter(j){data=j.students||[];$("gate").style.display="none";$("app").style.display="block";$("sheet").href=j.sheetUrl||"#";render()}
+function enter(j){data=j.students||[];showN2(j.n2);$("gate").style.display="none";$("app").style.display="block";$("sheet").href=j.sheetUrl||"#";render()}
 function render(){
  var q=norm($("q").value),f=$("f").value;
  var rows=data.filter(function(s){var m=!q||norm(s.nombre+" "+s.apellido).indexOf(q)>-1||String(s.wa).indexOf(q)>-1;
-  if(f==="cert")m=m&&s.cert==="Sí";if(f==="nocert")m=m&&s.cert!=="Sí";if(f==="act")m=m&&isAct(s);if(f==="ina")m=m&&!isAct(s);return m});
+  if(f==="cert")m=m&&s.cert==="Sí";if(f==="nocert")m=m&&s.cert!=="Sí";if(f==="act")m=m&&isAct(s);if(f==="ina")m=m&&!isAct(s);if(f==="n2")m=m&&s.n2;if(f==="non2")m=m&&!s.n2;return m});
  rows.sort(function(a,b){var x=a[sortK],y=b[sortK];if(sortK==="nombre"){x=norm(a.nombre+a.apellido);y=norm(b.nombre+b.apellido)}
   if(typeof x==="number"||typeof y==="number"||sortK.match(/^m\d$/)){x=Number(x||0);y=Number(y||0)}else{x=String(x||"");y=String(y||"")}return x>y?sortD:x<y?-sortD:0});
  var n=data.length,av=n?Math.round(data.reduce(function(a,s){return a+(s.avance||0)},0)/n):0;
- $("s1").textContent=n;$("s2").innerHTML=av+"<i>%</i>";$("s3").textContent=data.filter(function(s){return s.cert==="Sí"}).length;$("s4").textContent=data.filter(isAct).length;
+ $("s1").textContent=n;$("s2").innerHTML=av+"<i>%</i>";$("s3").textContent=data.filter(function(s){return s.cert==="Sí"}).length;$("s4").textContent=data.filter(isAct).length;$("s5").textContent=data.filter(function(s){return s.n2}).length;
  $("th").innerHTML=COLS.map(function(c){return'<th data-k="'+c[0]+'">'+c[1]+(sortK===c[0]?(sortD>0?" ▲":" ▼"):"")+"</th>"}).join("")+"<th></th>";
  $("th").querySelectorAll("th[data-k]").forEach(function(t){t.onclick=function(){var k=t.dataset.k;if(sortK===k)sortD=-sortD;else{sortK=k;sortD=-1}render()}});
- if(!rows.length){$("tb").innerHTML='<tr><td colspan="12" class="empty">Sin alumnos para mostrar</td></tr>';$("cards").innerHTML='<div class="empty">Sin alumnos para mostrar</div>';return}
- $("tb").innerHTML=rows.map(function(s){var w=waLink(s.wa);return"<tr><td><b>"+esc(s.nombre+" "+s.apellido)+"</b></td><td>"+esc(s.wa)+'</td><td>'+(s.nVistas||0)+"/16</td><td><span class='pg'><i style='width:"+(s.avance||0)+"%'></i></span>"+(s.avance||0)+"%</td><td>"+grade(s.m1)+"</td><td>"+grade(s.m2)+"</td><td>"+grade(s.m3)+"</td><td>"+grade(s.m4)+"</td><td>"+(s.aprobados||0)+"/4</td><td>"+(s.cert==="Sí"?'<span class="pill ok">Sí</span>':'<span class="pill no">No</span>')+"</td><td>"+esc(s.ultimo)+"</td><td>"+(w?'<a class="wa" target="_blank" rel="noopener" href="'+w+'">WhatsApp</a>':"")+"</td></tr>"}).join("");
- $("cards").innerHTML=rows.map(function(s){var w=waLink(s.wa);return'<div class="card"><h3>'+esc(s.nombre+" "+s.apellido)+'</h3><div class="r">Clases vistas<b>'+(s.nVistas||0)+'/16 · '+(s.avance||0)+'%</b></div><div class="r">Cuestionarios<b>'+[s.m1,s.m2,s.m3,s.m4].map(function(v){return v===""||v==null?"—":v+"%"}).join(" · ")+'</b></div><div class="r">Aprobados<b>'+(s.aprobados||0)+'/4</b></div><div class="r">Certificado<b>'+(s.cert==="Sí"?"Sí":"No")+'</b></div><div class="r">Último acceso<b>'+esc(s.ultimo)+'</b></div>'+(w?'<a class="wa" style="display:block;text-align:center;margin-top:8px;padding:10px" target="_blank" rel="noopener" href="'+w+'">Escribir por WhatsApp</a>':"")+"</div>"}).join("")}
+ if(!rows.length){$("tb").innerHTML='<tr><td colspan="14" class="empty">Sin alumnos para mostrar</td></tr>';$("cards").innerHTML='<div class="empty">Sin alumnos para mostrar</div>';return}
+ $("tb").innerHTML=rows.map(function(s){var w=waLink(s.wa);return"<tr><td><b>"+esc(s.nombre+" "+s.apellido)+"</b></td><td>"+esc(s.wa)+'</td><td>'+(s.nVistas||0)+"/16</td><td><span class='pg'><i style='width:"+(s.avance||0)+"%'></i></span>"+(s.avance||0)+"%</td><td>"+grade(s.m1)+"</td><td>"+grade(s.m2)+"</td><td>"+grade(s.m3)+"</td><td>"+grade(s.m4)+"</td><td>"+(s.aprobados||0)+"/4</td><td>"+(s.cert==="Sí"?'<span class="pill ok">Sí</span>':'<span class="pill no">No</span>')+"</td><td>"+n2cell(s)+"</td><td>"+(s.n2?"<span class='pg'><i style='width:"+(s.n2Avance||0)+"%'></i></span>"+(s.n2Avance||0)+"%"+(s.n2Cert==="Sí"?" · 🎓":""):"—")+"</td><td>"+esc(s.ultimo)+"</td><td>"+(w?'<a class="wa" target="_blank" rel="noopener" href="'+w+'">WhatsApp</a>':"")+"</td></tr>"}).join("");
+ $("cards").innerHTML=rows.map(function(s){var w=waLink(s.wa);return'<div class="card"><h3>'+esc(s.nombre+" "+s.apellido)+'</h3><div class="r">Clases vistas<b>'+(s.nVistas||0)+'/16 · '+(s.avance||0)+'%</b></div><div class="r">Cuestionarios<b>'+[s.m1,s.m2,s.m3,s.m4].map(function(v){return v===""||v==null?"—":v+"%"}).join(" · ")+'</b></div><div class="r">Aprobados<b>'+(s.aprobados||0)+'/4</b></div><div class="r">Certificado<b>'+(s.cert==="Sí"?"Sí":"No")+'</b></div><div class="r">Nivel 2 · Persuasión<b>'+(s.n2?"Desbloqueado · "+(s.n2Avance||0)+"%"+(s.n2Cert==="Sí"?" · certificado":""):"Bloqueado")+'</b></div><div class="r">Acceso Nivel 2<b>'+n2btn(s)+'</b></div><div class="r">Último acceso<b>'+esc(s.ultimo)+'</b></div>'+(w?'<a class="wa" style="display:block;text-align:center;margin-top:8px;padding:10px" target="_blank" rel="noopener" href="'+w+'">Escribir por WhatsApp</a>':"")+"</div>"}).join("");bindRows()}
+function n2btn(s){return s.n2?'<button class="mini rv" data-rv="'+esc(s.uid)+'">Quitar acceso</button>':'<button class="mini gr" data-gr="'+esc(s.uid)+'">Habilitar</button>'}
+function n2cell(s){return(s.n2?'<span class="pill ok">Sí</span>':'<span class="pill no">No</span>')+n2btn(s)}
+function post(o,cb){o.action="admin";o.pin=pin;fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(o)}).then(function(r){return r.json()}).then(cb).catch(function(){cb({ok:false,error:"No se pudo conectar. Probá de nuevo."})})}
+function showN2(c){if(!c)return;$("nCur").textContent=c.code||"—";$("nOn").checked=!!c.on;$("nSt").className="pill "+(c.on?"ok":"nt");$("nSt").textContent=c.on?"Activo":"Pausado"}
+function bindRows(){document.querySelectorAll("[data-gr]").forEach(function(b){b.onclick=function(){var s=data.filter(function(x){return String(x.uid)===b.dataset.gr})[0];if(!s||!confirm("¿Habilitar el Nivel 2 a "+s.nombre+" "+s.apellido+" sin código?"))return;b.disabled=true;post({op:"grant",uid:s.uid,nombre:s.nombre,apellido:s.apellido,wa:s.wa},function(){$("ref").click()})}});
+ document.querySelectorAll("[data-rv]").forEach(function(b){b.onclick=function(){var s=data.filter(function(x){return String(x.uid)===b.dataset.rv})[0];if(!s||!confirm("¿Quitar el acceso al Nivel 2 a "+s.nombre+" "+s.apellido+"? Su avance queda guardado."))return;b.disabled=true;post({op:"revoke",uid:s.uid},function(){$("ref").click()})}})}
+$("nSave").onclick=function(){var nc=$("nNew").value.trim();$("nMsg").className="n2msg";$("nMsg").textContent="Guardando…";post({op:"setCode",code:nc,on:$("nOn").checked},function(j){if(j&&j.ok){showN2(j);$("nNew").value="";$("nMsg").className="n2msg ok";$("nMsg").textContent="✓ Cambios guardados. "+(j.on?"Los alumnos ya pueden usar el código "+j.code+".":"El desbloqueo con código está pausado.")}else{$("nMsg").className="n2msg bad";$("nMsg").textContent=(j&&j.error)||"No se pudo guardar."}})};
 function tryPin(p){$("err").textContent="";load(p,function(j){if(j&&j.ok){pin=p;try{sessionStorage.setItem("ga_pin",p)}catch(e){}enter(j)}else{try{sessionStorage.removeItem("ga_pin")}catch(e){}$("err").textContent=j&&j.error==="net"?"No se pudo conectar. Probá de nuevo.":"PIN incorrecto"}})}
 $("go").onclick=function(){tryPin($("pin").value.trim())};$("pin").onkeydown=function(e){if(e.key==="Enter")$("go").click()};
 $("q").oninput=render;$("f").onchange=render;
-$("ref").onclick=function(){load(pin,function(j){if(j&&j.ok){data=j.students||[];render()}})};
+$("ref").onclick=function(){load(pin,function(j){if(j&&j.ok){data=j.students||[];showN2(j.n2);render()}})};
 $("out").onclick=function(){try{sessionStorage.removeItem("ga_pin")}catch(e){}location.reload()};
 try{var sp=sessionStorage.getItem("ga_pin");if(sp)tryPin(sp)}catch(e){}
 </script></body></html>
